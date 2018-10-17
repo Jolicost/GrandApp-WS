@@ -1,0 +1,32 @@
+{
+  "name": "pes_server",
+  "version": "1.0.0",
+  "description": "grandapp server with node.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jolicost/PES_Server.git"
+  },
+  "keywords": [
+    "grandapp",
+    "pes",
+    "server"
+  ],
+  "author": "jolicost",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jolicost/PES_Server/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.5.1",
+    "express": "^4.7.1",
+    "method-override": "^2.1.2",
+    "mongoose": "^5.3.4",
+    "ejs": "^2.5.6"
+  },
+  "homepage": "https://github.com/Jolicost/PES_Server#readme"
+}

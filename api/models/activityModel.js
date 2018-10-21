@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 // _id is implicid
 var ActivitySchema = new Schema({
     // activity title
+    _id: Number,
     title: {
         type: String,
         default: ""
@@ -88,6 +89,6 @@ var ActivitySchema = new Schema({
         type: Date
     },
 
-});
+}, {_id: false});
 
 module.exports = mongoose.model('Activities', ActivitySchema);

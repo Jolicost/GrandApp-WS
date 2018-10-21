@@ -50,6 +50,8 @@ var ActivitySchema = new Schema({
         type: [String]    
     },
     // activity location
+
+    /* Nested location
     location: {
         lat: {
             type: Number,
@@ -63,6 +65,19 @@ var ActivitySchema = new Schema({
             type: String,
             default: ""
         }
+    },
+    */
+    lat: {
+        type: Number,
+        default: 0.0
+    },
+    long: {
+        type: Number,
+        default: 0.0
+    },
+    direction: {
+        type: String,
+        default: ""
     },
     // activity start
     timestampStart: {

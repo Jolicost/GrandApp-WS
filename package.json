@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",
   "devDependencies": {
+    "mongoose-float": "^1.0.2",
     "nodemon": "^1.18.4"
   }
 }

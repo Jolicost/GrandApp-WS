@@ -5,11 +5,11 @@ module.exports = function(app) {
     // activity Routes
     app.route('/activities')
         .get(activity.list)
-        .post(activity.create);
+        .post(activity.create)
+        .delete(activity.deleteAll);
 
     app.route('/activities/:activityId')
         .get(activity.read)
         .put(activity.update)
-        .delete(activity.delete)        
-
+        .delete(activity.delete);        
 }

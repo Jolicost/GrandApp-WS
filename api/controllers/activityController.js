@@ -52,7 +52,7 @@ exports.delete = function(req, res) {
 };
 
 exports.deleteAll = function(req, res) {
-	Activity.remove({} , function(err, activity) {
+	Activity.deleteMany({} , function(err, activity) {
 		if (err)
 			res.send(err);
 		else

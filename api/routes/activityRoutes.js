@@ -1,0 +1,15 @@
+'use strict';
+module.exports = function(app) {
+    var activity = require('../controllers/activityController');
+
+    // activity Routes
+    app.route('/activities')
+        .get(activity.list)
+        .post(activity.create);
+
+    app.route('/activities/:activityId')
+        .get(activity.read)
+        .put(activity.update)
+        .delete(activity.delete)        
+
+}

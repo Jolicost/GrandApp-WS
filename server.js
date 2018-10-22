@@ -16,7 +16,9 @@ if (environment === 'development' ) {
     dbURL = local;
 }
 
-mongoose.connect(dbURL);
+mongoose.connect(dbURL,{ 
+    useNewUrlParser: true 
+});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -33,4 +35,4 @@ routes(app);
 
 app.listen(port);
 
-console.log('todo list RESTful API server started on: ' + port);
+console.log('Grandapp RESTful API server started on: ' + port);

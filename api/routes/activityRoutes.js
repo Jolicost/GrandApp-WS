@@ -11,5 +11,8 @@ module.exports = function(app) {
     app.route('/activities/:activityId')
         .get(activity.read)
         .put(activity.update)
-        .delete(activity.delete);        
+        .delete(activity.delete);  
+
+    app.route('/activitiesList')
+        .get(activity.shortList);      
 }

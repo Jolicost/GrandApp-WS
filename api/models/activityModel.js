@@ -75,7 +75,7 @@ var ActivitySchema = new Schema({
         type: Number,
         default: 0.0
     },
-    direction: {
+    address: {
         type: String,
         default: ""
     },

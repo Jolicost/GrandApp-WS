@@ -12,6 +12,22 @@ exports.list = function(req,res) {
 	});
 };
 
+exports.shortList = function(req,res) {
+	//var activities = exports.list(req,res);
+	Activity.find({}, function(err,activities) {
+		if (err)
+			res.send(err);
+		else {
+			for (var i = activities.length - 1; i >= 0; i--) {
+				console.log(activities[i].price);
+				delete activities[i].price;
+				console.log(activities[i].price);
+			}
+			res.json(activities);
+		}
+	});
+};
+
 exports.read = function(req,res) {
 	Activity.findById(req.params.activityId, function(err,activity) {
 		if (err)

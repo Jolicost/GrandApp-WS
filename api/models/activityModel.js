@@ -81,13 +81,22 @@ var ActivitySchema = new Schema({
     },
     // activity start
     timestampStart: {
-        type: Date
+        type: Date,
+        get: toTimestamp
     },
     // activity end
     timestampEnd: {
-        type: Date
+        type: Date,
+        get: toTimestamp
     },
 
-});
+})
+.set('toObject', { getters: true })
+.set('toJSON', { getters: true });
+
+/* Cast to miliseconds UTF */
+function toTimestamp(date) {
+    return date.getTime();
+}
 
 module.exports = mongoose.model('Activities', ActivitySchema);

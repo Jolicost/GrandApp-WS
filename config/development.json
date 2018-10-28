@@ -1,0 +1,8 @@
+{
+	"db": {
+		"host":"mongodb://localhost/Grandapp"
+	 },
+	 "server": {
+	 	"port":3000
+	 }
+}

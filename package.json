@@ -20,14 +20,15 @@
   "scripts": {
     "start": "node server.js",
     "debug": "nodemon node server.js",
-    "test": "node test.js"
+    "test": "NODE_ENV=test node server.js"
   },
   "dependencies": {
     "body-parser": "^1.5.1",
+    "convict": "^4.4.0",
+    "ejs": "^2.5.6",
     "express": "^4.7.1",
     "method-override": "^2.1.2",
-    "mongoose": "^5.3.4",
-    "ejs": "^2.5.6"
+    "mongoose": "^5.3.4"
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",
   "devDependencies": {

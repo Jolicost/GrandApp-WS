@@ -82,11 +82,13 @@ var ActivitySchema = new Schema({
     // activity start
     timestampStart: {
         type: Date,
+        default: Date.now,
         get: toTimestamp
     },
     // activity end
     timestampEnd: {
         type: Date,
+        default: Date.now,
         get: toTimestamp
     },
 
@@ -96,7 +98,12 @@ var ActivitySchema = new Schema({
 
 /* Cast to miliseconds UTF */
 function toTimestamp(date) {
-    return date.getTime();
+    if (date) {
+        return date.getTime();
+    }
+    else {
+        return new Date(0);
+    }
 }
 
 module.exports = mongoose.model('Activities', ActivitySchema);

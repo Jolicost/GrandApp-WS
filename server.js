@@ -13,6 +13,7 @@ var express = require('express'),
     port = PORT,
     mongoose = require('mongoose'),
     Activity = require('./api/models/activityModel'),
+    User = require('./api/models/userModel')
     //ActivityList = require('./api/models/activityListModel'),
     bodyParser = require('body-parser');
 
@@ -32,8 +33,11 @@ app.use(function(req, res, next) {
 });
 
 
-var routes = require('./api/routes/activityRoutes');
-routes(app);
+var activityRoutes = require('./api/routes/activityRoutes');
+var userRoutes = require('./api/routes/userRoutes');
+
+activityRoutes(app);
+userRoutes(app);
 
 app.listen(PORT);
 

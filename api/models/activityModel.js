@@ -17,13 +17,13 @@ var ActivitySchema = new Schema({
     // creation user. Will be replaced wit
     user: {
         type: Schema.Types.ObjectId, 
-        ref: 'User'
+        ref: 'Users'
     },
     // Participants
     participants: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'Users'
         }
     ],
     // activity rating

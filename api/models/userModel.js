@@ -11,7 +11,10 @@ var UserSchema = new Schema({
 	// Username
     username: {
         type: String,
-        default: ""
+        default: "",
+        index: {
+            unique: true
+        }
     },
     // Password. Not crypted (for now)
     password: {
@@ -21,7 +24,10 @@ var UserSchema = new Schema({
     // user email
     email: {
         type: String,
-        default: ""
+        default: "",
+        index: {
+            unique: true
+        }
     },
     // complete user name
     completeName: {

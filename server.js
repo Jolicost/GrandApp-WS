@@ -18,7 +18,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-
+mongoose.set('useCreateIndex', true);
 mongoose.connect(DB,{ 
     useNewUrlParser: true 
 });
@@ -35,9 +35,11 @@ app.use(function(req, res, next) {
 
 var activityRoutes = require('./api/routes/activityRoutes');
 var userRoutes = require('./api/routes/userRoutes');
+var sessionRoutes = require('./api/routes/sessionRoutes');
 
 activityRoutes(app);
 userRoutes(app);
+sessionRoutes(app);
 
 app.listen(PORT);
 

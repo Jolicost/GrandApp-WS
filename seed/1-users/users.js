@@ -1,10 +1,13 @@
 const { getObjectId } = require('../index');
 
+const bcrypt = require('bcryptjs');
+
 const users = [
   {
     _id: getObjectId('Trump'),
     username: 'trump',
-    password: 'trump'
+    email: 'trump@whitehouse.com',
+    password: bcrypt.hashSync('america', 8)
   }
 ];
 

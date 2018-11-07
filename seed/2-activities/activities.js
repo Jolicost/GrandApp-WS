@@ -14,6 +14,7 @@ const activities = [
         ],
         "lat": 83.2,
         "long": 32.3,
+        "user": getObjectId("Trump"),
         "address": "calle falsa 123",
         "_id": "5bd5fd5df36a583899efb73d",
         "timestampEnd": 2342434242342,

@@ -22,7 +22,10 @@ var config = convict({
       doc: "Server PORT",
       format: '*',
       default: defaultPort
-    }  
+    },
+    auth: {
+      secret: "mysecretkeyetvoila"
+    }
   } 
 });
 

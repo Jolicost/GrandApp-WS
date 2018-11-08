@@ -42,7 +42,7 @@ var UserSchema = new Schema({
     // user profile pic (URL)
     profilePic: {
         type: String,
-        default: ""
+        default: "https://i.imgur.com/jNNT4LE.png"
     },
     // user phone
     phone: {
@@ -61,6 +61,13 @@ var UserSchema = new Schema({
     // user type
     userType: {
         type: String,
+        enum: 
+            [
+            'normal',
+            'entity',
+            'admin'
+            ],
+        default: "normal"
     },
     // auth credentials
     auth:{

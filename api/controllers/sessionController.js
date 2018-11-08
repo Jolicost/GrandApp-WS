@@ -33,12 +33,20 @@ exports.logout = function(req,res) {
 };
 
 exports.register = function(req,res) {
+
+    if (!req.body.password) return res.status(400).send("Password not specified");
+    if (!req.body.username) return res.status(400).send("Username not specified");
+    if (!req.body.email) return res.status(400).send("Email not specified");
+
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     let user = new User({
         username : req.body.username,
         email : req.body.email,
-        password : hashedPassword
+        password : hashedPassword,
+        completeName: req.body.completeName,
+        birthday: req.body.birthday,
+        phone: req.body.phone
     });
 
     user.save(function(err, user) {

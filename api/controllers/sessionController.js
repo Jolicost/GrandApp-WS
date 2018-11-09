@@ -14,7 +14,7 @@ exports.login = function(req,res) {
     User.findOne({
         username: req.body.username,
     }, function(err, user) {
-        if (!user) return res.status(432).send({"Invalid username"});
+        if (!user) return res.status(432).send("Invalid username");
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if (err) return res.status(500).send("Login failed");
             if (!result) return res.status(433).send("Invalid password");

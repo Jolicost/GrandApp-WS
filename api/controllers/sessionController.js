@@ -14,10 +14,10 @@ exports.login = function(req,res) {
     User.findOne({
         username: req.body.username,
     }, function(err, user) {
-        if (!user) return res.status(400).send("Invalid username");
+        if (!user) return res.status(432).send({"Invalid username"});
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if (err) return res.status(500).send("Login failed");
-            if (!result) return res.status(400).send("Invalid password");
+            if (!result) return res.status(433).send("Invalid password");
 
             var token = jwt.sign({ id: user._id }, config.get('server.auth.secret'), {
                 expiresIn: 86400 // expires in 24 hours
@@ -34,9 +34,9 @@ exports.logout = function(req,res) {
 
 exports.register = function(req,res) {
 
-    if (!req.body.password) return res.status(400).send("Password not specified");
-    if (!req.body.username) return res.status(400).send("Username not specified");
-    if (!req.body.email) return res.status(400).send("Email not specified");
+    if (!req.body.password) return res.status(434).send("Password not specified");
+    if (!req.body.username) return res.status(435).send("Username not specified");
+    if (!req.body.email) return res.status(436).send("Email not specified");
 
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 

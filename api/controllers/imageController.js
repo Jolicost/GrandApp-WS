@@ -17,3 +17,7 @@ exports.create = function(req, res) {
     });
 
 };
+
+exports.test = function(req, res) {
+    return res.status(200).send("Test succeeded");
+}

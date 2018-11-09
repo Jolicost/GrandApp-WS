@@ -8,6 +8,12 @@ const users = [
     username: 'trump',
     email: 'trump@whitehouse.com',
     password: bcrypt.hashSync('america', 8)
+  },
+  {
+  	_id: getObjectId('Putin'),
+  	username: 'putin',
+  	email: 'slav@russia.ru',
+  	password: bcrypt.hashSync('russia',8)
   }
 ];
 

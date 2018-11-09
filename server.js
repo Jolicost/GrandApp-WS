@@ -25,6 +25,7 @@ mongoose.connect(DB,{
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -36,10 +37,12 @@ app.use(function(req, res, next) {
 var activityRoutes = require('./api/routes/activityRoutes');
 var userRoutes = require('./api/routes/userRoutes');
 var sessionRoutes = require('./api/routes/sessionRoutes');
+var imageRoutes = require('./api/routes/imageRoutes');
 
 activityRoutes(app);
 userRoutes(app);
 sessionRoutes(app);
+imageRoutes(app);
 
 app.listen(PORT);
 

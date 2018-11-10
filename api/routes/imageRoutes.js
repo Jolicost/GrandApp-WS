@@ -10,4 +10,8 @@ module.exports = function(app) {
         .post(image.createJson)
         .get(image.test);
 
+    app.route('/imagesJsonPlain')
+        .post(image.createJsonPlain)
+        .get(image.test);
+
 }

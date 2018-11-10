@@ -4,5 +4,10 @@ module.exports = function(app) {
     // Image api routes
     app.route('/images')
         .post(image.create) 
-        .get(image.test)   
+        .get(image.test);
+
+    app.route('/imagesJson')
+        .post(image.createJson)
+        .get(image.test);
+
 }

@@ -27,12 +27,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
+// Alow cross origin
+/*
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+*/
 
+// CORS
+var cors = require('cors');
+app.use(cors());
 
 var activityRoutes = require('./api/routes/activityRoutes');
 var userRoutes = require('./api/routes/userRoutes');
@@ -44,6 +50,6 @@ userRoutes(app);
 sessionRoutes(app);
 imageRoutes(app);
 
-app.listen(PORT);
+module.exports = app.listen(PORT);
 
 console.log('Grandapp RESTful API server started on: ' + port);

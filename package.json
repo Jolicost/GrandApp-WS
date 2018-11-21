@@ -21,7 +21,8 @@
     "start": "node server.js",
     "debug": "nodemon node server.js",
     "test": "NODE_ENV=test node server.js",
-    "testapi": "mocha --timeout 10000"
+    "testapi": "mocha --timeout 10000",
+    "format": "node ./scripts/format.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -32,8 +33,10 @@
     "express": "^4.7.1",
     "imgur": "^0.3.1",
     "is-base64": "^0.1.0",
+    "js-beautify": "^1.8.8",
     "jsonwebtoken": "^8.3.0",
     "method-override": "^2.1.2",
+    "moment": "^2.22.2",
     "mongoose": "^5.3.4"
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",

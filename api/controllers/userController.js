@@ -1,12 +1,12 @@
 'use strict';
 /* Author: Joan Oliva
-* Basic API rest for users model */
+ * Basic API rest for users model */
 var mongoose = require('mongoose'),
-// dependencies seprated by commas. Be aware
-User = mongoose.model('Users');
+    // dependencies seprated by commas. Be aware
+    User = mongoose.model('Users');
 
-exports.list = function(req,res) {
-    User.find({}, function(err,users) {
+exports.list = function(req, res) {
+    User.find({}, function(err, users) {
         if (err)
             res.send(err);
         else
@@ -14,8 +14,8 @@ exports.list = function(req,res) {
     });
 };
 
-exports.read = function(req,res) {
-    User.findById(req.params.userId, function(err,user) {
+exports.read = function(req, res) {
+    User.findById(req.params.userId, function(err, user) {
         if (err)
             res.send(err);
         else
@@ -23,9 +23,9 @@ exports.read = function(req,res) {
     });
 };
 
-exports.create = function(req,res) {
+exports.create = function(req, res) {
     var new_User = new User(req.body);
-    new_User.save(function(err,user) {
+    new_User.save(function(err, user) {
         if (err)
             res.send(err);
         else
@@ -33,8 +33,12 @@ exports.create = function(req,res) {
     });
 };
 
-exports.update = function(req,res) {
-    User.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true}, function(err,user){
+exports.update = function(req, res) {
+    User.findOneAndUpdate({
+        _id: req.params.userId
+    }, req.body, {
+        new: true
+    }, function(err, user) {
         if (err)
             res.send(err);
         else
@@ -45,19 +49,23 @@ exports.update = function(req,res) {
 exports.delete = function(req, res) {
     User.remove({
         _id: req.params.userId
-    }, function(err, user){
+    }, function(err, user) {
         if (err)
             res.send(err);
         else
-            res.json({message: 'User deleted'});
+            res.json({
+                message: 'User deleted'
+            });
     });
 };
 
 exports.deleteAll = function(req, res) {
-    User.deleteMany({} , function(err, user) {
+    User.deleteMany({}, function(err, user) {
         if (err)
             res.send(err);
         else
-            res.json({message: 'All users deleted'});
+            res.json({
+                message: 'All users deleted'
+            });
     });
 };

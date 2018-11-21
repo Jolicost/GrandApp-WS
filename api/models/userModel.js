@@ -7,8 +7,8 @@ Represents an user in the application
 An user can have multiple contributions, post in contributions and do other stuff
 */
 var UserSchema = new Schema({
-	//_id is implicit
-	// Username
+    //_id is implicit
+    // Username
     username: {
         type: String,
         default: "",
@@ -61,16 +61,15 @@ var UserSchema = new Schema({
     // user type
     userType: {
         type: String,
-        enum: 
-            [
+        enum: [
             'normal',
             'entity',
             'admin'
-            ],
+        ],
         default: "normal"
     },
     // auth credentials
-    auth:{
+    auth: {
         google: {
             token: {
                 type: String

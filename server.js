@@ -13,7 +13,8 @@ var express = require('express'),
     port = PORT,
     mongoose = require('mongoose'),
     Activity = require('./api/models/activityModel'),
-    User = require('./api/models/userModel')
+    User = require('./api/models/userModel'),
+    Entity = require('./api/models/entityModel'),
     //ActivityList = require('./api/models/activityListModel'),
     bodyParser = require('body-parser');
 
@@ -44,11 +45,13 @@ var activityRoutes = require('./api/routes/activityRoutes');
 var userRoutes = require('./api/routes/userRoutes');
 var sessionRoutes = require('./api/routes/sessionRoutes');
 var imageRoutes = require('./api/routes/imageRoutes');
+var entityRoutes = require('./api/routes/entityRoutes');
 
 activityRoutes(app);
 userRoutes(app);
 sessionRoutes(app);
 imageRoutes(app);
+entityRoutes(app);
 
 module.exports = app.listen(PORT);
 

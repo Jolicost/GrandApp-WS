@@ -47,7 +47,10 @@ var UserSchema = new Schema({
     // user phone
     phone: {
         type: String,
-        default: ""
+        default: "",
+        index: {
+            unique: true
+        }
     },
     // contact phones (family phones)
     contactPhones: {
@@ -67,6 +70,20 @@ var UserSchema = new Schema({
             'admin'
         ],
         default: "normal"
+    },
+    // ref to entity, applicable to both normal users and entity users
+    entity: {
+        type: Schema.Types.ObjectId,
+        ref: 'Entities'
+    },
+    // user address calculated using postal code
+    place: {
+        placeId: {
+            type: String
+        },
+        placeName: {
+            type: String
+        }
     },
     // auth credentials
     auth: {

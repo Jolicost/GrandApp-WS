@@ -48,23 +48,6 @@ var ActivitySchema = new Schema({
             type: [String]
         },
         // activity location
-
-        /* Nested location
-        location: {
-            lat: {
-                type: Number,
-                default: 0.0
-            },
-            long: {
-                type: Number,
-                default: 0.0
-            },
-            direction: {
-                type: String,
-                default: ""
-            }
-        },
-        */
         lat: {
             type: Number,
             default: 0.0
@@ -73,6 +56,16 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
+        place: {
+            placeId: {
+                type: String
+            },
+            placeName: {
+                type: String
+            }
+        },
+        // Physical address. We didn't include it inside place because compatibility reasons
+        // @Depreciated
         address: {
             type: String,
             default: ""

@@ -10,11 +10,27 @@ var bcrypt = require('bcryptjs');
 var config = require('../../config/config.js');
 
 exports.login = function(req, res) {
+    let password = req.body.password;
+    let phone = req.body.phone;
+    let username = req.body.username;
+
+    if (phone && username) return res.status(434).send("specified both user and phone");
+    if (!password) return res.status(435).send("did not specify password");
+
+    if (!phone && !username) return res.status(436).send("need to specify more information");
+
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     User.findOne({
-        username: req.body.username,
+        $or: [
+            {
+                username: username
+            },
+            {
+                phone: phone
+            }
+        ]
     }, function(err, user) {
-        if (!user) return res.status(432).send("Invalid username");
+        if (!user) return res.status(432).send("Invalid user");
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if (err) return res.status(500).send("Login failed");
             if (!result) return res.status(433).send("Invalid password");

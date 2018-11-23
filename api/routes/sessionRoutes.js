@@ -2,6 +2,7 @@
 module.exports = function(app) {
     var user = require('../controllers/userController');
     var session = require('../controllers/sessionController');
+    var sessionMdw = require('../middleware/sessionMiddleware')
 
     // User API Routes
     app.route('/login')
@@ -13,17 +14,9 @@ module.exports = function(app) {
     app.route('/register')
         .post(session.register);
 
-    app.route('/verify')
-        .get(session.testAuthorization);
+    app.get('/verify', [sessionMdw.verifyToken], session.testAuthorization);
 
+    app.post('/changePassword', [sessionMdw.verifyToken], session.changePassword);
 
-
-    function verifyToken(req, res, next) {
-        const auth = req.headers['authorization'];
-        if (typeof auth !== 'undefined') {
-            console.log("success");
-        } else {
-            res.sendStatus(403);
-        }
-    }
+    app.post('/forgotPassword', session.forgotPassword);
 }

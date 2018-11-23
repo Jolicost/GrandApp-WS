@@ -9,6 +9,10 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../../config/config.js');
 
+function hashPassword(password)
+{
+    return bcrypt.hashSync(password, 8);
+}
 exports.login = function(req, res) {
     let password = req.body.password;
     let phone = req.body.phone;
@@ -98,9 +102,25 @@ exports.testAuthorization = function(req, res) {
 exports.changePassword = function(req, res) {
     // from middleware
     let user = req.user;
+    let oldPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
 
+    if (!oldPassword || !newPassword) 
+        return res.status(403).send("invalid request: some password not spcified");
+    
+    bcrypt.compare(oldPassword, user.password, function(err, result) {
+        if (!result) return res.status(432).send("old password does not match");
+        User.updateOne(
+            {_id: user._id}, 
+            {password: hashPassword(newPassword)},
+            function(err, user) {
+                if (err) return res.status(500).send();
 
-    return res.status(200).send("change password");
+                res.status(200).send("password changed");
+            }
+        );
+    });
+    
 }
 
 exports.forgotPassword = function(req, res) {

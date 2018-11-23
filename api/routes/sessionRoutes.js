@@ -14,7 +14,7 @@ module.exports = function(app) {
     app.route('/register')
         .post(session.register);
 
-    app.get('/verify', [sessionMdw.verifyToken], session.testAuthorization);
+    app.get('/verify', [sessionMdw.verifyToken, sessionMdw.obtainUser], session.testAuthorization);
 
     app.post('/changePassword', [sessionMdw.verifyToken], session.changePassword);
 

@@ -29,3 +29,16 @@ exports.verifyToken = function(req, res, next) {
         next();
     });
 }
+
+exports.obtainUser = function(req, res, next) {
+    // Obtain user id via previous middleware
+    var userId = req.userId;
+
+    User.findById(userId, function(err, user) {
+        if (err) return res.status(500).send("There was a problem finding the user.");
+        if (!user) return res.status(404).send("No user found.");
+        // Send the correct user
+        req.user = user;
+        next();
+    });
+}

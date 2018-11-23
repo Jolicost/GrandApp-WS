@@ -40,13 +40,14 @@ exports.logout = function(req, res) {
 exports.register = function(req, res) {
 
     if (!req.body.password) return res.status(434).send("Password not specified");
-    if (!req.body.username) return res.status(435).send("Username not specified");
+    //if (!req.body.username) return res.status(435).send("Username not specified");
     if (!req.body.email) return res.status(436).send("Email not specified");
+    if (!req.body.phone) return res.status(435).send("Phone not specified");
 
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     let user = new User({
-        username: req.body.username,
+        //username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
         completeName: req.body.completeName,
@@ -73,18 +74,11 @@ exports.register = function(req, res) {
 };
 
 exports.testAuthorization = function(req, res) {
-    // Obtain the user id from the previous middleware
-    let userId = req.userId;
-
-    User.findById(userId, function(err, user) {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
-        // Send the correct user
-        res.status(200).send(user);
-    });
+    return res.status(200).send(req.user);
 };
 
 exports.changePassword = function(req, res) {
+
     return res.status(200).send("change password");
 }
 

@@ -16,7 +16,7 @@ const users = [{
         completeName: 'real donald trump',
         birthday: '1946-06-14',
         profilePic: 'https://i.imgur.com/h4MKiw2.jpg',
-        phone: '+34123456789',
+        phone: '+341234',
         contactPhones: [
             '+34 123 456 788',
             '+34 987 987 987'

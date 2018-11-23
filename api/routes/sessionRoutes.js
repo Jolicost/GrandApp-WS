@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     app.get('/verify', [sessionMdw.verifyToken, sessionMdw.obtainUser], session.testAuthorization);
 
-    app.post('/changePassword', [sessionMdw.verifyToken], session.changePassword);
+    app.post('/changePassword', [sessionMdw.verifyToken, sessionMdw.obtainUser], session.changePassword);
 
     app.post('/forgotPassword', session.forgotPassword);
 }

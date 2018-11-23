@@ -43,6 +43,7 @@ exports.login = function(req, res) {
             res.status(200).send({
                 auth: true,
                 token: token
+                user: user
             });
         });
     });
@@ -94,6 +95,9 @@ exports.testAuthorization = function(req, res) {
 };
 
 exports.changePassword = function(req, res) {
+    // from middleware
+    let user = req.user;
+
 
     return res.status(200).send("change password");
 }

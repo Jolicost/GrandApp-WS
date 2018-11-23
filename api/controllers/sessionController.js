@@ -42,7 +42,7 @@ exports.login = function(req, res) {
             });
             res.status(200).send({
                 auth: true,
-                token: token
+                token: token,
                 user: user
             });
         });
@@ -83,7 +83,8 @@ exports.register = function(req, res) {
 
         res.status(200).send({
             auth: true,
-            token: token
+            token: token,
+            user: user
         });
     });
 

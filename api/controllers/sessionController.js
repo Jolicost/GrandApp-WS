@@ -124,5 +124,24 @@ exports.changePassword = function(req, res) {
 }
 
 exports.forgotPassword = function(req, res) {
-    return res.status(200).send("forgot password");
+    let username = req.body.username;
+    let phone = req.body.phone;
+
+    if (username && phone) 
+        return res.status(432).send("both username and phone specified");
+    if (!username && !phone) 
+        return res.status(403).send("invalid request at least username or phone are required");
+
+    User.findOne({
+        $or: [
+            {username: username},
+            {phone: phone}
+        ]
+    }, function(err, user) {
+        if (err) return res.status(500).send("Internal server error");
+        if (!user) return res.status(404).send("User not found");
+
+        console.log("forgot password send email to " + user.email);
+        return res.status(200).send("recovery mail sent");
+    });
 }

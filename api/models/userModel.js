@@ -12,9 +12,6 @@ var UserSchema = new Schema({
     username: {
         type: String,
         default: "",
-        index: {
-            unique: true
-        }
     },
     // Password. Not crypted (for now)
     password: {
@@ -47,10 +44,7 @@ var UserSchema = new Schema({
     // user phone
     phone: {
         type: String,
-        default: "",
-        index: {
-            unique: true
-        }
+        default: ""
     },
     // contact phones (family phones)
     contactPhones: {

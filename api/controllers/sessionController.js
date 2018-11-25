@@ -77,7 +77,7 @@ exports.register = function(req, res) {
     });
 
     user.save(function(err, user) {
-        if (err) return res.status(500).send("Unable to register user");
+        if (err) return res.status(500).send(err);
         // create a token
         var token = jwt.sign({
             id: user._id

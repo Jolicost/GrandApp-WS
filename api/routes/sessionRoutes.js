@@ -2,7 +2,9 @@
 module.exports = function(app) {
     var user = require('../controllers/userController');
     var session = require('../controllers/sessionController');
-    var sessionMdw = require('../middleware/sessionMiddleware')
+    var sessionMdw = require('../middleware/sessionMiddleware');
+    var validate = require('express-validation');
+    var validations = require('./validation/sessionRoutes');
 
     // User API Routes
     app.route('/login')
@@ -14,9 +16,16 @@ module.exports = function(app) {
     app.route('/register')
         .post(session.register);
 
-    app.get('/verify', [sessionMdw.verifyToken, sessionMdw.obtainUser], session.testAuthorization);
+    app.get('/verify', [
+        sessionMdw.verifyToken, 
+        sessionMdw.obtainUser
+    ], session.testAuthorization);
 
-    app.post('/changePassword', [sessionMdw.verifyToken, sessionMdw.obtainUser], session.changePassword);
+    app.post('/changePassword', [
+        validate(validations.changePassword),
+        sessionMdw.verifyToken, 
+        sessionMdw.obtainUser
+    ], session.changePassword);
 
     app.post('/forgotPassword', session.forgotPassword);
 }

@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../../config/config.js');
+var mail = require('./util/mailSender.js');
 
 function hashPassword(password)
 {
@@ -142,7 +143,17 @@ exports.forgotPassword = function(req, res) {
         if (err) return res.status(500).send("Internal server error");
         if (!user) return res.status(404).send("User not found");
 
-        console.log("forgot password send email to " + user.email);
-        return res.status(200).send("recovery mail sent");
+        let r = Math.random().toString(36).substring(8);
+
+        let email = user.email;
+        let password = hashPassword(r);
+
+        User.updateOne({_id: user._id}, {password: password}, function(err) {
+            mail.sendForgotPassword(user.email,r, function(err) {
+                if (err) return res.status(500).send(err);
+
+                return res.status(200).send("Password reset");
+            });
+        });
     });
 }

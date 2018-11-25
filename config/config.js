@@ -26,6 +26,15 @@ var config = convict({
         auth: {
             secret: "mysecretkeyetvoila"
         }
+    },
+    mail: {
+        host: 'smtp.mailtrap.io',
+        port: 465,
+        secure: false,
+        auth: {
+            user: '38bedf2cfda66b',
+            pass: '5a0bd08a272252'
+        }
     }
 });
 

@@ -73,7 +73,8 @@ exports.register = function(req, res) {
         password: hashedPassword,
         completeName: req.body.completeName,
         birthday: req.body.birthday,
-        phone: req.body.phone
+        phone: req.body.phone,
+        profilePic: req.body.profilePic
     });
 
     user.save(function(err, user) {

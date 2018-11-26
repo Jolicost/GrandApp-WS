@@ -13,10 +13,11 @@ var express = require('express'),
     port = PORT,
     mongoose = require('mongoose'),
     Activity = require('./api/models/activityModel'),
-    User = require('./api/models/userModel'),
     Entity = require('./api/models/entityModel'),
+    User = require('./api/models/userModel'),
     //ActivityList = require('./api/models/activityListModel'),
     bodyParser = require('body-parser');
+
 
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);

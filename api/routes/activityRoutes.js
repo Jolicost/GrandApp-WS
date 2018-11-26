@@ -1,7 +1,13 @@
 'use strict';
 module.exports = function(app) {
     var activity = require('../controllers/activityController');
+    var restful = require('node-restful');
+    var Activities = app.activities = restful.model('Activities',null)
+        .methods(['get', 'post', 'put', 'delete']);
 
+    Activities.register(app,'/activities');
+    
+    /*
     // activity Routes
     app.route('/activities')
         .get(activity.list)
@@ -15,4 +21,5 @@ module.exports = function(app) {
 
     app.route('/activitiesList')
         .get(activity.shortList);
+    */
 }

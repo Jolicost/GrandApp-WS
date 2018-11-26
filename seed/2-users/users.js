@@ -18,8 +18,14 @@ const users = [{
         profilePic: 'https://i.imgur.com/h4MKiw2.jpg',
         phone: '+341234',
         contactPhones: [
-            '+34 123 456 788',
-            '+34 987 987 987'
+        {
+            alias: "casa",
+            phone: '+34 123 456 788' 
+        },
+        {
+            alias: "mama",
+            phone: '+34 987 987 987'
+        }
         ],
         createdAt: '2018-04-04',
         userType: 'normal',
@@ -37,7 +43,14 @@ const users = [{
         birthday: '1952-08-07',
         phone: '+34999999999',
         contactPhones: [
-            '+34 123 456 789'
+        {
+            alias: "casa",
+            phone: '+34 123 456 788' 
+        },
+        {
+            alias: "mama",
+            phone: '+34 987 987 987'
+        }
         ],
         createdAt: '2018-05-05',
         userType: 'normal',

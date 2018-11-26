@@ -8,6 +8,9 @@ module.exports = function(app) {
     Users.register(app,'/users');
 
 
+    app.route('/users/:userId/emergency')
+        .get(user.getEmergencyPhones)
+        .post(user.setEmergencyPhones);
     /*
     // User API Routes
     app.route('/users')

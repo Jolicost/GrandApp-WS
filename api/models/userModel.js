@@ -47,9 +47,10 @@ var UserSchema = new Schema({
         default: ""
     },
     // contact phones (family phones)
-    contactPhones: {
-        type: [String]
-    },
+    contactPhones: [{
+        alias: String,
+        phone: String
+    }],
     // creation date
     createdAt: {
         type: Date,

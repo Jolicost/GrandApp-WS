@@ -69,3 +69,15 @@ exports.deleteAll = function(req, res) {
             });
     });
 };
+
+exports.getEmergencyPhones = function(req, res) {
+    User.findOne({_id: req.params.userId}, function(err, user) {
+        if (err) return res.send(err);
+        else if (!user) return res.status(404).send('User not found');
+        return res.json(user.contactPhones);
+    });
+}
+
+exports.setEmergencyPhones = function(req, res) {
+
+}

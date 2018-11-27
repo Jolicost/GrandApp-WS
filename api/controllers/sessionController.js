@@ -108,7 +108,7 @@ exports.changePassword = function(req, res) {
     let newPassword = req.body.newPassword;
 
     if (!oldPassword || !newPassword) 
-        return res.status(403).send("invalid request: some password not spcified");
+        return res.status(400).send("invalid request: some password not spcified");
     
     bcrypt.compare(oldPassword, user.password, function(err, result) {
         if (!result) return res.status(432).send("old password does not match");

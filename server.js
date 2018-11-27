@@ -26,9 +26,10 @@ mongoose.connect(DB,{
     useNewUrlParser: true 
 });
 
+let limit = '5mb';
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(bodyParser.text());
+app.use(bodyParser.json({limit: limit}));
+app.use(bodyParser.text({limit: limit}));
 
 // Alow cross origin
 /*

@@ -10,8 +10,8 @@ function getRandomInt(max) {
 
 function generateRandomInterval(hoursFrom, duration) {
     return {
-        start: moment().add(hoursFrom, 'hours').format(),
-        end: moment().add(hoursFrom + duration, 'hours').format()
+        start: new Date(moment().add(hoursFrom, 'hours').format()),
+        end: new Date(moment().add(hoursFrom + duration, 'hours').format())
     };
 }
 
@@ -73,8 +73,8 @@ var activities = [{
 
 activities.forEach(function(activity) {
     var ts = generateInterval();
-    activity['timestampStart'] = ts.start;
-    activity['timestampEnd'] = ts.end;
+    activity.timestampStart = ts.start;
+    activity.timestampEnd = ts.end;
 });
 
 module.exports = activities;

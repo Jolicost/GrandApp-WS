@@ -34,6 +34,7 @@
     "express-validation": "^1.0.2",
     "imgur": "^0.3.1",
     "is-base64": "^0.1.0",
+    "isodate": "^0.1.4",
     "joi": "^14.1.0",
     "js-beautify": "^1.8.8",
     "jsonwebtoken": "^8.3.0",

@@ -34,8 +34,8 @@ var activities = [{
             "https://i.imgur.com/raZVoMB.jpg",
             "https://i.imgur.com/raZVoMB.jpg"
         ],
-        lat: 83.2,
-        long: 32.3,
+        lat: 41.405060,
+        long: 2.174270,
         user: getObjectId("UserTrump"),
         address: "Av. de Gaudí, 3, 08025 Barcelona, España",
         capacity: 324,
@@ -43,7 +43,8 @@ var activities = [{
         place: {
             placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
             placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
-        }
+        },
+        entity: getObjectId('EntityBarcelona')
     },
     {
         title: "Activitat de la iaia toneta",
@@ -56,12 +57,17 @@ var activities = [{
             "https://i.imgur.com/kiCf30f.jpg",
             "https://i.imgur.com/q0oKo.jpg"
         ],
-        lat: 41.3879225,
-        long: 2.1366948,
+        lat: 41.582890,
+        long: 1.617280,
         user: getObjectId("UserIaiaToneta"),
         address: "el meu carrer principal",
         capacity: 4,
-        _id: getObjectId("ActivityTest2")
+        _id: getObjectId("ActivityTest2"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        entity: getObjectId('EntityIgualada')
     }
 ];
 

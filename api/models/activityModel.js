@@ -82,6 +82,11 @@ var ActivitySchema = new Schema({
             default: Date.now,
             get: toTimestamp
         },
+        // Activity entity. It can be null. An activity has an entity if it belongs to the same place
+        entity: {
+            type: Schema.Types.ObjectId,
+            ref: 'Entities'
+        },
 
     })
     .set('toObject', {

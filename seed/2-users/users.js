@@ -32,7 +32,8 @@ const users = [{
         place: {
             placeId: 'ChIJDYlFNoSYpBIRjmAEsI979MA',
             placeName: 'Carrer de Sants, 53, 08014 Barcelona, España'
-        }
+        },
+        entity: getObjectId('EntityBarcelona')
     },
     {
         _id: getObjectId('UserPutin'),
@@ -57,7 +58,8 @@ const users = [{
         place: {
             placeId: 'EitQbGHDp2EgZGUgQ2F0YWx1bnlhLCAwODAwMiBCYXJjZWxvbmEsIFNwYWluIi4qLAoUChIJXQ1dXPGipBIRdJPxPA1EZ5USFAoSCeUwjnEWmKQSEQpmR089',
             placeName: 'Plaça de Catalunya, 08002 Barcelona, España'
-        }
+        },
+        entity: getObjectId('EntityBarcelona')
 
     },
     {
@@ -75,7 +77,8 @@ const users = [{
         place: {
             placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
             placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España'
-        }
+        },
+        entity: getObjectId('EntityIgualada')
 
     },
     {

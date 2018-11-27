@@ -48,12 +48,14 @@ var userRoutes = require('./api/routes/userRoutes');
 var sessionRoutes = require('./api/routes/sessionRoutes');
 var imageRoutes = require('./api/routes/imageRoutes');
 var entityRoutes = require('./api/routes/entityRoutes');
+var statisticsRoutes = require('./api/routes/statisticsRoutes');
 
 activityRoutes(app);
 userRoutes(app);
 sessionRoutes(app);
 imageRoutes(app);
 entityRoutes(app);
+statisticsRoutes(app);
 
 module.exports = app.listen(PORT);
 

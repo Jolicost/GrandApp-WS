@@ -53,6 +53,8 @@ exports.read = function(req, res) {
 
 exports.create = function(req, res) {
     var new_activity = new Activity(req.body);
+    new_activity.user = req.userId;
+    
     new_activity.save(function(err, activity) {
         if (err)
             res.send(err);

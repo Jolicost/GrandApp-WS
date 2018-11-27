@@ -69,3 +69,11 @@ exports.deleteAll = function(req, res) {
             });
     });
 };
+
+
+exports.getUsers = function(req, res) {
+    User.find({entity: req.params.entityId, userType: 'normal'}, function(err, users) {
+        if (err) return res.send(err);
+        else return res.json(users);
+    });
+}

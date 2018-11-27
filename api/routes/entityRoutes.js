@@ -8,6 +8,7 @@ module.exports = function(app) {
     Entities.register(app,'/entities');
     
 
+    app.get('/entities/:entityId/users', entity.getUsers);
     /*
     // entity Routes
     app.route('/entities')

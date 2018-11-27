@@ -21,6 +21,7 @@ var express = require('express'),
 
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 mongoose.connect(DB,{ 
     useNewUrlParser: true 
 });

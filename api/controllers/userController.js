@@ -79,5 +79,9 @@ exports.getEmergencyPhones = function(req, res) {
 }
 
 exports.setEmergencyPhones = function(req, res) {
-
+    User.findOneAndUpdate({_id: req.params.userId}, {contactPhones: req.body}, function(err, user) {
+        if (err) return res.send(err);
+        if (!user) return res.status(404).send("User not found");
+        return res.json(user);
+    });
 }

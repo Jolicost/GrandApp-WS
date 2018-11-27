@@ -74,13 +74,13 @@ var ActivitySchema = new Schema({
         timestampStart: {
             type: Date,
             default: Date.now,
-            //get: toTimestamp
+            get: toTimestamp
         },
         // activity end
         timestampEnd: {
             type: Date,
             default: Date.now,
-            //get: toTimestamp
+            get: toTimestamp
         },
         // Activity entity. It can be null. An activity has an entity if it belongs to the same place
         entity: {

@@ -8,4 +8,16 @@ module.exports = {
       newPassword: Joi.string().required(),
     }
   },
+  serviceLogin: {
+  	body: {
+  		token: Joi.string().required(),
+  	}
+  },
+  register: {
+  	body: {
+  		password: Joi.string().required(),
+  		email: Joi.string().required(),
+  		phone: Joi.string().required()
+  	}
+  },
 };

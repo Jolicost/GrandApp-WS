@@ -9,6 +9,8 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../../config/config.js');
 var mail = require('./util/mailSender.js');
+var async = require('async');
+var userController = require('./userController');
 
 function hashPassword(password)
 {
@@ -40,16 +42,7 @@ exports.login = function(req, res) {
             if (err) return res.status(500).send("Login failed");
             if (!result) return res.status(433).send("Invalid password");
 
-            var token = jwt.sign({
-                id: user._id
-            }, config.get('server.auth.secret'), {
-                expiresIn: 86400 // expires in 24 hours
-            });
-            res.status(200).send({
-                auth: true,
-                token: token,
-                user: user
-            });
+            signAndSend(req, res, user);
         });
     });
 };
@@ -60,12 +53,6 @@ exports.logout = function(req, res) {
 };
 
 exports.register = function(req, res) {
-
-    if (!req.body.password) return res.status(434).send("Password not specified");
-    //if (!req.body.username) return res.status(435).send("Username not specified");
-    if (!req.body.email) return res.status(436).send("Email not specified");
-    if (!req.body.phone) return res.status(435).send("Phone not specified");
-
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     let user = new User({
@@ -81,17 +68,7 @@ exports.register = function(req, res) {
     user.save(function(err, user) {
         if (err) return res.status(500).send(err);
         // create a token
-        var token = jwt.sign({
-            id: user._id
-        }, config.get('server.auth.secret'), {
-            expiresIn: 86400 // expires in 24 hours
-        });
-
-        res.status(200).send({
-            auth: true,
-            token: token,
-            user: user
-        });
+        signAndSend(req, res, user);
     });
 
 
@@ -156,4 +133,81 @@ exports.forgotPassword = function(req, res) {
             });
         });
     });
+}
+
+function signToken(user) {
+    var token = jwt.sign({
+        id: user._id
+    }, config.get('server.auth.secret'), {
+        expiresIn: 86400 // expires in 24 hours
+    });
+    return token;
+}
+
+function signAndSend(req, res, user) {
+    let jwt = signToken(user);
+    res.status(200).send({
+        auth: true,
+        token: jwt,
+        user: user
+    });   
+}
+
+
+function registerExternalUser(body, method, callback)
+{
+    let username = body.username;
+    let token = body.token;
+    let email = body.email;
+    let phone = body.phone;
+
+
+    if (method === 'google') method = 'auth.google.token';
+    else if (method === 'facebook') method = 'auth.facebook.token';
+    else callback(new Error("login service not found"),null);
+
+    let params = {
+        username: username,
+        email: email,
+        phone: phone
+    };
+
+    params[method] = token;
+
+    let user = new User(params);
+
+    user.save(function(err, user) {
+        if (err) callback(err,null);
+        else callback(null,user);
+    });
+}
+
+function checkLogin(req, res, method) {
+    let key = 'auth.' + method + '.token';
+    let query = {};
+    query[key] = req.body.token;
+
+    User.findOne(query, function(err, user) {
+        if (!user) {
+            userController.userNotExists(req.body, function(err) {
+                if (err) return res.status(407).send(err);
+                else {
+                    registerExternalUser(req.body,method, function(err, user) {
+                        signAndSend(req, res, user); 
+                    });
+                }
+            });
+        } else {
+            signAndSend(req, res, user)
+        }
+    });
+}
+
+
+exports.googleLogin = function(req, res) {
+    checkLogin(req,res,'google');   
+}
+
+exports.facebookLogin = function(req, res) {
+    checkLogin(req,res,'facebook');
 }

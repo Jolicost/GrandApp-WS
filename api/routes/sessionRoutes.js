@@ -3,6 +3,7 @@ module.exports = function(app) {
     var user = require('../controllers/userController');
     var session = require('../controllers/sessionController');
     var sessionMdw = require('../middleware/sessionMiddleware');
+    var userMdw = require('../middleware/userMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/sessionRoutes');
 
@@ -13,8 +14,10 @@ module.exports = function(app) {
     app.route('/logout')
         .get(session.logout);
 
-    app.route('/register')
-        .post(session.register);
+    app.post('/register',[
+        validate(validations.register),
+        userMdw.userNotExists
+    ], session.register);
 
     app.get('/verify', [
         sessionMdw.verifyToken, 
@@ -28,4 +31,12 @@ module.exports = function(app) {
     ], session.changePassword);
 
     app.post('/forgotPassword', session.forgotPassword);
+
+    app.post('/googleLogin', [
+        validate(validations.serviceLogin)
+    ], session.googleLogin);
+
+    app.post('/facebookLogin', [
+        validate(validations.serviceLogin)
+    ], session.facebookLogin)
 }

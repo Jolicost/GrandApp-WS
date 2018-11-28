@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     // dependencies seprated by commas. Be aware
     User = mongoose.model('Users');
 
+var async = require('async');
+
 exports.list = function(req, res) {
     User.find({}, function(err, users) {
         if (err)
@@ -83,5 +85,47 @@ exports.setEmergencyPhones = function(req, res) {
         if (err) return res.send(err);
         if (!user) return res.status(404).send("User not found");
         return res.json(user);
+    });
+}
+
+exports.userNotExists = function(object, finalCallback) {
+    let email = object.email;
+    let username = object.username;
+    let phone = object.phone;
+
+    async.parallel({
+        userE: function(callback) {
+            if (!email) callback(null,null);
+            else
+                User.findOne({email: email}, function(err, user){
+                    if (err) callback(err,null);
+                    else if (user) callback(null,user);
+                    else callback(null,null);
+                });
+        },
+        userU: function(callback) {
+            if (!username) callback(null,null);
+            else
+                User.findOne({username: username}, function(err, user){
+                    if (err) callback(err,null);
+                    else if (user) callback(null,user);
+                    else callback(null,null);
+                });
+        },
+        userP: function(callback) {
+            if (!phone) callback(null,null);
+            else
+                User.findOne({phone: phone}, function(err, user){
+                    if (err) callback(err,null);
+                    else if (user) callback(null,user);
+                    else callback(null,null);
+                });
+        }
+    }, function(err, results) {
+        if (err) finalCallback(err);
+        else if (results.userE) finalCallback("Provided email belongs to another user");
+        else if (results.userU) finalCallback("provided username belongs to another user");
+        else if (results.userP) finalCallback("provided phone belongs to another user");
+        else finalCallback(null);
     });
 }

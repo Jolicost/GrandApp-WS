@@ -83,13 +83,17 @@ var UserSchema = new Schema({
     // auth credentials
     auth: {
         google: {
-            token: {
-                type: String
-            },
-            googleId: {
-                type: String
-            }
+            token: String,
+            id: String
+        },
+        facebook: {
+            token: String,
+            id: String
         }
+    },
+    lastRequest: {
+        type: Date,
+        default: Date.now()
     }
 });
 

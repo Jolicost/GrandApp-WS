@@ -32,11 +32,11 @@ module.exports = function(app) {
 
     app.post('/forgotPassword', session.forgotPassword);
 
-    app.post('/googleLogin', [
+    app.post('/login/google', [
         validate(validations.serviceLogin)
     ], session.googleLogin);
 
-    app.post('/facebookLogin', [
+    app.post('/login/facebook', [
         validate(validations.serviceLogin)
     ], session.facebookLogin)
 }

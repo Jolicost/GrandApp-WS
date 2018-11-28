@@ -9,6 +9,7 @@ module.exports = function(app) {
     
 
     app.get('/entities/:entityId/users', entity.getUsers);
+    app.get('/entities/:entityId/activities', entity.getActivities);
     /*
     // entity Routes
     app.route('/entities')

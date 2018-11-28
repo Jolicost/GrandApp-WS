@@ -161,18 +161,14 @@ function registerExternalUser(body, method, callback)
     let email = body.email;
     let phone = body.phone;
 
-
-    if (method === 'google') method = 'auth.google.token';
-    else if (method === 'facebook') method = 'auth.facebook.token';
-    else callback(new Error("login service not found"),null);
-
     let params = {
         username: username,
         email: email,
         phone: phone
     };
 
-    params[method] = token;
+    let key = 'auth.' + method + '.token';
+    params[key] = token;
 
     let user = new User(params);
 
@@ -183,8 +179,8 @@ function registerExternalUser(body, method, callback)
 }
 
 function checkLogin(req, res, method) {
-    let key = 'auth.' + method + '.token';
     let query = {};
+    let key = 'auth.' + method + '.token';
     query[key] = req.body.token;
 
     User.findOne(query, function(err, user) {

@@ -29,12 +29,7 @@ function prepareRangedQuery(attribute,start,end) {
 	};
 }
 
-function findModelByRange(model, attribute, start, end, entityId, callback) {
-	
-	let query = {
-		entity: entityId
-	};
-	
+function findModelByRangeQueried(model, attribute, start, end, query, callback) {
 	var o;
 	if ((o = prepareRangedQuery(attribute,start,end)).valid) {
 		query[attribute] = o.dateRange;
@@ -44,6 +39,10 @@ function findModelByRange(model, attribute, start, end, entityId, callback) {
 		if (err) callback(err,null);
 		else callback(null,results);
 	});
+}
+
+function findModelByRange(model, attribute, start, end, entityId, callback) {
+	findModelByRangeQueried(model, attribute, start, end, {entity: entityId}, callback);
 }
 
 function getMean(array, expression) {
@@ -164,6 +163,43 @@ function getActivitiesUserAges(activities,callback) {
 	});
 }
 
+function getActiveUsersByRange(start, end, entityId, callback) {
+	let query = {
+		entity: entityId,
+		userType: 'normal'
+	};
+	findModelByRangeQueried(User,'lastRequest',start,end, query, function(err, users){
+		if (err) callback(err,null);
+		else callback(null,users);
+	});
+}
+
+function getTotalEntityUsers(entityId, callback) {
+	User.countDocuments({entity: entityId, userType: 'normal'}, function(err, n) {
+		if (err) callback(err,null);
+		else callback(null,n);
+	})
+}
+
+function getRegisteredUsersByRange(start, end, entityId, callback) {
+	let query = {
+		entity: entityId,
+		userType: 'normal'
+	};
+	findModelByRangeQueried(User,'createdAt',start,end, query, function(err, users){
+		if (err) callback(err,null);
+		else callback(null,users);
+	});
+}
+
+function getUserAgesDirect(users) {
+	let ages = []
+	users.forEach(user => {
+		ages.push(moment.duration(moment().diff(moment(user.birthday))).asYears());
+	});
+	return mapAges(ages);
+}
+
 
 
 exports.activities = function(req, res) {
@@ -200,9 +236,42 @@ exports.activities = function(req, res) {
 	});
 }
 
+
+
 exports.users = function(req, res) {
-	findModelByRange(User,'timestampStart',req.query.start,req.query.end,req.entity._id, function(err, activities) {
+	let start = req.query.start;
+	let end = req.query.end;
+	let entityId = req.params.entityId;
+
+
+
+	async.parallel({
+		activeUsers: function(callback) {
+			getActiveUsersByRange(start,end,entityId, function(err, users){
+				if (err) callback(err, null);
+				else callback(null, users);
+			});
+		},
+		registeredUsers: function(callback) {
+			getRegisteredUsersByRange(start, end, entityId, function(err, users) {
+				if (err) callback(err, null);
+				else callback(null, users);
+			});
+		},
+		nUsers: function(callback) {
+			getTotalEntityUsers(entityId, function(err, count) {
+				if (err) callback(err, null);
+				else callback(null, count);
+			});
+		}
+	}, function(err, results){
 		if (err) return res.send(err);
-		else return res.json(activities);
+		else return res.json({
+			nRegisteredUsers: results.registeredUsers.length,
+			registeredUsersAges: getUserAgesDirect(results.registeredUsers),
+			totalUsers: results.nUsers,
+			nActiveUsers: results.activeUsers.length,
+			activeUsersAges: getUserAgesDirect(results.activeUsers)
+		});
 	});
 }

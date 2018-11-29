@@ -28,6 +28,7 @@ var activities = [{
         description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
         participants: [getObjectId("UserPutin")],
         rating: 0,
+        nVotes: 0,
         activityType: "Pachangas",
         price: 0,
         images: [
@@ -51,6 +52,7 @@ var activities = [{
         description: "Anem tots a escoltar la radio",
         participants: [getObjectId("UserPutin"), getObjectId("UserTrump")],
         rating: 4,
+        nVotes: 5,
         activityType: "Escoltar radio",
         price: 0,
         images: [

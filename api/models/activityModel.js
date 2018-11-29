@@ -29,6 +29,10 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
+        nVotes: {
+            type: Number,
+            default: 0
+        },
         // activity type
         activityType: {
             type: String,

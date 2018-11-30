@@ -46,7 +46,8 @@
     "moment-range": "^4.0.1",
     "mongoose": "^5.3.4",
     "node-restful": "^0.2.6",
-    "nodemailer": "^4.7.0"
+    "nodemailer": "^4.7.0",
+    "password-hash": "^1.2.2"
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",
   "devDependencies": {

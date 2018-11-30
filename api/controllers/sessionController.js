@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
+var passwordHash = require('password-hash');
 var config = require('../../config/config.js');
 var mail = require('./util/mailSender.js');
 var async = require('async');
@@ -14,7 +15,13 @@ var userController = require('./userController');
 
 function hashPassword(password)
 {
-    return bcrypt.hashSync(password,bcrypt.genSaltSync(10));
+    return passwordHash.generate(password);
+    //return bcrypt.hashSync(password,bcrypt.genSaltSync(10));
+}
+
+function verifyPassword(password,hashedPassword)
+{
+    return passwordHash.verify(password, hashedPassword)
 }
 exports.login = function(req, res) {
     let password = req.body.password;
@@ -26,28 +33,24 @@ exports.login = function(req, res) {
 
     if (!phone && !username) return res.status(436).send("need to specify more information");
 
-    User.findOne({
-        $or: [
-            {
-                username: username
-            },
-            {
-                phone: phone
-            }
-        ]
-    })
-    .select('+password')
+    let query = {};
+    if (phone) {
+        query['phone'] = phone;
+    }
+
+    if (username) {
+        query['username'] = username;
+    }
+
+    User.findOne(query)
     .exec(function(err, user) {
         if (!user) return res.status(432).send("Invalid user");
-        signAndSend(req, res, user);
-        /*
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if (err) return res.status(500).send("Login failed");
-            if (!result) return res.status(433).send("Invalid password");
-
+        if (verifyPassword(req.body.password,user.password)){
             signAndSend(req, res, user);
-        });
-        */
+        }
+        else {
+            res.status(433).send("Invalid password");
+        }   
     });
 };
 

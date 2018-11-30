@@ -35,15 +35,19 @@ exports.login = function(req, res) {
                 phone: phone
             }
         ]
-    }, function(err, user) {
+    })
+    .select('+password')
+    .exec(function(err, user) {
         if (!user) return res.status(432).send("Invalid user");
+        signAndSend(req, res, user);
+        /*
         bcrypt.compare(req.body.password, user.password, function(err, result) {
-            signAndSend(req, res, user);
-            /*if (err) return res.status(500).send("Login failed");
+            if (err) return res.status(500).send("Login failed");
             if (!result) return res.status(433).send("Invalid password");
 
-            signAndSend(req, res, user);*/
+            signAndSend(req, res, user);
         });
+        */
     });
 };
 

@@ -2,6 +2,9 @@
   "name": "pes_server",
   "version": "1.0.0",
   "description": "grandapp server with node.js",
+  "engines": {
+    "node": ">=6.11.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Jolicost/PES_Server.git"

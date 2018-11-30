@@ -2,10 +2,30 @@
 module.exports = function(app) {
     var user = require('../controllers/userController');
     var restful = require('node-restful');
+    var middleware = require('../middleware/sessionMiddleware');
+    var userMiddleware = require('../middleware/userMiddleware');
     var Users = app.users = restful.model('Users',null)
-        .methods(['get', 'post', 'put', 'delete']);
+        .methods(['post', 'put', 'delete']);
+
+    app.get('/users',[
+        middleware.verifyAndObtain,
+        userMiddleware.filterAttributes
+    ], user.list);
+    
+    Users.before('get',[
+        middleware.verifyAndObtain, 
+        userMiddleware.seeOwn,
+        userMiddleware.seeAll,
+        userMiddleware.filterEntity
+    ]);
+
+    Users.after('get', [
+        //userMiddleware.filterUser
+    ]);
 
     Users.register(app,'/users');
+
+    
 
 
     app.route('/users/:userId/emergency')

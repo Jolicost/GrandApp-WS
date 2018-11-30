@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 User = mongoose.model('Users');
 var async = require("async");
+var _this = this;
 /* Function to verify that a token exists 
  * You must call this middleware function in every API request in order to authorize the user
  * POSTCONDITION: req.userId will be set to the requester user id. 
@@ -46,5 +47,13 @@ exports.obtainUser = function(req, res, next) {
         // Send the correct user
         req.user = user;
         next();
+    });
+}
+
+exports.verifyAndObtain = function(req, res, next) {
+    _this.verifyToken(req, res, function() {
+        _this.obtainUser(req, res, function() {
+            next();
+        });
     });
 }

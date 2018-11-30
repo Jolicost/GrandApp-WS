@@ -6,6 +6,8 @@ module.exports = function(app) {
     var Activities = app.activities = restful.model('Activities',null)
         .methods(['get', 'put', 'delete']);
 
+    Activities.before('delete',[middleware.verifyAndObtain])
+
     Activities.register(app,'/activities');
     
     app.post('/activities', [middleware.verifyToken], activity.create);

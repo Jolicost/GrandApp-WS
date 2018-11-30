@@ -25,6 +25,7 @@
     "format": "node ./scripts/format.js"
   },
   "dependencies": {
+    "accesscontrol": "^2.2.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.5.1",
     "convict": "^4.4.0",

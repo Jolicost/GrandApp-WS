@@ -16,7 +16,8 @@ var UserSchema = new Schema({
     // Password. Not crypted (for now)
     password: {
         type: String,
-        default: ""
+        default: "",
+        select: false
     },
     // user email
     email: {
@@ -24,7 +25,9 @@ var UserSchema = new Schema({
         default: "",
         index: {
             unique: true
-        }
+        },
+        select: false,
+        allowed: ['entity,admin']
     },
     // complete user name
     completeName: {
@@ -44,13 +47,18 @@ var UserSchema = new Schema({
     // user phone
     phone: {
         type: String,
-        default: ""
+        default: "",
+        select: false
     },
     // contact phones (family phones)
-    contactPhones: [{
-        alias: String,
-        phone: String
-    }],
+    contactPhones: {
+        type: Array,
+        items: {
+            alias: String,
+            phone: String
+        },
+        select: false
+    },
     // creation date
     createdAt: {
         type: Date,
@@ -69,31 +77,41 @@ var UserSchema = new Schema({
     // ref to entity, applicable to both normal users and entity users
     entity: {
         type: Schema.Types.ObjectId,
-        ref: 'Entities'
+        ref: 'Entities',
+        select: false
     },
     // user address calculated using postal code
     place: {
-        placeId: {
-            type: String
+        type: Object,
+        properties: {
+            placeId: {
+                type: String
+            },
+            placeName: {
+                type: String
+            }
         },
-        placeName: {
-            type: String
-        }
+        select: false
     },
     // auth credentials
     auth: {
-        google: {
-            token: String,
-            id: String
+        type: Object,
+        properties: {
+            google: {
+                token: String,
+                id: String
+            },
+            facebook: {
+                token: String,
+                id: String
+            }
         },
-        facebook: {
-            token: String,
-            id: String
-        }
+        select: false
     },
     lastRequest: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
+        select: false
     }
 });
 

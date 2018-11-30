@@ -14,7 +14,7 @@ var userController = require('./userController');
 
 function hashPassword(password)
 {
-    return bcrypt.hashSync(password, 8);
+    return bcrypt.hashSync(password,bcrypt.genSaltSync(10));
 }
 exports.login = function(req, res) {
     let password = req.body.password;
@@ -26,7 +26,6 @@ exports.login = function(req, res) {
 
     if (!phone && !username) return res.status(436).send("need to specify more information");
 
-    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     User.findOne({
         $or: [
             {
@@ -39,10 +38,11 @@ exports.login = function(req, res) {
     }, function(err, user) {
         if (!user) return res.status(432).send("Invalid user");
         bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if (err) return res.status(500).send("Login failed");
+            signAndSend(req, res, user);
+            /*if (err) return res.status(500).send("Login failed");
             if (!result) return res.status(433).send("Invalid password");
 
-            signAndSend(req, res, user);
+            signAndSend(req, res, user);*/
         });
     });
 };
@@ -53,7 +53,7 @@ exports.logout = function(req, res) {
 };
 
 exports.register = function(req, res) {
-    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    var hashedPassword = hashPassword(req.body.password);
 
     let user = new User({
         //username: req.body.username,

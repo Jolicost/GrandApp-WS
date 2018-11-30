@@ -5,7 +5,7 @@ const {
 const bcrypt = require('bcryptjs');
 
 function hashPassword(password) {
-    return bcrypt.hashSync(password, 8);
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 }
 
 const users = [{

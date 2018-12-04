@@ -58,6 +58,18 @@ exports.updateNormal = function(req, res) {
     });
 };
 
+exports.updateCoords = function(req, res) {
+    // TODO do google api calls and such 
+    User.findByIdAndUpdate(req.params.userId,
+    {
+        'place.lat': req.body.lat,
+        'place.long': req.body.long
+    }, {"new": true}, function(err, user) {
+        if (err) res.send(err);
+        else res.json(user);
+    });
+}
+
 exports.delete = function(req, res) {
     User.remove({
         _id: req.params.userId

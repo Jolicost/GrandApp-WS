@@ -18,7 +18,13 @@ module.exports = function(app) {
         sessionMiddleware.obtainUser,
         userMiddleware.userNotExistsOnUpdate,
         validate(validations.updateNormal)
-    ], user.updateNormal)
+    ], user.updateNormal);
+
+    app.put('/users/:userId/geo', [
+        sessionMiddleware.verifyToken,
+        sessionMiddleware.obtainUser
+    ], user.updateCoords);
+    
     app.route('/users/:userId/emergency')
         .get(user.getEmergencyPhones)
         .post(user.setEmergencyPhones);

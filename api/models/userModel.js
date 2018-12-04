@@ -78,6 +78,14 @@ var UserSchema = new Schema({
         },
         placeName: {
             type: String
+        },
+        lat: {
+            type: Number,
+            default: 0.0
+        },
+        long: {
+            type: Number,
+            default: 0.0
         }
     },
     // auth credentials

@@ -35,12 +35,22 @@ exports.create = function(req, res) {
     });
 };
 
-exports.update = function(req, res) {
-    User.findOneAndUpdate({
-        _id: req.params.userId
-    }, req.body, {
-        new: true
-    }, function(err, user) {
+function computeAddress(address) {
+    return {
+        placeId: 'fake place id',
+        placeName: address
+    };
+}
+
+exports.updateNormal = function(req, res) {
+    User.findByIdAndUpdate(req.params.userId,
+    {
+        completeName: req.body.completeName,
+        place: computeAddress(req.body.address),
+        email: req.body.email,
+        phone: req.body.phone,
+        profilePic: req.body.profilePic
+    }, { "new": true }, function(err, user) {
         if (err)
             res.send(err);
         else
@@ -123,9 +133,9 @@ exports.userNotExists = function(object, finalCallback) {
         }
     }, function(err, results) {
         if (err) finalCallback(err);
-        else if (results.userE) finalCallback("Provided email belongs to another user");
-        else if (results.userU) finalCallback("provided username belongs to another user");
-        else if (results.userP) finalCallback("provided phone belongs to another user");
+        else if (results.userE) finalCallback(null,results.userE);
+        else if (results.userU) finalCallback(null,results.userU);
+        else if (results.userP) finalCallback(null,results.userP);
         else finalCallback(null);
     });
 }

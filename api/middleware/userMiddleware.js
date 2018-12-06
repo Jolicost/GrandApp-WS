@@ -23,3 +23,26 @@ exports.userNotExistsOnUpdate = function(req, res, next) {
 		else next();
 	});
 }
+
+exports.ownUserOrAllowedEntity = function(req, res, next) {
+	let targetUser = req.params.userId;
+	let requester = req.user;
+	if (requester.userType == 'admin') next();
+	if (requester.userType == 'entity') {
+		User.findById(targetUser, function(err, user) {
+			if (err) return res.send(err);
+			else {
+				if (user.entity == requester.entity) {
+					next();
+				}
+				else {
+					return res.status(403).send("Not allowed to operate this user");
+				}
+			}
+		});
+	}
+	else if (requester.userType == 'normal') {
+		if (targetUser == requester._id) next();
+		else return res.status(403).send("Not allowed to operate this user");
+	}
+}

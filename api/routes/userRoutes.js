@@ -12,22 +12,23 @@ module.exports = function(app) {
 
     Users.register(app,'/users');
 
-
     app.put('/users/:userId', [
-        sessionMiddleware.verifyToken,
-        sessionMiddleware.obtainUser,
-        userMiddleware.userNotExistsOnUpdate,
-        validate(validations.updateNormal)
+        validate(validations.updateNormal),
+        sessionMiddleware.verifyAndObtain,
+        userMiddleware.userNotExistsOnUpdate,   
+        userMiddleware.ownUserOrAllowedEntity, 
     ], user.updateNormal);
 
     app.put('/users/:userId/geo', [
-        sessionMiddleware.verifyToken,
-        sessionMiddleware.obtainUser
+        sessionMiddleware.verifyAndObtain
     ], user.updateCoords);
     
     app.route('/users/:userId/emergency')
         .get(user.getEmergencyPhones)
         .post(user.setEmergencyPhones);
+
+    app.get('/normal/users/:userId', user.read);
+
     /*
     // User API Routes
     app.route('/users')

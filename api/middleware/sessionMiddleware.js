@@ -48,3 +48,19 @@ exports.obtainUser = function(req, res, next) {
         next();
     });
 }
+
+exports.verifyAndObtain = function(req, res, next) {
+    exports.verifyToken(req, res, function() {
+        exports.obtainUser(req, res, function() {
+            next();
+        });
+    });
+}
+
+exports.isEntity = function(req, res, next) {
+    return req.user.userType == 'entity';
+}
+
+exports.isAdmin = function(req, res, next) {
+    return req.user.userType == 'admin';
+}

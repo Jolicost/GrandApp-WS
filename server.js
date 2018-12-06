@@ -50,7 +50,9 @@ var sessionRoutes = require('./api/routes/sessionRoutes');
 var imageRoutes = require('./api/routes/imageRoutes');
 var entityRoutes = require('./api/routes/entityRoutes');
 var statisticsRoutes = require('./api/routes/statisticsRoutes');
+var commonRoutes = require('./api/routes/commonRoutes');
 
+commonRoutes(app);
 activityRoutes(app);
 userRoutes(app);
 sessionRoutes(app);

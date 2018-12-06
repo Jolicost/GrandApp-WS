@@ -163,15 +163,19 @@ function signAndSend(req, res, user) {
 
 function registerExternalUser(body, method, callback)
 {
-    let username = body.username;
+    let username = body.username || undefined;
     let token = body.token;
-    let email = body.email;
-    let phone = body.phone;
+    let email = body.email || undefined;
+    let phone = body.phone || undefined;
+    let completeName = body.completeName || undefined;
+    let profilePic = body.profilePic || undefined;
 
     let params = {
         username: username,
         email: email,
-        phone: phone
+        phone: phone,
+        completeName: completeName,
+        profilePic: profilePic
     };
 
     let key = 'auth.' + method + '.token';
@@ -192,8 +196,9 @@ function checkLogin(req, res, method) {
 
     User.findOne(query, function(err, user) {
         if (!user) {
-            userController.userNotExists(req.body, function(err) {
-                if (err) return res.status(407).send(err);
+            userController.userNotExists(req.body, function(err, user) {
+                if (err) return res.send(err);
+                else if (user) return res.status(407).send("User exists");
                 else {
                     registerExternalUser(req.body,method, function(err, user) {
                         signAndSend(req, res, user); 

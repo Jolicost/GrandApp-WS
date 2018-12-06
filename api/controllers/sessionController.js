@@ -146,7 +146,7 @@ function signToken(user) {
     var token = jwt.sign({
         id: user._id
     }, config.get('server.auth.secret'), {
-        expiresIn: 86400 // expires in 24 hours
+        //expiresIn: 86400 // expires in 24 hours
     });
     return token;
 }

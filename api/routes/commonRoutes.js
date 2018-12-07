@@ -9,10 +9,12 @@ module.exports = function(app) {
     ]);
 
     app.all('/entity/*', [
+        sessionMiddleware.verifyAndObtain,
         sessionMiddleware.isEntity
     ]);
 
     app.all('/admin/*', [
+        sessionMiddleware.verifyAndObtain,
         sessionMiddleware.isAdmin
     ]);
 }

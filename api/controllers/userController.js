@@ -8,7 +8,9 @@ var mongoose = require('mongoose'),
 var async = require('async');
 
 exports.list = function(req, res) {
-    User.find({}, function(err, users) {
+    let filters = req.userFilters || {};
+    let attributes = req.userAttributes || {};
+    User.find(filters,attributes, function(err, users) {
         if (err)
             res.send(err);
         else
@@ -17,7 +19,8 @@ exports.list = function(req, res) {
 };
 
 exports.read = function(req, res) {
-    User.findById(req.params.userId, function(err, user) {
+    let attributes = req.userAttributes || {};
+    User.findById(req.params.userId, attributes, function(err, user) {
         if (err)
             res.send(err);
         else

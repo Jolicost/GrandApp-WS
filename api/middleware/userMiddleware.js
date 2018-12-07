@@ -24,6 +24,16 @@ exports.userNotExistsOnUpdate = function(req, res, next) {
 	});
 }
 
+exports.selectTargetUser = function(req, res, next) {
+	User.findById(req.params.userId, function(err, user) {
+		if (err) return res.send(err);
+		else {
+			req.targetUser = user;
+			next();
+		}
+	});
+}
+
 exports.ownUserOrAllowedEntity = function(req, res, next) {
 	let targetUser = req.params.userId;
 	let requester = req.user;
@@ -45,4 +55,62 @@ exports.ownUserOrAllowedEntity = function(req, res, next) {
 		if (targetUser == requester._id) next();
 		else return res.status(403).send("Not allowed to operate this user");
 	}
+}
+
+function mapDictionary(array) {
+	let ret = {}
+	array.forEach(item => {
+		ret[item] = '1';
+	});
+	return ret;
+}
+
+
+
+exports.selectUserAttributes = function(req, res, next) {
+    let target = req.targetUser;
+    let requester = req.user;
+
+    let base = ['completeName','profilePic','username'];
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt']);
+    let own_entity = own.concat(['userType','place','lastRequest']);
+
+    var attributes = [];
+    if (requester.userType == 'entity' && requester.entity.equals(target.entity)) {
+    	attributes = own_entity;
+    }
+    else if (target.equals(requester)) {
+    	    
+    	attributes = own;
+    }
+    else {
+    	attributes = base;
+    }
+
+    req.userAttributes = mapDictionary(attributes);
+    next();
+}
+
+exports.selectEntityUserAttributes = function(req, res, next) {
+
+	let base = ['completeName','profilePic','username'];
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt']);
+    let own_entity = own.concat(['userType','place','lastRequest']);
+
+	req.userAttributes = mapDictionary(own_entity);
+	next();
+}
+
+exports.selectUserFilters = function(req, res, next) {
+	let requester = req.user;
+
+	let filters = {};
+
+	let entity = requester.entity;
+
+	filters['entity'] = entity._id;
+
+	req.userFilters = filters;
+
+	next();
 }

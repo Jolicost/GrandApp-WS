@@ -27,7 +27,23 @@ module.exports = function(app) {
         .get(user.getEmergencyPhones)
         .post(user.setEmergencyPhones);
 
-    app.get('/normal/users/:userId', user.read);
+
+    /* Read operations on user */
+    app.get('/normal/users/:userId', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.selectUserAttributes
+    ], user.read);
+
+    // Same logic as normal but we must add it for compatibility reasons
+    app.get('/entity/users/:userId', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.selectUserAttributes
+    ], user.read);
+
+    app.get('/entity/users', [
+        userMiddleware.selectEntityUserAttributes,
+        userMiddleware.selectUserFilters
+    ], user.list);
 
     /*
     // User API Routes

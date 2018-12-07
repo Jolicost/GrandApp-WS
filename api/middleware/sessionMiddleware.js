@@ -58,9 +58,16 @@ exports.verifyAndObtain = function(req, res, next) {
 }
 
 exports.isEntity = function(req, res, next) {
-    return req.user.userType == 'entity';
+    if (req.user.userType != 'entity')
+        return res.status(403).send("Not allowed to access this route");
+    else
+        next();
+
 }
 
 exports.isAdmin = function(req, res, next) {
-    return req.user.userType == 'admin';
+    if (req.user.userType != 'admin')
+        return res.status(403).send("Not allowed to access this route");
+    else
+        next();
 }

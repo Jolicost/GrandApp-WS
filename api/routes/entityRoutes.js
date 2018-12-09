@@ -5,21 +5,13 @@ module.exports = function(app) {
     var Entities = app.entities = restful.model('Entities',null)
         .methods(['get', 'post', 'put', 'delete']);
 
+    /* Deprecatd routes */
     Entities.register(app,'/entities');
     
 
     app.get('/entities/:entityId/users', entity.getUsers);
     app.get('/entities/:entityId/activities', entity.getActivities);
-    /*
-    // entity Routes
-    app.route('/entities')
-        .get(entity.list)
-        .post(entity.create)
-        .delete(entity.deleteAll);
+    /* End deprecated routes */
 
-    app.route('/entities/:entityId')
-        .get(entity.read)
-        .put(entity.update)
-        .delete(entity.delete);
-    */
+
 }

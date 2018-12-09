@@ -7,17 +7,11 @@ module.exports = function(app) {
     var validate = require('express-validation');
     var validations = require('./validation/userRoutes');
 
+    /* DEPRECIATED ROUTES */
     var Users = app.users = restful.model('Users',null)
-        .methods(['get', 'post', 'delete']);
+        .methods(['get', 'post', 'put', 'delete']);
 
     Users.register(app,'/users');
-
-    app.put('/users/:userId', [
-        validate(validations.updateNormal),
-        sessionMiddleware.verifyAndObtain,
-        userMiddleware.userNotExistsOnUpdate,   
-        userMiddleware.ownUserOrAllowedEntity, 
-    ], user.updateNormal);
 
     app.put('/users/:userId/geo', [
         sessionMiddleware.verifyAndObtain
@@ -27,34 +21,96 @@ module.exports = function(app) {
         .get(user.getEmergencyPhones)
         .post(user.setEmergencyPhones);
 
+    app.put('/users/:userId', [
+        validate(validations.updateNormal),
+        sessionMiddleware.verifyAndObtain,
+        userMiddleware.userNotExistsOnUpdate,   
+        userMiddleware.ownUserOrAllowedEntity, 
+    ], user.updateNormal);
+    /* End DEPRECIATED ROUTES */
 
-    /* Read operations on user */
+
+    /* NORMAL SECTION */
+    // READ
     app.get('/normal/users/:userId', [
         userMiddleware.selectTargetUser,
         userMiddleware.selectUserAttributes
     ], user.read);
 
-    // Same logic as normal but we must add it for compatibility reasons
+    // UPDATE
+    app.put('/normal/users/:userId', [
+        validate(validations.updateNormal),
+        userMiddleware.selectTargetUser,  
+        userMiddleware.allowedUser,
+        userMiddleware.userNotExistsOnUpdate
+    ], user.updateNormal);
+
+    // DELETE
+    app.put('normal/users/:userId', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedUser
+    ], user.delete);
+
+    // GET EMERGENCY PHONES
+    app.get('/normal/users/:userId/emergency', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedUser
+    ], user.getEmergencyPhones);
+
+    // UPDATE EMERGENCY PHONES
+    app.post('/normal/users/:userId/emergency', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedUser
+    ], user.setEmergencyPhones);
+
+    // GEO UPDATE
+    app.put('/normal/users/:userId/geo', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedUser
+    ], user.updateCoords);
+
+
+    /* ENTITY REGION */
+    // READ USER
     app.get('/entity/users/:userId', [
         userMiddleware.selectTargetUser,
         userMiddleware.selectUserAttributes
     ], user.read);
 
+    // LIST
     app.get('/entity/users', [
         userMiddleware.selectEntityUserAttributes,
         userMiddleware.selectUserFilters
     ], user.list);
 
-    /*
-    // User API Routes
-    app.route('/users')
-        .get(user.list)
-        .post(user.create)
-        .delete(user.deleteAll);
+    
+    // UPDATE
+    app.put('/entity/users/:userId', [
+        validate(validations.updateEntity),
+        userMiddleware.selectTargetUser,  
+        userMiddleware.allowedEntity,
+        userMiddleware.userNotExistsOnUpdate
+    ], user.updateEntity);
 
-    app.route('/users/:userId')
-        .get(user.read)
-        .put(user.update)
-        .delete(user.delete);
-    */
+    // DELETE
+    app.put('entity/users/:userId', [
+        userMiddleware.allowedEntity
+    ], user.delete);
+
+    // GET EMERGENCY PHONES
+    app.get('/entity/users/:userId/emergency', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedEntity
+    ], user.getEmergencyPhones);
+
+    // UPDATE EMERGENCY PHONES
+    app.post('/entity/users/:userId/emergency', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedEntity
+    ], user.setEmergencyPhones);
+
+
+    /* ADMIN ROUTES */
+    Users.register(app,'/admin/users');
+
 }

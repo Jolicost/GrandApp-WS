@@ -13,3 +13,20 @@ exports.populateEntity = function(req, res, next) {
 		next();
 	});
 }
+
+exports.allowedUser = function(req, res, next) {
+	let entityId = req.params.entityId;
+
+	if (req.user.entity._id == entityId) {
+		next();
+	}
+	else {
+		return req.status(403).send("not allowed to operate this entity");
+	}
+}
+
+exports.checkEntity = function(req, res, next) {
+	exports.allowedUser(req,res, function() {
+		exports.populateEntity(req,res,next);
+	});
+}

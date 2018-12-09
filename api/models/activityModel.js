@@ -60,6 +60,7 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
+        // Depreciated
         place: {
             placeId: {
                 type: String
@@ -69,7 +70,6 @@ var ActivitySchema = new Schema({
             }
         },
         // Physical address. We didn't include it inside place because compatibility reasons
-        // @Depreciated
         address: {
             type: String,
             default: ""

@@ -49,15 +49,33 @@ exports.updateNormal = function(req, res) {
     User.findByIdAndUpdate(req.params.userId,
     {
         completeName: req.body.completeName,
-        place: computeAddress(req.body.address),
         email: req.body.email,
         phone: req.body.phone,
         profilePic: req.body.profilePic
-    }, { "new": true }, function(err, user) {
+    }, function(err, user) {
         if (err)
             res.send(err);
         else
-            res.json(user);
+            res.send(200);
+    });
+};
+
+exports.updateEntity = function(req, res) {
+    let password = req.body.password;
+
+
+    User.findByIdAndUpdate(req.params.userId,
+    {
+        completeName: req.body.completeName,
+        email: req.body.email,
+        phone: req.body.phone,
+        profilePic: req.body.profilePic,
+        birthday: req.body.birthday
+    }, function(err, user) {
+        if (err)
+            res.send(err);
+        else
+            res.send(200);
     });
 };
 
@@ -109,7 +127,7 @@ exports.setEmergencyPhones = function(req, res) {
     User.findOneAndUpdate({_id: req.params.userId}, {contactPhones: req.body}, function(err, user) {
         if (err) return res.send(err);
         if (!user) return res.status(404).send("User not found");
-        return res.json(user);
+        return res.status(200).send("Success");
     });
 }
 

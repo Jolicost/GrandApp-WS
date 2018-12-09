@@ -71,7 +71,7 @@ var UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Entities'
     },
-    // user address calculated using postal code
+
     place: {
         placeId: {
             type: String

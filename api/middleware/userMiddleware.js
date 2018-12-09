@@ -28,8 +28,11 @@ exports.selectTargetUser = function(req, res, next) {
 	User.findById(req.params.userId, function(err, user) {
 		if (err) return res.send(err);
 		else {
-			req.targetUser = user;
-			next();
+			if (!user) return res.status(404).send("User not found");
+			else { 
+				req.targetUser = user;
+				next();
+			}
 		}
 	});
 }
@@ -55,6 +58,20 @@ exports.ownUserOrAllowedEntity = function(req, res, next) {
 		if (targetUser == requester._id) next();
 		else return res.status(403).send("Not allowed to operate this user");
 	}
+}
+
+exports.allowedEntity = function(req, res, next) {
+	if (req.user.entity.equals(req.targetUser.entity)) {
+		next();
+	}
+	else return res.status(403).send("Not allowed to operate this user");
+}
+
+exports.allowedUser = function(req, res, next) {
+	if (req.user.equals(req.targetUser)) {
+		next();
+	}
+	else return res.status(403).send("Not allowed to operate this user");
 }
 
 function mapDictionary(array) {

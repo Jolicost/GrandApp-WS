@@ -70,6 +70,54 @@ var activities = [{
             placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
         },
         entity: getObjectId('EntityIgualada')
+    },
+    {
+        title: "Activitat de la iaia toneta 2",
+        description: "Ara vull fer skateboard",
+        participants: [getObjectId("UserPutin"), getObjectId("UserTrump"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        nVotes: 3,
+        activityType: "Skateboard",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest3"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 3",
+        description: "Ara vull fer skateboard maxim",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        nVotes: 3,
+        activityType: "Skateboard",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest4"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        entity: getObjectId('EntityBarcelona')
     }
 ];
 

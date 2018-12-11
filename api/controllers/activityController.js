@@ -99,3 +99,24 @@ exports.deleteAll = function(req, res) {
             });
     });
 };
+
+
+exports.join = function(req, res) {
+    Activity.findOneAndUpdate({_id: req.activity._id},
+    {   
+        $push: {participants: req.user._id}
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        else return res.status(200).send("Joined to activity");
+    });
+}
+
+exports.leave = function(req, res) {
+    Activity.findOneAndUpdate({_id: req.activity._id},
+    {   
+        $pullAll: {participants: [req.user._id] } 
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        else return res.status(200).send("Activity left");
+    });
+}

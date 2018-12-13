@@ -80,3 +80,52 @@ exports.getActivityEntity = function(req, res, next) {
 	});
 
 }
+
+exports.addEntityFilters = function(req, res, next) {
+	let filters = req.activityFilters || {};
+
+	filters.entity = req.entity._id;
+
+	req.activityFilters = filters;
+
+	next();
+}
+
+exports.setActivityData = function(req, res, next) {
+	let entity = req.entity || undefined;
+
+    let activity = {
+        title: req.body.title,
+        description: req.body.description,
+        user: req.user,
+        participants: [req.user],
+        activityType: req.body.activityType,
+        price: req.body.price,
+        capacity: req.body.capacity,
+        lat: req.body.lat,
+        long: req.body.long,
+        address: req.body.address,
+        timestampStart: req.body.timestampStart,
+        timestampEnd: req.body.timestampEnd,
+        entity: entity
+    };
+
+    req.activityData = activity;
+
+    next();
+
+}
+exports.selectActivityAttributes = function(req, res, next) {
+	let attributes = req.activityAttributes || {};
+
+	let base = ['completeName','profilePic','username'];
+
+	next();
+}
+
+exports.isFromEntity = function(req, res, next) {
+	if (req.user.entity.equals(req.activity.entity)) {
+		next();
+	}
+	else return res.status(403).send("not allowed");
+}

@@ -17,6 +17,7 @@ module.exports = function(app) {
     app.get('/normal/activities', activity.list);
     app.post('/normal/activities', [activityMiddleware.getActivityEntity], activity.createNormal);
 
+
     app.post('/normal/activities/:activityId/join', [
         activityMiddleware.populateActivity,
         activityMiddleware.userNotInActivity
@@ -26,6 +27,23 @@ module.exports = function(app) {
         activityMiddleware.populateActivity,
         activityMiddleware.userInActivity
     ], activity.leave);
+
+
+
+
+    /* Entity routes */
+    app.get('/entity/activities', [activityMiddleware.addEntityFilters], activity.list);
+    app.get('/entity/activities/:activityId', [activityMiddleware.selectActivityAttributes], activity.read);
+    app.post('/entity/activities', [activityMiddleware.setActivityData], activity.createNormal);
+    app.put('/entity/activities/:activityId', [
+        activityMiddleware.populateActivity,
+        activityMiddleware.isFromEntity,
+        activityMiddleware.setActivityData
+    ], activity.updateNormal);
+    app.delete('/entity/activities/:activityId',[
+        activityMiddleware.populateActivity,
+        activityMiddleware.isFromEntity
+    ], activity.delete)
 
 
     /* ADMIN ROUTES */

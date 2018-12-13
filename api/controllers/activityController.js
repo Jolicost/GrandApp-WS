@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Activity = mongoose.model('Activities');
 
 exports.list = function(req, res) {
-    Activity.find({}, function(err, activities) {
+    Activity.find(req.activityFilters || {}, function(err, activities) {
         if (err)
             res.send(err);
         else
@@ -64,23 +64,8 @@ exports.create = function(req, res) {
 };
 
 exports.createNormal = function(req, res) {
-    let entity = req.entity || undefined;
-
-    let activity = new Activity({
-        title: req.body.title,
-        description: req.body.description,
-        user: req.user,
-        participants: [req.user],
-        activityType: req.body.activityType,
-        price: req.body.price,
-        capacity: req.body.capacity,
-        lat: req.body.lat,
-        long: req.body.long,
-        address: req.body.address,
-        timestampStart: req.body.timestampStart,
-        timestampEnd: req.body.timestampEnd,
-        entity: entity
-    });
+    
+    let activity = new Activity(req.activityData);
     
     activity.save(function(err, activity) {
         if (err) res.send(err);
@@ -100,6 +85,15 @@ exports.update = function(req, res) {
             res.json(activity);
     });
 };
+
+exports.updateNormal = function(req, res) {
+    Activity.findOneAndUpdate({
+        _id: req.params.activityId
+    }, req.activityData, function (err, activity) {
+        if (err) return res.send(err);
+        else return res.status(200).send("Activity updated");
+    });
+}
 
 exports.delete = function(req, res) {
     Activity.remove({

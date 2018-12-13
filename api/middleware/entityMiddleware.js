@@ -14,6 +14,14 @@ exports.populateEntity = function(req, res, next) {
 	});
 }
 
+exports.setEntity = function(req, res, next) {
+	Entity.findOne({_id: req.user.entity}, function(err, entity) {
+		if (err) return res.send(err);
+		req.entity = entity;
+		next();
+	})
+}
+
 exports.allowedUser = function(req, res, next) {
 	let entityId = req.params.entityId;
 

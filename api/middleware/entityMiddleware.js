@@ -9,6 +9,7 @@ exports.populateEntity = function(req, res, next) {
 
 	Entity.findOne({_id: entityId}, function(err, entity) {
 		if (err) return res.send(err);
+		if (!entity) return res.send(404).send("entity not found");
 		req.entity = entity;
 		next();
 	});

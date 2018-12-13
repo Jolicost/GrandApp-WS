@@ -14,8 +14,20 @@ module.exports = function(app) {
     /* End depreciated routes */
     
     /* Normal routes */
-    app.get('/normal/activities', activity.list);
+    app.get('/normal/activities', [
+        activityMiddleware.addActivityFilters
+    ], activity.list);
+    app.get('/normal/activities/:activityId', activity.read);
     app.post('/normal/activities', [activityMiddleware.getActivityEntity], activity.createNormal);
+    app.put('/normal/activities/:activityId', [
+        activityMiddleware.populateActivity,
+        activityMiddleware.getActivityEntity,
+        activityMiddleware.setActivityData
+    ], activity.updateNormal);
+    app.delete('/normal/activities/:activityId', [
+        activityMiddleware.populateActivity,
+        activityMiddleware.isFromUser
+    ], activity.delete)
 
 
     app.post('/normal/activities/:activityId/join', [

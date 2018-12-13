@@ -46,7 +46,9 @@ exports.read = function(req, res) {
     Activity.findById(req.params.activityId, function(err, activity) {
         if (err)
             res.send(err);
-        else
+        else if (!activity) 
+            res.status(404).send("activity not found");
+        else            
             res.json(activity);
     });
 };

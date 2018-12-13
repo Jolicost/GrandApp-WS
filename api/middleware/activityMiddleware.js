@@ -10,6 +10,7 @@ exports.populateActivity = function(req, res, next) {
 
 	Activity.findOne({_id: activityId}, function(err, activity) {
 		if (err) return res.send(err);
+		if (!activity) return res.status(404).send("activity not found");
 		req.activity = activity;
 		next();
 	});
@@ -91,6 +92,22 @@ exports.addEntityFilters = function(req, res, next) {
 	next();
 }
 
+exports.addActivityFilters = function(req, res, next) {
+	let user = req.query.user;
+	let start = req.query.start;
+	let type = req.query.activityType;
+	let own = req.query.own;
+	
+	let filters = req.activityFilters || {};
+	if (own) filters['user'] = req.user._id;
+	else if (user) filters['user'] = user;
+
+	if (start) filters['timestampStart'] = { $gte: start };
+	if (type) filters['activityType'] = type;
+	req.activityFilters = filters;
+	next();
+}
+
 exports.setActivityData = function(req, res, next) {
 	let entity = req.entity || undefined;
 
@@ -125,6 +142,13 @@ exports.selectActivityAttributes = function(req, res, next) {
 
 exports.isFromEntity = function(req, res, next) {
 	if (req.user.entity.equals(req.activity.entity)) {
+		next();
+	}
+	else return res.status(403).send("not allowed");
+}
+
+exports.isFromUser = function(req, res, next) {
+	if (req.user.equals(req.activity.user)) {
 		next();
 	}
 	else return res.status(403).send("not allowed");

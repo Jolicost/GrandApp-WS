@@ -16,6 +16,7 @@ module.exports = function(app) {
     app.put('/users/:userId/geo', [
         sessionMiddleware.verifyAndObtain
     ], user.updateCoords);
+
     
     app.route('/users/:userId/emergency')
         .get(user.getEmergencyPhones)
@@ -69,6 +70,12 @@ module.exports = function(app) {
         userMiddleware.allowedUser,
         userMiddleware.getUserEntity
         
+    ], user.updateCoords);
+
+    // GEO UPDATE
+    app.put('/geo', [
+        sessionMiddleware.verifyAndObtain,
+        userMiddleware.getUserEntity
     ], user.updateCoords);
 
 

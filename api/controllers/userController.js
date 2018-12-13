@@ -80,14 +80,16 @@ exports.updateEntity = function(req, res) {
 };
 
 exports.updateCoords = function(req, res) {
-    // TODO do google api calls and such 
-    User.findByIdAndUpdate(req.params.userId,
-    {
-        'place.lat': req.body.lat,
-        'place.long': req.body.long
-    }, {"new": true}, function(err, user) {
+    
+    let update = {};
+    update['place.lat'] = req.body.lat;
+    update['place.long'] = req.body.long;
+
+    if (req.entity) update['entity'] = req.entity.id;
+
+    User.findByIdAndUpdate(req.params.userId, update, function(err, user) {
         if (err) res.send(err);
-        else res.json(user);
+        else res.json({success:true});
     });
 }
 

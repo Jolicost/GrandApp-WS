@@ -76,7 +76,7 @@ exports.getActivityEntity = function(req, res, next) {
 			}
 		});
 
-		req.entity = choosen.entity;
+		req.entity = choosen.entity || undefined;
 		next();
 	});
 

@@ -66,7 +66,9 @@ module.exports = function(app) {
     // GEO UPDATE
     app.put('/normal/users/:userId/geo', [
         userMiddleware.selectTargetUser,
-        userMiddleware.allowedUser
+        userMiddleware.allowedUser,
+        userMiddleware.getUserEntity
+        
     ], user.updateCoords);
 
 

@@ -3,6 +3,8 @@ Entity = mongoose.model('Entities');
 var user = require('../controllers/userController');
 
 var async = require('async');
+var geolib = require("geolib");
+
 
 exports.userNotExists = function(req, res, next) {
 	user.userNotExists(req.body, function(err, user) {
@@ -130,4 +132,33 @@ exports.selectUserFilters = function(req, res, next) {
 	req.userFilters = filters;
 
 	next();
+}
+
+exports.getUserEntity = function(req, res, next) {
+	let lat = req.body.lat;
+	let long = req.body.long;
+
+	Entity.find({}, function(err, entities) {
+		if (err) return res.send(err);
+
+		let choosen = {
+			entity: false,
+			distance: 12000 * 2
+		};
+
+		entities.forEach(entity => {
+			let distance = geolib.getDistance(
+	    		{latitude: lat, longitude: long},
+	    		{latitude: entity.place.lat, longitude: entity.place.long}
+	    	);
+			if (distance <= entity.place.max && distance < choosen.distance) {
+				choosen.entity = entity;
+				choosen.distance = distance;
+			}
+		});
+
+		req.entity = choosen.entity || undefined;
+		next();
+	});
+
 }

@@ -12,9 +12,11 @@ var express = require('express'),
     app = express(),
     port = PORT,
     mongoose = require('mongoose'),
+    Achievement = require('./api/models/achievementModel'),
     Activity = require('./api/models/activityModel'),
     Entity = require('./api/models/entityModel'),
     User = require('./api/models/userModel'),
+
     //ActivityList = require('./api/models/activityListModel'),
     bodyParser = require('body-parser');
 
@@ -51,6 +53,7 @@ var imageRoutes = require('./api/routes/imageRoutes');
 var entityRoutes = require('./api/routes/entityRoutes');
 var statisticsRoutes = require('./api/routes/statisticsRoutes');
 var commonRoutes = require('./api/routes/commonRoutes');
+var achievementRoutes = require('./api/routes/achievementRoutes');
 
 commonRoutes(app);
 activityRoutes(app);
@@ -59,6 +62,7 @@ sessionRoutes(app);
 imageRoutes(app);
 entityRoutes(app);
 statisticsRoutes(app);
+achievementRoutes(app);
 
 module.exports = app.listen(PORT);
 

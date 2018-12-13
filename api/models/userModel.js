@@ -99,13 +99,17 @@ var UserSchema = new Schema({
             id: String
         }
     },
+    achievements: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Achievements'
+    }],
     lastRequest: {
         type: Date,
         default: Date.now()
     }
 });
 
-exports.userSchema = UserSchema;
+
 
 // Make the model visible to other modules across mongoose
 module.exports = mongoose.model('Users', UserSchema);

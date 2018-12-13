@@ -23,11 +23,11 @@ var AchievementSchema = new Schema({
     value: Number,
     // achievement image url
     image: String,
+    // black image when user does not have the achievement
+    hiddenImage: String,
     // hidden or not
     hidden: Boolean
 });
-
-//EntitySchema.index({'location':'2d'});
 
 // Make the model visible to other modules across mongoose
 module.exports = mongoose.model('Achievements', AchievementSchema);

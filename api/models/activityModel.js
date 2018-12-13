@@ -29,10 +29,16 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
-        nVotes: {
-            type: Number,
-            default: 0
-        },
+        votes: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'Users'
+            },
+            rating: {
+                type: Number,
+                default: 0.0
+            }
+        }],
         // activity type
         activityType: {
             type: String,

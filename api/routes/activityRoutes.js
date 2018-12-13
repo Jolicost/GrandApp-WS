@@ -14,6 +14,9 @@ module.exports = function(app) {
     /* End depreciated routes */
     
     /* Normal routes */
+    app.get('/normal/activities', activity.list);
+    app.post('/normal/activities', [activityMiddleware.getActivityEntity], activity.createNormal);
+
     app.post('/normal/activities/:activityId/join', [
         activityMiddleware.populateActivity,
         activityMiddleware.userNotInActivity

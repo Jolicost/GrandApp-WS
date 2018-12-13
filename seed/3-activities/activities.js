@@ -28,7 +28,7 @@ var activities = [{
         description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
         participants: [getObjectId("UserPutin")],
         rating: 0,
-        nVotes: 0,
+        votes: [],
         activityType: "Pachangas",
         price: 0,
         images: [
@@ -52,7 +52,12 @@ var activities = [{
         description: "Anem tots a escoltar la radio",
         participants: [getObjectId("UserPutin"), getObjectId("UserTrump")],
         rating: 4,
-        nVotes: 5,
+        votes: [
+            {
+                user: getObjectId("UserTrump"),
+                rating: 4
+            }
+        ],
         activityType: "Escoltar radio",
         price: 0,
         images: [
@@ -76,7 +81,7 @@ var activities = [{
         description: "Ara vull fer skateboard",
         participants: [getObjectId("UserPutin"), getObjectId("UserTrump"), getObjectId("UserIaiaToneta")],
         rating: 7,
-        nVotes: 3,
+        votes: [],
         activityType: "Skateboard",
         price: 1,
         images: [
@@ -100,7 +105,7 @@ var activities = [{
         description: "Ara vull fer skateboard maxim",
         participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
         rating: 7,
-        nVotes: 3,
+        votes: [],
         activityType: "Skateboard",
         price: 1,
         images: [

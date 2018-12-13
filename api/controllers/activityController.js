@@ -63,6 +63,31 @@ exports.create = function(req, res) {
     });
 };
 
+exports.createNormal = function(req, res) {
+    let entity = req.entity || undefined;
+
+    let activity = new Activity({
+        title: req.body.title,
+        description: req.body.description,
+        user: req.user,
+        participants: [req.user],
+        activityType: req.body.activityType,
+        price: req.body.price,
+        capacity: req.body.capacity,
+        lat: req.body.lat,
+        long: req.body.long,
+        address: req.body.address,
+        timestampStart: req.body.timestampStart,
+        timestampEnd: req.body.timestampEnd,
+        entity: entity
+    });
+    
+    activity.save(function(err, activity) {
+        if (err) res.send(err);
+        else res.status(200).send("Activity created");
+    });
+}
+
 exports.update = function(req, res) {
     Activity.findOneAndUpdate({
         _id: req.params.activityId

@@ -22,8 +22,11 @@ var EntitySchema = new Schema({
         // string that represents the address of the place
         placeName: {
             type: String
-        }
-    },
+        },
+        lat: Number,
+        long: Number,
+        max: Number
+    },    
     // contact phone
     phone: {
         type: String,
@@ -40,6 +43,8 @@ var EntitySchema = new Schema({
         default: ""
     }
 });
+
+//EntitySchema.index({'location':'2d'});
 
 // Make the model visible to other modules across mongoose
 module.exports = mongoose.model('Entities', EntitySchema);

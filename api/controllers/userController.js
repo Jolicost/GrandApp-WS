@@ -87,7 +87,7 @@ exports.updateCoords = function(req, res) {
 
     if (req.entity) update['entity'] = req.entity.id;
 
-    User.findByIdAndUpdate(req.params.userId, update, function(err, user) {
+    User.findByIdAndUpdate(req.userId, update, function(err, user) {
         if (err) res.send(err);
         else res.json({success:true});
     });

@@ -59,6 +59,12 @@ exports.populateMissingAchievement = function(achievement) {
     };
 }
 
+exports.checkAchievements = function(req, res) {
+    exports.computeAchievements(req.user, function(err, achievements) {
+        if (err) return res.send(err);
+        else return res.json(achievements);
+    });
+}
 
 exports.computeAchievements = function(user, callback) {
     async.parallel({
@@ -118,10 +124,13 @@ exports.computeAchievements = function(user, callback) {
     }, function(err, results) {
         let achievements = [];
         Object.keys(results).forEach(function(key) {
-            achievements.push(results[key]);
+            results[key].forEach(ach => { 
+                achievements.push(ach);
+            });
         });
-        User.updateOne({_id: user._id}, { achievements: achievements}, function(err, user){
-            callback(null,user);
+        User.updateOne({_id: user._id}, { achievements: achievements}, function(err){
+            if (err) callback(err,null);
+            else callback(null,achievements);
         });
     });
 }

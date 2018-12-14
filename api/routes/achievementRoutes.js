@@ -9,6 +9,8 @@ module.exports = function(app) {
     /* Normal routes */
     app.get('/normal/achievements', achievement.userAchievements);
 
+    app.put('/normal/achievements', achievement.checkAchievements);
+
     /* ADMIN ROUTES */
     Achievements.register(app,'/admin/achievements');
 }

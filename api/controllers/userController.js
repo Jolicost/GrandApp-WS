@@ -51,7 +51,8 @@ exports.updateNormal = function(req, res) {
         completeName: req.body.completeName,
         email: req.body.email,
         phone: req.body.phone,
-        profilePic: req.body.profilePic
+        profilePic: req.body.profilePic,
+        notifications: req.body.notifications
     }, function(err, user) {
         if (err)
             res.send(err);

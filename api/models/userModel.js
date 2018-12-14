@@ -110,6 +110,20 @@ var UserSchema = new Schema({
     nRequests: {
         type: Number,
         default: 0
+    },
+    notifications: {
+        nearActivity: {
+            type: Boolean,
+            default: false
+        },
+        joinedActivity: {
+            type: Boolean,
+            default: false
+        },
+        finishedActivity: {
+            type: Boolean,
+            default: false
+        }
     }
 });
 

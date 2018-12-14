@@ -90,9 +90,9 @@ exports.selectUserAttributes = function(req, res, next) {
     let target = req.targetUser;
     let requester = req.user;
 
-    let base = ['completeName','profilePic','username','nRequests'];
-    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt']);
-    let own_entity = own.concat(['userType','place','lastRequest']);
+    let base = ['completeName','profilePic','username'];
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications']);
+    let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 
     var attributes = [];
     if (requester.userType == 'entity' && requester.entity.equals(target.entity)) {
@@ -112,9 +112,9 @@ exports.selectUserAttributes = function(req, res, next) {
 
 exports.selectEntityUserAttributes = function(req, res, next) {
 
-	let base = ['completeName','profilePic','username','nRequests'];
-    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt']);
-    let own_entity = own.concat(['userType','place','lastRequest']);
+	let base = ['completeName','profilePic','username'];
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications']);
+    let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 
 	req.userAttributes = mapDictionary(own_entity);
 	next();

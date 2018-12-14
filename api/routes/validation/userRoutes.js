@@ -7,7 +7,12 @@ module.exports = {
       completeName: Joi.string().required(),
       email: Joi.string().required(),
       phone: Joi.string().required(),
-      profilePic: Joi.string().required()
+      profilePic: Joi.string().required(),
+      notifications: Joi.object().keys({
+        nearActivity: Joi.boolean().required(),
+        joinedActivity: Joi.boolean().required(),
+        finishedActivity: Joi.boolean().required()
+      }).required()
     }
   },
   updateEntity: {

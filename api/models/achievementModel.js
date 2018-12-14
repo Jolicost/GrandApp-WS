@@ -25,8 +25,6 @@ var AchievementSchema = new Schema({
     image: String,
     // black image when user does not have the achievement
     hiddenImage: String,
-    // hidden or not
-    hidden: Boolean
 });
 
 // Make the model visible to other modules across mongoose

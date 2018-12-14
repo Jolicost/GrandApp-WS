@@ -35,7 +35,8 @@ const users = [{
             placeId: 'ChIJDYlFNoSYpBIRjmAEsI979MA',
             placeName: 'Carrer de Sants, 53, 08014 Barcelona, España'
         },
-        entity: getObjectId('EntityBarcelona')
+        entity: getObjectId('EntityBarcelona'),
+        achievements: [getObjectId('AchCadete'),getObjectId('AchNovato')]
     },
     {
         _id: getObjectId('UserPutin'),

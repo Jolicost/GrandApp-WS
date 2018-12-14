@@ -8,7 +8,6 @@ module.exports = function(app) {
 
     /* Normal routes */
     app.get('/normal/achievements', achievement.userAchievements);
-    app.get('/normal/achievements/:achievementId', achievement.read);
 
     /* ADMIN ROUTES */
     Achievements.register(app,'/admin/achievements');

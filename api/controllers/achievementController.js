@@ -72,7 +72,7 @@ exports.computeAchievements = function(user, callback) {
             Achievement.find({achievementType:'number'}, function(err, achievements) {
                 if (err) callback(err,null);
                 else {
-                    Activity.count({ 
+                    Activity.countDocuments({ 
                         participants: user
                     }, function(err, n) {
                         if (err) callback(err,null);
@@ -85,7 +85,7 @@ exports.computeAchievements = function(user, callback) {
             Achievement.find({achievementType:'create'}, function(err, achievements) {
                 if (err) callback(err,null);
                 else {
-                    Activity.count({
+                    Activity.countDocuments({
                         user: user
                     }, function(err, n) {
                         if (err) callback(err,null);
@@ -117,8 +117,10 @@ exports.computeAchievements = function(user, callback) {
                     ];
 
                     Activity.aggregate(aggregate, function(err, results) {
-                        console.log(results);
-                        callback(null,exports.computeGiveAchievements(achievements, 10));
+                        let count = 0;
+                        if (results.lenght > 0)
+                            count = results[0].count;
+                        callback(null,exports.computeGiveAchievements(achievements, count));
                     });
                 }
             });

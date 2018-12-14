@@ -48,6 +48,30 @@ var activities = [{
         entity: getObjectId('EntityBarcelona')
     },
     {
+        title: "Activitat de prova del Joan",
+        description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
+        participants: [getObjectId("UserPutin"),getObjectId("UserIaiaToneta")],
+        rating: 0,
+        votes: [],
+        activityType: "Pachangas",
+        price: 3,
+        images: [
+            "https://i.imgur.com/raZVoMB.jpg",
+            "https://i.imgur.com/raZVoMB.jpg"
+        ],
+        lat: 41.405060,
+        long: 2.174270,
+        user: getObjectId("UserTrump"),
+        address: "Av. de Gaudí, 3, 08025 Barcelona, España",
+        capacity: 324,
+        _id: getObjectId("ActivityTrump1"),
+        place: {
+            placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
+            placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
+        },
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
         title: "Activitat de la iaia toneta",
         description: "Anem tots a escoltar la radio",
         participants: [getObjectId("UserPutin"), getObjectId("UserTrump")],

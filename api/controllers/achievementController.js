@@ -101,17 +101,19 @@ exports.computeAchievements = function(user, callback) {
                     let aggregate = [
                         {
                             $match: {
-                                user: user
-                            }
+                                user: user._id
+                            },
                         },
                         {
-                            $project: {
-                                'n': { 
-                                    '$size': '$participants'
+                            "$group":
+                            {
+                                "_id": false,
+                                "count":
+                                {
+                                    "$sum": { "$size": "$participants" }
                                 }
                             }
-                        }
-
+                        },
                     ];
 
                     Activity.aggregate(aggregate, function(err, results) {

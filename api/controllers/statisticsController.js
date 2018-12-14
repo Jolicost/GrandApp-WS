@@ -108,7 +108,7 @@ function getActivitiesMeanDuration(activities) {
 function getActivitiesByType(activities) {
 	let ret = {}
 	activities.forEach(activity => {
-		if (ret[activity.activityType]) ret[activity.activityType++];
+		if (ret[activity.activityType]) ret[activity.activityType]++;
 		else ret[activity.activityType] = 1;
 	});
 	return ret;

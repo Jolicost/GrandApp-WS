@@ -34,13 +34,13 @@ app.use(bodyParser.json({limit: limit}));
 app.use(bodyParser.text({limit: limit}));
 
 // Alow cross origin
-/*
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-*/
+
 
 // CORS
 var cors = require('cors');

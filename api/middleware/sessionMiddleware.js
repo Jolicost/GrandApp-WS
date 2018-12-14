@@ -28,7 +28,12 @@ exports.verifyToken = function(req, res, next) {
         req.userId = decoded.id;
 
         // Save user last request
-        User.updateOne({_id: decoded.id}, {lastRequest: Date.now()}, function(err) {
+        User.updateOne({_id: decoded.id}, {
+            lastRequest: Date.now(),
+            $inc: {
+                nRequests: 1
+            }
+        }, function(err) {
             if (err) console.log("Failed to update last request for user: " + decoded.id);
         });
         

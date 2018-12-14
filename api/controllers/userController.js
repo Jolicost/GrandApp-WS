@@ -93,6 +93,21 @@ exports.updateCoords = function(req, res) {
     });
 }
 
+
+exports.updateCoords2 = function(req, res) {
+    
+    let update = {};
+    update['place.lat'] = req.body.latitude;
+    update['place.long'] = req.body.longitude;
+
+    if (req.entity) update['entity'] = req.entity.id;
+
+    User.findByIdAndUpdate(req.userId, update, function(err, user) {
+        if (err) res.send(err);
+        else res.json({success:true});
+    });
+}
+
 exports.delete = function(req, res) {
     User.remove({
         _id: req.params.userId

@@ -78,6 +78,12 @@ module.exports = function(app) {
         userMiddleware.getUserEntity
     ], user.updateCoords);
 
+    // GEO UPDATE
+    app.put('/geoo', [
+        sessionMiddleware.verifyAndObtain,
+        //userMiddleware.getUserEntity
+    ], user.updateCoords2);
+
 
     /* ENTITY REGION */
     // READ USER

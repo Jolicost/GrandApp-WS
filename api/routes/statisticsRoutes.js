@@ -22,5 +22,7 @@ module.exports = function(app) {
         middleware.checkEntity
     ],  statistics.users);
 
-
+    app.get('/entity/entities/:entityId/statistics/connections', [
+        middleware.checkEntity
+    ], statistics.connections)
 }

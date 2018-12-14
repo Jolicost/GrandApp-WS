@@ -106,6 +106,10 @@ var UserSchema = new Schema({
     lastRequest: {
         type: Date,
         default: Date.now()
+    },
+    nRequests: {
+        type: Number,
+        default: 0
     }
 });
 

@@ -275,3 +275,31 @@ exports.users = function(req, res) {
 		});
 	});
 }
+
+function reduceConnections(users) {
+	let n = 0;
+	users.forEach(user => {
+		n += user.nRequests
+	});
+	return n;
+}
+
+exports.connections = function(req, res) {
+	let start = req.query.start;
+	let end = req.query.end;
+	let entityId = req.params.entityId;
+
+	async.parallel({
+		nConnections: function(callback) {
+			getActiveUsersByRange(start,end,entityId, function(err, users){
+				if (err) callback(err, null);
+				else callback(null, users);
+			});
+		},
+	}, function(err, results){
+		if (err) return res.send(err);
+		else return res.json({
+			nConnections: reduceConnections(results.nConnections)
+		});
+	});
+}

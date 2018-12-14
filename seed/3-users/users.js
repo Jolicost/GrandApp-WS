@@ -31,6 +31,7 @@ const users = [{
         ],
         createdAt: new Date('2018-04-04'),
         userType: 'normal',
+        nRequests: 5,
         place: {
             placeId: 'ChIJDYlFNoSYpBIRjmAEsI979MA',
             placeName: 'Carrer de Sants, 53, 08014 Barcelona, España'
@@ -58,6 +59,7 @@ const users = [{
         ],
         createdAt: new Date('2018-05-05'),
         userType: 'normal',
+        nRequests: 5,
         place: {
             placeId: 'EitQbGHDp2EgZGUgQ2F0YWx1bnlhLCAwODAwMiBCYXJjZWxvbmEsIFNwYWluIi4qLAoUChIJXQ1dXPGipBIRdJPxPA1EZ5USFAoSCeUwjnEWmKQSEQpmR089',
             placeName: 'Plaça de Catalunya, 08002 Barcelona, España'

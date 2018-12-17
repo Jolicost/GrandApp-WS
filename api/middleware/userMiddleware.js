@@ -105,7 +105,6 @@ exports.selectUserAttributes = function(req, res, next) {
     else {
     	attributes = base;
     }
-
     req.userAttributes = mapDictionary(attributes);
     next();
 }

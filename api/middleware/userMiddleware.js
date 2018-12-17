@@ -9,7 +9,7 @@ var geolib = require("geolib");
 exports.userNotExists = function(req, res, next) {
 	user.userNotExists(req.body, function(err, user) {
 		if (err) return res.status(500).send();
-		if (user) return res.status(406).send("user exists");
+		if (user) return res.status(406).send("The user already exists");
 		else next();
 	});
 }
@@ -20,7 +20,7 @@ exports.userNotExistsOnUpdate = function(req, res, next) {
 		if (err) return res.status(500).send();
 		if (user) {
 			if (user._id != userId) return res.status(406).send("invalid operation");
-			else next(); 
+			else next();
 		}
 		else next();
 	});
@@ -31,7 +31,7 @@ exports.selectTargetUser = function(req, res, next) {
 		if (err) return res.send(err);
 		else {
 			if (!user) return res.status(404).send("User not found");
-			else { 
+			else {
 				req.targetUser = user;
 				next();
 			}
@@ -99,7 +99,7 @@ exports.selectUserAttributes = function(req, res, next) {
     	attributes = own_entity;
     }
     else if (target.equals(requester)) {
-    	    
+
     	attributes = own;
     }
     else {

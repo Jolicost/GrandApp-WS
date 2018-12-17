@@ -28,10 +28,9 @@ exports.login = function(req, res) {
     let phone = req.body.phone;
     let username = req.body.username;
 
-    if (phone && username) return res.status(434).send("specified both user and phone");
-    if (!password) return res.status(435).send("did not specify password");
-
-    if (!phone && !username) return res.status(436).send("need to specify more information");
+    if (phone && username) return res.status(434).send("Specified both user and phone");
+    if (!password) return res.status(435).send("Password not specified");
+    if (!phone && !username) return res.status(436).send("Need to specify more information (phone or username required)");
 
     let query = {};
     if (phone) {
@@ -50,7 +49,7 @@ exports.login = function(req, res) {
         }
         else {
             res.status(433).send("Invalid password");
-        }   
+        }
     });
 };
 
@@ -91,39 +90,44 @@ exports.changePassword = function(req, res) {
     let oldPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
 
-    if (!oldPassword || !newPassword) 
-        return res.status(400).send("invalid request: some password not spcified");
-    
+    if (!oldPassword || !newPassword)
+        return res.status(400).send("Invalid request: some password not specified");
+
     bcrypt.compare(oldPassword, user.password, function(err, result) {
-        if (!result) return res.status(432).send("old password does not match");
+        if (!result) return res.status(432).send("The old password does not match");
         User.updateOne(
-            {_id: user._id}, 
+            {_id: user._id},
             {password: hashPassword(newPassword)},
             function(err, user) {
                 if (err) return res.status(500).send();
 
-                res.status(200).send("password changed");
+                res.status(200).send("Password successfuly changed");
             }
         );
     });
-    
+
 }
 
 exports.forgotPassword = function(req, res) {
     let username = req.body.username;
     let phone = req.body.phone;
 
-    if (username && phone) 
+    if (username && phone)
         return res.status(432).send("both username and phone specified");
-    if (!username && !phone) 
+    if (!username && !phone)
         return res.status(403).send("invalid request at least username or phone are required");
 
-    User.findOne({
-        $or: [
-            {username: username},
-            {phone: phone}
-        ]
-    }, function(err, user) {
+    let query = {};
+    if (phone) {
+        query['phone'] = phone;
+    }
+
+    if (username) {
+        query['username'] = username;
+    }
+
+    User.findOne(query)
+    .exec(function(err, user) {
         if (err) return res.status(500).send("Internal server error");
         if (!user) return res.status(404).send("User not found");
 
@@ -133,10 +137,10 @@ exports.forgotPassword = function(req, res) {
         let password = hashPassword(r);
 
         User.updateOne({_id: user._id}, {password: password}, function(err) {
-            mail.sendForgotPassword(user.email,r, function(err) {
+            mail.sendForgotPassword(user.email, r, function(err) {
                 if (err) return res.status(500).send(err);
 
-                return res.status(200).send("Password reset");
+                return res.status(200).send("Password successfuly requested");
             });
         });
     });
@@ -157,7 +161,7 @@ function signAndSend(req, res, user) {
         auth: true,
         token: jwt,
         user: user
-    });   
+    });
 }
 
 
@@ -201,7 +205,7 @@ function checkLogin(req, res, method) {
                 else if (user) return res.status(407).send("User exists");
                 else {
                     registerExternalUser(req.body,method, function(err, user) {
-                        signAndSend(req, res, user); 
+                        signAndSend(req, res, user);
                     });
                 }
             });
@@ -213,7 +217,7 @@ function checkLogin(req, res, method) {
 
 
 exports.googleLogin = function(req, res) {
-    checkLogin(req,res,'google');   
+    checkLogin(req,res,'google');
 }
 
 exports.facebookLogin = function(req, res) {

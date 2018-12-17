@@ -6,6 +6,7 @@ module.exports = function(app) {
     var userMiddleware = require('../middleware/userMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/userRoutes');
+    var validations_activity = require('./validation/activityRoutes');
 
     /* DEPRECIATED ROUTES */
     var Users = app.users = restful.model('Users',null)
@@ -66,6 +67,7 @@ module.exports = function(app) {
 
     // GEO UPDATE
     app.put('/normal/users/:userId/geo', [
+        validate(validations_activity.update),
         userMiddleware.selectTargetUser,
         userMiddleware.allowedUser,
         userMiddleware.getUserEntity
@@ -74,15 +76,10 @@ module.exports = function(app) {
 
     // GEO UPDATE
     app.put('/geo', [
+        validate(validations_activity.update),
         sessionMiddleware.verifyAndObtain,
         userMiddleware.getUserEntity
     ], user.updateCoords);
-
-    // GEO UPDATE
-    app.put('/geoo', [
-        sessionMiddleware.verifyAndObtain,
-        //userMiddleware.getUserEntity
-    ], user.updateCoords2);
 
 
     /* ENTITY REGION */

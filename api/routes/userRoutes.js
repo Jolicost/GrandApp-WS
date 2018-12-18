@@ -92,6 +92,7 @@ module.exports = function(app) {
     // LIST
     app.get('/entity/users', [
         userMiddleware.selectEntityUserAttributes,
+        userMiddleware.selectNormalUsersFilter,
         userMiddleware.selectUserFilters
     ], user.list);
 

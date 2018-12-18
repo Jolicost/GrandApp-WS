@@ -122,11 +122,22 @@ exports.selectEntityUserAttributes = function(req, res, next) {
 exports.selectUserFilters = function(req, res, next) {
 	let requester = req.user;
 
-	let filters = {};
+	let filters = req.userFilters || {};
 
 	let entity = requester.entity;
 
 	filters['entity'] = entity._id;
+
+	req.userFilters = filters;
+
+	next();
+}
+
+exports.selectNormalUsersFilter = function(req, res, next) {
+
+	let filters = req.userFilters || {};
+
+	filters['userType'] = 'normal';
 
 	req.userFilters = filters;
 

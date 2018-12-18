@@ -30,7 +30,7 @@ exports.allowedUser = function(req, res, next) {
 		next();
 	}
 	else {
-		return req.status(403).send("not allowed to operate this entity");
+		return res.status(403).send("not allowed to operate this entity");
 	}
 }
 

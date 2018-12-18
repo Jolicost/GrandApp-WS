@@ -88,3 +88,37 @@ exports.getActivities = function(req, res) {
         }));
     });
 }
+
+exports.getUsersNotInRange = function(req, res, next) {
+    console.log("----- 3 ------");
+
+    let entity = req.entity;
+
+    let lat = entity.place.lat;
+    let long = entity.place.long;
+
+    let usersNiR = req.entityUsers;
+
+    let ret = [];
+
+    usersNiR.forEach(user => {
+        if (err) return res.send(err);
+
+        console.log("----- 4 ------");
+
+        let distance = geolib.getDistance(
+            {latitude: lat, longitude: long},
+            {latitude: user.place.lat, longitude: user.place.long}
+        );
+
+        if (distance > entity.place.max) {
+            ret.push(user);
+        } else {
+
+        }
+    })
+
+    console.log("----- 5 ------");
+    
+    return res.json(ret);
+}

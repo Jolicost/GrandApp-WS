@@ -10,7 +10,6 @@ module.exports = function(app) {
     /* Deprecatd routes */
     Entities.register(app,'/entities');
     
-
     app.get('/entities/:entityId/users', entity.getUsers);
     app.get('/entities/:entityId/activities', entity.getActivities);
     /* End deprecated routes */
@@ -19,9 +18,16 @@ module.exports = function(app) {
     app.get('/entity/entities/:entityId', [
     	entityMiddleware.allowedUser
     ], entity.read);
+
     app.put('/entity/entities/:entityId', [
     	entityMiddleware.allowedUser
     ], entity.update);
+
+    app.post('entity/entities/:entityId/usersNotInRange', [
+        entityMiddleware.getEntity,
+        entityMiddleware.getUsers
+    ], entity.getUsersNotInRange);
+
     /* Admin routes */
     Entities.register(app,'/admin/entities');
 

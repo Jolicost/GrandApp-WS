@@ -43,7 +43,7 @@ exports.checkEntity = function(req, res, next) {
 exports.getEntity = function(req, res, next) {
 	console.log("----- 1 ------");
 
-    Entity.findOne({_id: req.parms.entityId}, function(err, entity) {
+    Entity.findOne({_id: req.params.entityId}, function(err, entity) {
 		if (err) return res.send(err);
 		if (!entity) return res.send(404).send("Entity not found");
 		req.entity = entity;
@@ -54,7 +54,7 @@ exports.getEntity = function(req, res, next) {
 exports.getUsers = function(req, res, next) {
 	console.log("----- 2 ------");
 
-    User.find({entity: req.params.entityId, userType: 'normal'}, function(err, users) {
+    User.find({entity: req.entity._id, userType: 'normal'}, function(err, users) {
         if (err) return res.status(404).send("Entity not found");
         else {
         	req.entityUsers = users;

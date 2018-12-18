@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     // dependencies seprated by commas. Be aware
     Entity = mongoose.model('Entities');
 
+var geolib = require('geolib');
+
 exports.list = function(req, res) {
     Entity.find({}, function(err, entities) {
         if (err)
@@ -102,8 +104,6 @@ exports.getUsersNotInRange = function(req, res, next) {
     let ret = [];
 
     usersNiR.forEach(user => {
-        if (err) return res.send(err);
-
         console.log("----- 4 ------");
 
         let distance = geolib.getDistance(

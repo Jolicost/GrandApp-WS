@@ -26,7 +26,7 @@ module.exports = function(app) {
     	entityMiddleware.allowedUser
     ], entity.update);
 
-    app.get('entity/entities/:entityId/usersNotInRange', [
+    app.get('/entity/entities/:entityId/usersNotInRange', [
         entityMiddleware.getEntity,
         entityMiddleware.getUsers
     ], entity.getUsersNotInRange);

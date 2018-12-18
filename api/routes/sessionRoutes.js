@@ -30,7 +30,9 @@ module.exports = function(app) {
         sessionMdw.obtainUser
     ], session.changePassword);
 
-    app.post('/forgotPassword', session.forgotPassword);
+    app.post('/forgotPassword', [
+        validate(validations.forgotPassword)
+    ], session.forgotPassword);
 
     app.post('/login/google', [
         validate(validations.serviceLogin)

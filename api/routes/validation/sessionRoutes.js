@@ -20,4 +20,9 @@ module.exports = {
   		phone: Joi.string().required()
   	}
   },
+  forgotPassword: {
+    body: {
+      phone: Joi.string().required(),
+    }
+  },
 };

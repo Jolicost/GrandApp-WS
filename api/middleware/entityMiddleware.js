@@ -52,10 +52,10 @@ exports.getEntity = function(req, res, next) {
 }
 
 exports.getUsers = function(req, res, next) {
-	console.log("----- 2 ------");
-
-    User.find({entity: req.entity._id, userType: 'normal'}, function(err, users) {
-        if (err) return res.status(404).send("Entity not found");
+	let filters = req.userFilters || {};
+	let attributes = req.userAttributes || {};
+    User.find(filters, attributes, function(err, users) {
+        if (err) return res.send(err);
         else {
         	req.entityUsers = users;
         	next();

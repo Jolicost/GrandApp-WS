@@ -74,7 +74,7 @@ var activities = [{
     {
         title: "Activitat de la iaia toneta",
         description: "Anem tots a escoltar la radio",
-        participants: [getObjectId("UserPutin"), getObjectId("UserTrump")],
+        participants: [getObjectId("UserPutin"), getObjectId("UserTrump"), getObjectId("UserDespistao")],
         rating: 4,
         votes: [
             {

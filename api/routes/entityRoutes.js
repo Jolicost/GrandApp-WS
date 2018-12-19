@@ -26,18 +26,13 @@ module.exports = function(app) {
     	entityMiddleware.allowedUser
     ], entity.update);
 
-    app.get('/entity/entities/:entityId/usersNotInRange', [
-        entityMiddleware.getEntity,
-        entityMiddleware.getUsers
-    ], entity.getUsersNotInRange);
-
-
     app.get('/entity/entities/:entityId/emergency', [
         entityMiddleware.allowedUser,
         userMiddleware.selectEntityUserAttributes,
         userMiddleware.selectNormalUsersFilter,
-        userMiddleware.selectUserFilters
-    ], user.list);
+        userMiddleware.selectRequestEntityUsersFilter,
+        entityMiddleware.getUsers
+    ], entity.getEmergencyUsers);
     /* Admin routes */
     Entities.register(app,'/admin/entities');
 

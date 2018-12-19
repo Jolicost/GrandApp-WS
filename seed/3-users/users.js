@@ -81,7 +81,30 @@ const users = [{
         userType: 'normal',
         place: {
             placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
-            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España'
+            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España',
+            lat: 41.58098,
+            long: 1.6172
+        },
+        entity: getObjectId('EntityIgualada')
+
+    },
+    {
+        _id: getObjectId('UserDespistao'),
+        username: 'despistao',
+        email: 'despistao@despiste.com',
+        password: hashPassword('despistao'),
+        completeName: 'iaia toneta toneta',
+        birthday: new Date('1969-08-03'),
+        profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
+        phone: '+344321',
+        contactPhones: [],
+        createdAt: new Date('2018-01-02'),
+        userType: 'normal',
+        place: {
+            placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
+            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España',
+            lat: 41.390205,
+            long: 2.154007
         },
         entity: getObjectId('EntityIgualada')
 

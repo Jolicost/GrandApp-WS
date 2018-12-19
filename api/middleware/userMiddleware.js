@@ -144,6 +144,18 @@ exports.selectNormalUsersFilter = function(req, res, next) {
 	next();
 }
 
+exports.selectRequestEntityUsersFilter = function(req, res, next) {
+	let entityId = req.params.entityId;
+
+	let filters = req.userFilters || {};
+
+	filters['entity'] = entityId;
+
+	req.userFilters = filters;
+
+	next();
+}
+
 exports.getUserEntity = function(req, res, next) {
 	let lat = req.body.lat;
 	let long = req.body.long;

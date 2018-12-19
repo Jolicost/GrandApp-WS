@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
     Entity = mongoose.model('Entities');
 
 var geolib = require('geolib');
+var async = require('async');
 
 exports.list = function(req, res) {
     Entity.find({}, function(err, entities) {
@@ -121,4 +122,49 @@ exports.getUsersNotInRange = function(req, res, next) {
     console.log("----- 5 ------");
     
     return res.json(ret);
+}
+
+
+exports.getEmergencyUsers = function(req, res, next) {
+    let entity = req.entity;
+    let users = req.entityUsers;
+
+    let posible = [];
+
+
+
+    users.forEach(user => {
+        let distance = geolib.getDistance(
+            {latitude: entity.place.lat, longitude: entity.place.long},
+            {latitude: user.place.lat, longitude: user.place.long}
+        );
+
+        if (distance > entity.place.max) {
+            posible.push(user);
+        } 
+    })
+
+    let emergency = [];
+    async.forEach(posible, function(user, callback) {
+        Activity.find({
+        // current activities
+            timestampEnd: {
+                $gt: Date.now()
+            },
+            participants: user._id
+        }, function(err, activities){
+            if (err) callback(err);
+            else {
+                if (activities.length > 0) {
+                    var u = user.toObject();
+                    u.activities = activities;
+                    emergency.push(u);
+                }
+                callback(null);
+            }
+        });
+    } ,function(err){
+        if (err) return res.send(err);
+        else return res.json(emergency);
+    });
 }

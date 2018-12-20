@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 Entity = mongoose.model('Entities');
+Activity = mongoose.model('Activities');
 var user = require('../controllers/userController');
 
 var async = require('async');
@@ -183,4 +184,44 @@ exports.getUserEntity = function(req, res, next) {
 		next();
 	});
 
+}
+
+
+exports.onDeleteUser = function(req, res, next) {
+	let userId = req.params.userId;
+
+    Activity.update({
+        participants: userId
+    }, {
+        $pullAll: { participants: [userId] } 
+    }).exec();
+    // Delete all activities created by the user
+    Activity.remove({user: userId}).exec();
+    next();
+}
+
+exports.purgeReferences = function(req, res, next) {
+    User.find({}, function(err, users) {
+        if (err) return res.send(err);
+
+        /* TODO hacer que funcione */
+        /*
+        Activity.update({
+
+        }, {
+            $pullAll: {
+                participants: {
+                    $nin: users
+                }
+            }
+        })
+        */
+        Activity.remove({
+            user: {
+                $nin: users
+            }
+        }).exec();
+
+        next();
+    });
 }

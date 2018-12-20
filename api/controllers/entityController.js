@@ -4,6 +4,7 @@
 var mongoose = require('mongoose'),
     // dependencies seprated by commas. Be aware
     Entity = mongoose.model('Entities');
+    Activity = mongoose.model('Activities');
 
 var geolib = require('geolib');
 var async = require('async');
@@ -168,3 +169,4 @@ exports.getEmergencyUsers = function(req, res, next) {
         else return res.json(emergency);
     });
 }
+

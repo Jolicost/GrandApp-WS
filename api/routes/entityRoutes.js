@@ -33,7 +33,10 @@ module.exports = function(app) {
         userMiddleware.selectRequestEntityUsersFilter,
         entityMiddleware.getUsers
     ], entity.getEmergencyUsers);
+
+    
     /* Admin routes */
+    Entities.after('delete', entityMiddleware.purgeReferences);
     Entities.register(app,'/admin/entities');
 
 

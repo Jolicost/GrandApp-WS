@@ -12,7 +12,7 @@ module.exports = function(app) {
     var Users = app.users = restful.model('Users',null)
         .methods(['get', 'post', 'put', 'delete']);
 
-    Users.register(app,'/users');
+    //Users.register(app,'/users');
 
     app.put('/users/:userId/geo', [
         sessionMiddleware.verifyAndObtain
@@ -48,9 +48,10 @@ module.exports = function(app) {
     ], user.updateNormal);
 
     // DELETE
-    app.put('normal/users/:userId', [
+    app.delete('/normal/users/:userId', [
         userMiddleware.selectTargetUser,
-        userMiddleware.allowedUser
+        userMiddleware.allowedUser,
+        userMiddleware.onDeleteUser
     ], user.delete);
 
     // GET EMERGENCY PHONES
@@ -106,8 +107,10 @@ module.exports = function(app) {
     ], user.updateEntity);
 
     // DELETE
-    app.put('entity/users/:userId', [
-        userMiddleware.allowedEntity
+    app.delete('/entity/users/:userId', [
+        userMiddleware.selectTargetUser,
+        userMiddleware.allowedEntity,
+        userMiddleware.onDeleteUser
     ], user.delete);
 
     // GET EMERGENCY PHONES
@@ -123,7 +126,12 @@ module.exports = function(app) {
     ], user.setEmergencyPhones);
 
 
+
+    
     /* ADMIN ROUTES */
+    Users.after('delete', userMiddleware.purgeReferences);
     Users.register(app,'/admin/users');
+
+
 
 }

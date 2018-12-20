@@ -62,3 +62,41 @@ exports.getUsers = function(req, res, next) {
         }
     });
 }
+
+
+exports.purgeReferences = function(req, res, next) {
+    Entity.find({}).distinct('_id').exec(function(err, entities) {
+        if (err) return res.send(err);
+        
+        Activity.updateMany({
+            entity: {
+                $nin: entities
+            }
+        }, {
+            $unset: {
+            	entity: 1
+            }
+        }).exec();
+
+        User.updateMany({
+        	userType: 'normal',
+            entity: {
+                $nin: entities
+            }
+        }, {
+            $unset: {
+            	entity: 1
+            }
+        }).exec();
+
+
+        User.deleteMany({
+        	userType: 'entity',
+            entity: {
+                $nin: entities
+            }
+        }).exec();
+
+        next();
+    });
+}

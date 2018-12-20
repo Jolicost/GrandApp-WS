@@ -128,6 +128,5 @@ var UserSchema = new Schema({
 });
 
 
-
 // Make the model visible to other modules across mongoose
 module.exports = mongoose.model('Users', UserSchema);

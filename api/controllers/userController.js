@@ -191,5 +191,24 @@ exports.userNotExists = function(object, finalCallback) {
     });
 }
 
+exports.block = function(req, res) {
+    User.findOneAndUpdate({_id: req.user._id},
+    {   
+        $push: {blocked: req.params.userId}
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        else return res.status(200).send("User successfully blocked");
+    });
+}
+
+exports.unblock = function(req, res) {
+    User.findOneAndUpdate({_id: req.user._id},
+    {   
+        $pull: {blocked: req.params.userId } 
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        else return res.status(200).send("User unblocked");
+    });
+}
 
 

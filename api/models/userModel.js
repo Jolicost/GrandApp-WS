@@ -124,7 +124,12 @@ var UserSchema = new Schema({
             type: Boolean,
             default: false
         }
-    }
+    },
+    // blocked users
+    blocked: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Users'
+    }]
 });
 
 

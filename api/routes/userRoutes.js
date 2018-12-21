@@ -82,6 +82,16 @@ module.exports = function(app) {
         userMiddleware.getUserEntity
     ], user.updateCoords);
 
+    // BLOCK USER
+    app.post('/normal/users/:userId/block', [
+        userMiddleware.userIsNotBlocked
+    ], user.block);
+
+    // UNBLOCK USER
+    app.post('/normal/users/:userId/unblock', [
+        userMiddleware.userIsBlocked
+    ], user.unblock);
+
 
     /* ENTITY REGION */
     // READ USER

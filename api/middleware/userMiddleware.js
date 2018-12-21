@@ -92,7 +92,7 @@ exports.selectUserAttributes = function(req, res, next) {
     let requester = req.user;
 
     let base = ['completeName','profilePic','username'];
-    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications']);
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications','blocked']);
     let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 
     var attributes = [];
@@ -113,7 +113,7 @@ exports.selectUserAttributes = function(req, res, next) {
 exports.selectEntityUserAttributes = function(req, res, next) {
 
 	let base = ['completeName','profilePic','username'];
-    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications']);
+    let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications','blocked']);
     let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 
 	req.userAttributes = mapDictionary(own_entity);
@@ -224,4 +224,41 @@ exports.purgeReferences = function(req, res, next) {
 
         next();
     });
+}
+
+
+exports.userIsBlocked = function(req, res, next) {
+	let user = req.user;
+	let target = req.params.userId;
+
+	User.countDocuments({
+		_id: user._id,
+		blocked: {
+			$elemMatch:{
+				'$eq': target
+			} 
+		}
+	}, function(err, n){
+		if (err) return res.send(err);
+		else if (!n || n == 0) return res.status(404).send("user is not blocked!");
+		else next();
+	})
+}
+
+exports.userIsNotBlocked = function(req, res, next) {
+	let user = req.user;
+	let target = req.params.userId;
+
+	User.countDocuments({
+		_id: user._id,
+		blocked: {
+			$elemMatch:{
+				'$eq': target
+			} 
+		}
+	}, function(err, n){
+		if (err) return res.send(err);
+		else if (n > 0) return res.status(404).send("user is already blocked!");
+		else next();
+	})
 }

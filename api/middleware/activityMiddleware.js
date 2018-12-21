@@ -29,7 +29,7 @@ exports.userInActivity = function(req, res, next) {
 		}
 	}, function(err, n){
 		if (err) return res.send(err);
-		else if (!n || n == 0) return res.status(400).send("user not in activity");
+		else if (!n || n == 0) return res.status(404).send("user not in activity");
 		else next();
 	})
 }
@@ -47,7 +47,42 @@ exports.userNotInActivity = function(req, res, next) {
 		}
 	}, function(err, n){
 		if (err) return res.send(err);
-		else if (n > 0) return res.status(400).send("user in activity");
+		else if (n > 0) return res.status(404).send("user in activity");
+		else next();
+	})
+}
+
+exports.userVoted = function(req, res, next) {
+	let user = req.user;
+	let activity = req.activity;
+
+	Activity.count({
+		_id: activity._id,
+		votes: {
+			$elemMatch: {
+				user: user._id
+			}
+		}
+	}, function(err, n){
+		if (err) return res.send(err);
+		else if (!n || n == 0) return res.status(404).send("user did not vote");
+		else next();
+	})
+}
+
+exports.userNotVoted = function(req, res, next) {
+	let user = req.user;
+	let activity = req.activity;
+	Activity.count({
+		_id: activity._id,
+		votes: {
+			$elemMatch: {
+				user: user._id
+			}
+		}
+	}, function(err, n){
+		if (err) return res.send(err);
+		else if (n > 0) return res.status(404).send("user already voted");
 		else next();
 	})
 }
@@ -154,3 +189,15 @@ exports.isFromUser = function(req, res, next) {
 	else return res.status(403).send("not allowed");
 }
 
+exports.userParticipated = function(req, res, next) {
+	let activity = req.activity;
+	let user = req.user;
+
+	if (!activity.participants.includes(user._id))
+		return res.status(432).send("user did not participate");
+
+	if (!(Date.now() > activity.timestampEnd))
+		return res.status(433).send("activity did not finish yet");
+
+	next();
+}

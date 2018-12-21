@@ -141,3 +141,67 @@ exports.leave = function(req, res) {
         else return res.status(200).send("Activity left");
     });
 }
+
+exports.vote = function(req, res) {
+
+    let avg = exports.computeAddAvg(req.activity,req.body.rating);
+    Activity.findOneAndUpdate({_id: req.activity._id}, {
+        $push: {
+            votes: {
+                user: req.user._id,
+                rating: req.body.rating
+            }
+        },
+        rating: avg
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        return res.json({rating: avg});
+    });
+}
+
+exports.unvote = function(req, res) {
+    /* Fetch old rating */
+    let oldRating = req.activity.votes.find(function(vote) {
+        console.log(vote,req.user);
+        return vote.user.equals(req.user._id);
+    }).rating;
+
+    let rating = exports.computeSubAvg(req.activity,oldRating);
+
+    Activity.findOneAndUpdate({_id: req.activity._id}, {
+        $pull: {
+            votes: {
+                $elemMatch: {
+                    user: req.user._id
+                }
+            }
+        },
+        rating: rating
+    }, function(err) {
+        if (err) return res.status(500).send("internal server error");
+        else return res.json({rating: rating});
+    });
+}
+
+exports.computeAddAvg = function(activity, newRating) {
+    let rating = activity.rating;
+    let n = activity.votes.length;
+
+    let d = rating * n;
+
+    d += newRating;
+    return (d/(n+1));
+}
+
+exports.computeSubAvg = function(activity, oldRating) {
+    let rating = activity.rating;
+    let n = activity.votes.length;
+
+    let d = rating * n;
+
+    d -= oldRating;
+
+    if (d <= 0) return 0;
+
+    return (d/(n-1));
+}

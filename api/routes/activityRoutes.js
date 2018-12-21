@@ -47,7 +47,16 @@ module.exports = function(app) {
     ], activity.leave);
 
 
+    app.post('/normal/activities/:activityId/vote', [
+        validate(validations.vote),
+        activityMiddleware.populateActivity,
+        activityMiddleware.userNotVoted
+    ], activity.vote);
 
+    app.post('/normal/activities/:activityId/unvote', [
+        activityMiddleware.populateActivity,
+        activityMiddleware.userVoted
+    ], activity.unvote);
 
     /* Entity routes */
     app.get('/entity/activities', [activityMiddleware.addEntityFilters], activity.list);

@@ -193,10 +193,12 @@ exports.userParticipated = function(req, res, next) {
 	let activity = req.activity;
 	let user = req.user;
 
-	if (!activity.participants.includes(user._id))
+	if (activity.participants.indexOf(user._id) == -1)
 		return res.status(432).send("user did not participate");
 
-	if (!(Date.now() > activity.timestampEnd))
+	let exit = Date.now() < activity.timestampEnd;
+
+	if (exit)
 		return res.status(433).send("activity did not finish yet");
 
 	next();

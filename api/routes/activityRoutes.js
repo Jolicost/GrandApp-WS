@@ -50,11 +50,13 @@ module.exports = function(app) {
     app.post('/normal/activities/:activityId/vote', [
         validate(validations.vote),
         activityMiddleware.populateActivity,
+        activityMiddleware.userParticipated,
         activityMiddleware.userNotVoted
     ], activity.vote);
 
     app.post('/normal/activities/:activityId/unvote', [
         activityMiddleware.populateActivity,
+        activityMiddleware.userParticipated,
         activityMiddleware.userVoted
     ], activity.unvote);
 

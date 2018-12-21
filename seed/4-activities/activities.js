@@ -4,19 +4,22 @@ const {
 
 var moment = require('moment');
 
+var future = true;
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 function generateRandomInterval(hoursFrom, duration) {
+    let i = future ? 1:-1;
     return {
-        start: new Date(moment().add(hoursFrom, 'hours').format()),
-        end: new Date(moment().add(hoursFrom + duration, 'hours').format())
+        start: new Date(moment().add(hoursFrom*i, 'hours').format()),
+        end: new Date(moment().add(hoursFrom*i + duration, 'hours').format())
     };
 }
 
 function generateInterval() {
-    return generateRandomInterval(getRandomInt(5), 1 + getRandomInt(5));
+    return generateRandomInterval(getRandomInt(10), 1 + getRandomInt(5));
 }
 
 const start = moment();
@@ -74,7 +77,7 @@ var activities = [{
     {
         title: "Activitat de la iaia toneta",
         description: "Anem tots a escoltar la radio",
-        participants: [getObjectId("UserPutin"), getObjectId("UserTrump"), getObjectId("UserDespistao")],
+        participants: [getObjectId("UserTrump"), getObjectId("UserDespistao")],
         rating: 4,
         votes: [
             {

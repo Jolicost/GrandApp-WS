@@ -7,21 +7,26 @@ module.exports = function(app) {
     var userMiddleware = require('../middleware/userMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/activityRoutes');
+    
     var Activities = app.activities = restful.model('Activities',null)
-        .methods(['get', 'put', 'delete']);
+        .methods(['get', 'post', 'put', 'delete']);
 
-    /* Depreciated routes */
-    Activities.register(app,'/activities');
-    
-    app.post('/activities', [middleware.verifyToken], activity.create);
-    /* End depreciated routes */
-    
     /* Normal routes */
     app.get('/normal/activities', [
         userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters,
         activityMiddleware.populatePagination,
     ], activity.listNormal);
+    app.get('/normal/own/activities/', [
+        activityMiddleware.populatePagination,
+        activityMiddleware.ownActivities
+    ], activity.listNormal);
+    // Debug feature
+    app.get('/normal/test/activities', [
+        userMiddleware.userHasLocation,
+        activityMiddleware.addActivityFilters,
+        activityMiddleware.populatePagination,
+    ], activity.listNormalNoDistance);
     app.get('/normal/activities/:activityId', activity.read);
     app.post('/normal/activities', [
         validate(validations.update),

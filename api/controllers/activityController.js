@@ -32,6 +32,13 @@ exports.listNormal = function(req, res) {
     });
 }
 
+exports.listNormalNoDistance = function(req, res) {
+    Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
+        if (err) res.send(err);
+        else res.json(activities);
+    });   
+}
+
 exports.shortList = function(req, res) {
     //var activities = exports.list(req,res);
     /*ActivityList.find({}, function(err,activities) {

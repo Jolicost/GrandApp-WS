@@ -140,15 +140,13 @@ exports.addActivityFilters = function(req, res, next) {
 	let user = req.query.user;
 	let start = req.query.start;
 	let type = req.query.activityType;
-	let own = req.query.own;
 
 	let filters = req.activityFilters || {};
 	if (start) filters['timestampStart'] = { $gte: start };
 	if (type) filters['activityType'] = type;
 
 	let userQuery = {}
-	if (own) userQuery.$eq = req.user._id;
-	else if (user) userQuery.$eq = user._id;
+	if (user) userQuery.$eq = user._id;
 
 	exports.getBlockedUsers(req.user, function(err, blocked) {
 		if (err) return res.send(err);
@@ -240,5 +238,11 @@ exports.populatePagination = function(req, res, next) {
 		skip: skip
 	};
 
+	next();
+}
+
+exports.ownActivities = function(req, res, next) {
+	req.activityFilters = req.activityFilters || {};
+	req.activityFilters.user = req.user._id;
 	next();
 }

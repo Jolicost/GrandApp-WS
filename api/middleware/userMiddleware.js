@@ -195,6 +195,14 @@ exports.onDeleteUser = function(req, res, next) {
     }, {
         $pullAll: { participants: [userId] } 
     }).exec();
+
+    User.update({
+    	blocked: userId
+    }, {
+    	$pullAll: { blocked: [userId]}
+    }).exec();
+
+    
     // Delete all activities created by the user
     Activity.remove({user: userId}).exec();
     next();
@@ -204,7 +212,7 @@ exports.purgeReferences = function(req, res, next) {
     User.find({}, function(err, users) {
         if (err) return res.send(err);
 
-        /* TODO hacer que funcione */
+        /* TODO hacer que funcione y que tambien vaya el de blocked */
         /*
         Activity.update({
 

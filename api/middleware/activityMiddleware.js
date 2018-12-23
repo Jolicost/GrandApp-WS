@@ -139,10 +139,12 @@ exports.getBlockedUsers = function(user,callback) {
 exports.addActivityFilters = function(req, res, next) {
 	let user = req.query.user;
 	let start = req.query.start;
+	let end = req.query.end;
 	let type = req.query.activityType;
 
 	let filters = req.activityFilters || {};
 	if (start) filters['timestampStart'] = { $gte: start };
+	if (end) filters['timestampEnd'] = { $lt: end };
 	if (type) filters['activityType'] = type;
 
 	let userQuery = {}

@@ -127,20 +127,47 @@ exports.addEntityFilters = function(req, res, next) {
 	next();
 }
 
+exports.getBlockedUsers = function(user,callback) {
+	let blocked = user.blocked;
+
+	User.find({blocked: user._id}).distinct('_id').exec(function(err, users) {
+		if (err) callback(err,null);
+		else callback(null,blocked.concat(users));
+	});
+}
+
 exports.addActivityFilters = function(req, res, next) {
 	let user = req.query.user;
 	let start = req.query.start;
 	let type = req.query.activityType;
 	let own = req.query.own;
-	
-	let filters = req.activityFilters || {};
-	if (own) filters['user'] = req.user._id;
-	else if (user) filters['user'] = user;
 
+	let filters = req.activityFilters || {};
 	if (start) filters['timestampStart'] = { $gte: start };
 	if (type) filters['activityType'] = type;
-	req.activityFilters = filters;
-	next();
+
+	let userQuery = {}
+	if (own) userQuery.$eq = req.user._id;
+	else if (user) userQuery.$eq = user._id;
+
+	exports.getBlockedUsers(req.user, function(err, blocked) {
+		if (err) return res.send(err);
+
+		userQuery.$nin = blocked;
+
+		filters['user'] = userQuery;
+
+		req.activityFilters = filters;
+		next();
+	});
+}
+
+exports.addBlockedFilters = function(req, res, next) {
+	let filters = req.activityFilters || {};
+
+	let blocked = req.user.blocked;
+
+
 }
 
 exports.setActivityData = function(req, res, next) {

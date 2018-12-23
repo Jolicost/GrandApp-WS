@@ -262,3 +262,11 @@ exports.userIsNotBlocked = function(req, res, next) {
 		else next();
 	})
 }
+
+exports.userHasLocation = function(req, res, next) {
+	if (req.user.place.lat && req.user.place.long) {
+		next();
+	} else {
+		res.status(400).send("User does not have coordinates");
+	}
+}

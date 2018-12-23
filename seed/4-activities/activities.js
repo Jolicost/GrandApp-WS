@@ -104,6 +104,24 @@ var activities = [{
         entity: getObjectId('EntityIgualada')
     },
     {
+        title: "Pesca de osos pardos",
+        description: "Pescamos osos pardos a mano en medio de la barceloneta",
+        participants: [],
+        activityType: "Pesca submarina",
+        price: 0,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.405060,
+        long: 2.174270,
+        user: getObjectId("UserPutin"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityPutin1"),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
         title: "Activitat de la iaia toneta 2",
         description: "Ara vull fer skateboard",
         participants: [getObjectId("UserPutin"), getObjectId("UserTrump"), getObjectId("UserIaiaToneta")],

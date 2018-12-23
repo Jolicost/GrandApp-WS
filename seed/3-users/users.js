@@ -34,8 +34,11 @@ const users = [{
         nRequests: 5,
         place: {
             placeId: 'ChIJDYlFNoSYpBIRjmAEsI979MA',
-            placeName: 'Carrer de Sants, 53, 08014 Barcelona, España'
+            placeName: 'Carrer de Sants, 53, 08014 Barcelona, España',
+            lat: 41.405060,
+            long: 2.174270
         },
+        blocked: [],
         entity: getObjectId('EntityBarcelona'),
         achievements: [getObjectId('AchCadete'),getObjectId('AchNovato')]
     },
@@ -60,9 +63,12 @@ const users = [{
         createdAt: new Date('2018-05-05'),
         userType: 'normal',
         nRequests: 5,
+        blocked: [getObjectId('UserTrump')],
         place: {
             placeId: 'EitQbGHDp2EgZGUgQ2F0YWx1bnlhLCAwODAwMiBCYXJjZWxvbmEsIFNwYWluIi4qLAoUChIJXQ1dXPGipBIRdJPxPA1EZ5USFAoSCeUwjnEWmKQSEQpmR089',
-            placeName: 'Plaça de Catalunya, 08002 Barcelona, España'
+            placeName: 'Plaça de Catalunya, 08002 Barcelona, España',
+            lat: 41.405060,
+            long: 2.174270
         },
         entity: getObjectId('EntityBarcelona')
 

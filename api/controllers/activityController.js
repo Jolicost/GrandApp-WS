@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Activity = mongoose.model('Activities');
 
+var geolib = require('geolib');
+
 exports.list = function(req, res) {
     Activity.find(req.activityFilters || {}, function(err, activities) {
         if (err)
@@ -11,6 +13,24 @@ exports.list = function(req, res) {
             res.json(activities);
     });
 };
+
+exports.listNormal = function(req, res) {
+    let maxDist = req.query.dist || 5 * 1000;
+    let lat = req.user.place.lat;
+    let long = req.user.place.long;
+
+    Activity.find(req.activityFilters || {}, function(err, activities) {
+        if (err) res.send(err);
+        else res.json(activities.filter(activity => {
+            let distance = geolib.getDistance(
+                {latitude: lat, longitude: long},
+                {latitude: activity.lat, longitude: activity.long}
+            );
+
+            return distance <= maxDist;
+        }));
+    });
+}
 
 exports.shortList = function(req, res) {
     //var activities = exports.list(req,res);

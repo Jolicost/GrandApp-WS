@@ -4,6 +4,7 @@ module.exports = function(app) {
     var restful = require('node-restful');
     var middleware = require('../middleware/sessionMiddleware');
     var activityMiddleware = require('../middleware/activityMiddleware');
+    var userMiddleware = require('../middleware/userMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/activityRoutes');
     var Activities = app.activities = restful.model('Activities',null)
@@ -17,8 +18,9 @@ module.exports = function(app) {
     
     /* Normal routes */
     app.get('/normal/activities', [
+        userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters
-    ], activity.list);
+    ], activity.listNormal);
     app.get('/normal/activities/:activityId', activity.read);
     app.post('/normal/activities', [
         validate(validations.update),

@@ -19,7 +19,8 @@ module.exports = function(app) {
     /* Normal routes */
     app.get('/normal/activities', [
         userMiddleware.userHasLocation,
-        activityMiddleware.addActivityFilters
+        activityMiddleware.addActivityFilters,
+        activityMiddleware.populatePagination,
     ], activity.listNormal);
     app.get('/normal/activities/:activityId', activity.read);
     app.post('/normal/activities', [

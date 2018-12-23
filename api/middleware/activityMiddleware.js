@@ -230,3 +230,15 @@ exports.userParticipated = function(req, res, next) {
 
 	next();
 }
+
+exports.populatePagination = function(req, res, next) {
+	let limit = parseInt(req.query.limit) || undefined;
+	let skip = parseInt(req.query.skip) || undefined;
+
+	req.pagination = {
+		limit: limit,
+		skip: skip
+	};
+
+	next();
+}

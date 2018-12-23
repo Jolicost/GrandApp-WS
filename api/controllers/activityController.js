@@ -19,7 +19,7 @@ exports.listNormal = function(req, res) {
     let lat = req.user.place.lat;
     let long = req.user.place.long;
 
-    Activity.find(req.activityFilters || {}, function(err, activities) {
+    Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
         if (err) res.send(err);
         else res.json(activities.filter(activity => {
             let distance = geolib.getDistance(

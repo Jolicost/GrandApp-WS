@@ -116,6 +116,27 @@ const users = [{
 
     },
     {
+        _id: getObjectId('UserRaski'),
+        username: 'raski',
+        email: 'raski@raski.com',
+        password: hashPassword('raski'),
+        completeName: 'raski raski raski',
+        birthday: new Date('1955-08-03'),
+        profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
+        phone: '+34666',
+        contactPhones: [],
+        createdAt: new Date('2018-01-02'),
+        userType: 'normal',
+        place: {
+            placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
+            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España',
+            lat: 41.53005,
+            long: 1.68651
+        },
+        entity: getObjectId('EntityBarcelona')
+
+    },
+    {
         _id: getObjectId('UserAdminBarcelona1'),
         username: 'barna1',
         entity: getObjectId('EntityBarcelona'),

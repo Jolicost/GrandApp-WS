@@ -94,7 +94,7 @@ exports.create = function(req, res) {
 
 exports.createNormal = function(req, res) {
     
-    let activity = new Activity(req.activityData);
+    let activity = new Activity(req.body);
     
     activity.save(function(err, activity) {
         if (err) res.send(err);

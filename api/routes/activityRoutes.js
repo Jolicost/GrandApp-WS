@@ -30,7 +30,8 @@ module.exports = function(app) {
     app.get('/normal/activities/:activityId', activity.read);
     app.post('/normal/activities', [
         validate(validations.update),
-        activityMiddleware.getActivityEntity
+        activityMiddleware.getActivityEntity,
+        activityMiddleware.getActivityUser
     ], activity.createNormal);
     app.put('/normal/activities/:activityId', [
         validate(validations.update),

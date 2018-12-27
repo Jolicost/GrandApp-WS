@@ -117,6 +117,12 @@ exports.getActivityEntity = function(req, res, next) {
 
 }
 
+exports.getActivityUser = function(req, res, next) {
+	let user = req.user;
+	req.body.user = user._id;
+	next();
+}
+
 exports.addEntityFilters = function(req, res, next) {
 	let filters = req.activityFilters || {};
 

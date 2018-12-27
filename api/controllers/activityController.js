@@ -20,15 +20,16 @@ exports.listNormal = function(req, res) {
     let long = req.user.place.long;
 
     Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
-        if (err) res.send(err);
-        else res.json(activities.filter(activity => {
+        if (err) return res.send(err);
+        let ret = activities.filter(activity => {
             let distance = geolib.getDistance(
                 {latitude: lat, longitude: long},
                 {latitude: activity.lat, longitude: activity.long}
             );
 
             return distance <= maxDist;
-        }));
+        });
+        return res.json(ret);
     });
 }
 
@@ -189,7 +190,6 @@ exports.vote = function(req, res) {
 exports.unvote = function(req, res) {
     /* Fetch old rating */
     let oldRating = req.activity.votes.find(function(vote) {
-        console.log(vote,req.user);
         return vote.user.equals(req.user._id);
     }).rating;
 

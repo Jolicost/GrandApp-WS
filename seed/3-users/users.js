@@ -91,6 +91,11 @@ const users = [{
             lat: 41.58098,
             long: 1.6172
         },
+        achievements: [
+            getObjectId('AchCadete'),
+            getObjectId('AchNovato'),
+            getObjectId('AchVeterano')
+        ],
         entity: getObjectId('EntityIgualada')
 
     },

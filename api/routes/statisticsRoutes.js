@@ -24,5 +24,9 @@ module.exports = function(app) {
 
     app.get('/entity/entities/:entityId/statistics/connections', [
         middleware.checkEntity
-    ], statistics.connections)
+    ], statistics.connections);
+
+    app.get('/entity/entities/:entityId/statistics/achievements', [
+        middleware.checkEntity
+    ], statistics.achievements);
 }

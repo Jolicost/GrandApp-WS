@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     User = mongoose.model('Users'),
     Entity = mongoose.model('Entities'),
     Activity = mongoose.model('Activities');
+    Achievement = mongoose.model('Achievements');
 
 var config = require('../../config/config.js');
 var moment = require('moment'); 
@@ -155,6 +156,20 @@ function mapAges(ages) {
 	return ret;
 }
 
+function getUserAge(user) {
+	let ret = Math.trunc(moment.duration(moment().diff(moment(user.birthday || 0))).asYears());
+	return ret;
+}
+
+function getAgesMapUsers(users, red) {
+	let map = getAgesMap();
+	console.log(map);
+	users.forEach(user => {
+		map[getUserAge(user)] += red(user);
+	});
+	return map;
+}
+
 function getActivitiesUserAges(activities,callback) {
 	let participants = getActivitiesParticipants(activities);
 	getUserAges(participants, function(err, ages) {
@@ -300,6 +315,88 @@ exports.connections = function(req, res) {
 		if (err) return res.send(err);
 		else return res.json({
 			nConnections: reduceConnections(results.nConnections)
+		});
+	});
+}
+
+
+function countAchievements(users) {
+	let i = 0;
+	users.forEach(user => {
+		i+= user.achievements.length;
+	});
+	return i;
+}
+
+function mapAchievementsAge(users) {
+	return getAgesMapUsers(users, function(user) {
+		return user.achievements.length;
+	});
+}
+
+function mapAchievementsType(ids, achievements) {
+	let ret = {}
+	achievements.forEach(achievement => {
+		let t = achievement.achievementType;
+		ret[t] = ret[t] || 0;
+		ret[t] += ids.filter(function(id) {
+			return achievement._id.equals(id);
+		}).length;
+	});
+	console.log(ret);
+	return ret;
+}
+
+
+function mapAchievementsName(ids, achievements) {
+	let ret = {}
+	achievements.forEach(achievement => {
+		let t = achievement.title;
+		ret[t] = ids.filter(function(id) {
+			return achievement._id.equals(id);
+		}).length;
+	});
+	return ret;
+}
+
+function getWholeAchievements(users) {
+	let ret = [];
+	users.forEach(user => {
+		ret = ret.concat(user.achievements);
+	});
+	return ret;
+}
+exports.achievements = function(req, res) {
+	let start = req.query.start;
+	let end = req.query.end;
+	let entityId = req.params.entityId;
+
+	async.parallel({
+		activeUsers: function(callback) {
+			getActiveUsersByRange(start,end,entityId, function(err, users){
+				if (err) callback(err, null);
+				else callback(null, users);
+			});
+		},
+		achievements: function(callback) {
+			Achievement.find({}, function(err, achievements) {
+				if (err) callback(err, null);
+				else callback(null, achievements);
+			});
+		}
+	}, function(err, results){
+		if (err) return res.send(err);
+		else return res.json({
+			nAchievements: countAchievements(results.activeUsers),
+			achievementsPerAge: mapAchievementsAge(results.activeUsers),
+			achievementsPerType: mapAchievementsType(
+				getWholeAchievements(results.activeUsers),
+				results.achievements
+			),
+			achievementsPerName: mapAchievementsName(
+				getWholeAchievements(results.activeUsers),
+				results.achievements
+			)
 		});
 	});
 }

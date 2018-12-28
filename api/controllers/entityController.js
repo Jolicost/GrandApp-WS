@@ -94,7 +94,6 @@ exports.getActivities = function(req, res) {
 }
 
 exports.getUsersNotInRange = function(req, res, next) {
-    console.log("----- 3 ------");
 
     let entity = req.entity;
 
@@ -106,7 +105,6 @@ exports.getUsersNotInRange = function(req, res, next) {
     let ret = [];
 
     usersNiR.forEach(user => {
-        console.log("----- 4 ------");
 
         let distance = geolib.getDistance(
             {latitude: lat, longitude: long},
@@ -118,9 +116,7 @@ exports.getUsersNotInRange = function(req, res, next) {
         } else {
 
         }
-    })
-
-    console.log("----- 5 ------");
+    });
     
     return res.json(ret);
 }

@@ -4,6 +4,7 @@ module.exports = function(app) {
     var restful = require('node-restful');
     var middleware = require('../middleware/sessionMiddleware');
     var activityMiddleware = require('../middleware/activityMiddleware');
+    var achievementMiddleware = require('../middleware/achievementMiddleware');
     var userMiddleware = require('../middleware/userMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/activityRoutes');
@@ -47,7 +48,9 @@ module.exports = function(app) {
 
     app.post('/normal/activities/:activityId/join', [
         activityMiddleware.populateActivity,
-        activityMiddleware.userNotInActivity
+        activityMiddleware.userNotInActivity,
+        // POPULAR
+        achievementMiddleware.checkPopularAchievements
     ], activity.join);
 
     app.post('/normal/activities/:activityId/leave', [

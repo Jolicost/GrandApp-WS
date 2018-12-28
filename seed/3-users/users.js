@@ -40,7 +40,7 @@ const users = [{
         },
         blocked: [],
         entity: getObjectId('EntityBarcelona'),
-        achievements: [getObjectId('AchCadete'),getObjectId('AchNovato')]
+        achievements: []
     },
     {
         _id: getObjectId('UserPutin'),

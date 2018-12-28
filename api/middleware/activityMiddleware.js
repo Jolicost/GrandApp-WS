@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 Activity = mongoose.model('Activities');
+var ctrl = require('../controllers/activityController');
 
 var geolib = require("geolib");
 
@@ -253,4 +254,39 @@ exports.ownActivities = function(req, res, next) {
 	req.activityFilters = req.activityFilters || {};
 	req.activityFilters.user = req.user._id;
 	next();
+}
+
+exports.isActiveUser = function(req, res, next) {
+	let user = req.user;
+
+	Activity.find({
+		participants: user,
+		timestampEnd: {
+			$gt: Date.now()
+		}
+	}, function(err, activities) {
+		if (err) return res.send(err);
+		if (activities.length == 0) next();
+
+		let selected = activities.filter(activity => {
+			return ctrl.isActivityClose(activity,req.body.lat,req.body.long,50);
+		});
+
+		let ids = selected.map(activity => {
+			return activity._id;
+		});
+
+		Activity.updateMany({
+			_id: {
+				$in: ids
+			}
+		}, {
+			$addToSet: {
+				active: user._id
+			}
+		}, function(err) {
+			if (err) return res.send(err);
+			else next();
+		});
+	})
 }

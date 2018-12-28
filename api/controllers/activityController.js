@@ -3,6 +3,7 @@
 var mongoose = require('mongoose'),
     Activity = mongoose.model('Activities');
 
+var achievementCtrl = require('./achievementController');
 var geolib = require('geolib');
 
 exports.list = function(req, res) {
@@ -114,8 +115,12 @@ exports.createNormal = function(req, res) {
     let activity = new Activity(req.body);
     
     activity.save(function(err, activity) {
-        if (err) res.send(err);
-        else res.status(200).send("Activity created");
+        if (err) return res.send(err);
+        else {
+            achievementCtrl.computeAchievements(req.user,function(err) {
+                return res.status(200).send("Activity created");
+            }, { create: true});   
+        }
     });
 }
 
@@ -247,4 +252,13 @@ exports.computeSubAvg = function(activity, oldRating) {
     if (d <= 0) return 0;
 
     return (d/(n-1));
+}
+
+exports.isActivityClose = function(activity, lat, long, meters) {
+    let distance = geolib.getDistance(
+        {latitude: lat, longitude: long},
+        {latitude: activity.lat, longitude: activity.long}
+    );
+    
+    return distance <= meters;
 }

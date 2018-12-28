@@ -112,14 +112,10 @@ exports.forgotPassword = function(req, res) {
     let username = req.body.username;
     let phone = req.body.phone;
 
-    console.log("Entering " + phone);
-
     if (username && phone)
         return res.status(432).send("both username and phone specified");
     if (!username && !phone)
         return res.status(403).send("invalid request at least username or phone are required");
-
-    console.log(" ----- 2 ------");
     let query = {};
     if (phone) {
         query['phone'] = phone;
@@ -129,21 +125,15 @@ exports.forgotPassword = function(req, res) {
         query['username'] = username;
     }
 
-    console.log(" ----- 3 ------");
-
     User.findOne(query)
     .exec(function(err, user) {
         if (err) return res.status(500).send("Internal server error");
         if (!user) return res.status(404).send("User not found");
 
-        console.log(" ----- 4 ------");
-
         let r = Math.random().toString(36).substring(8);
 
         let email = user.email;
         let password = hashPassword(r);
-
-        console.log(" ----- 5 ------");
 
         User.updateOne({_id: user._id}, {password: password}, function(err) {
             mail.sendForgotPassword(user.email, r, function(err) {

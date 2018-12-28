@@ -45,7 +45,7 @@ var achievements = [
         _id: getObjectId('AchFamoso'),
         title: 'Famoso',
         achievementType: 'popular',
-        key: 10,
+        key: 1,
         value: 100,
         image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
         hiddenImage: hiddenImage

@@ -53,7 +53,7 @@ var activities = [{
     {
         title: "Activitat de prova del Joan",
         description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
-        participants: [getObjectId("UserPutin"),getObjectId("UserIaiaToneta")],
+        participants: [getObjectId("UserPutin"),getObjectId("UserIaiaToneta"),getObjectId("UserTrump")],
         rating: 0,
         votes: [],
         activityType: "Pachangas",

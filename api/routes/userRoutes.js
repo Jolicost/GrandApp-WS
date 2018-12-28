@@ -4,6 +4,8 @@ module.exports = function(app) {
     var restful = require('node-restful');
     var sessionMiddleware = require('../middleware/sessionMiddleware');
     var userMiddleware = require('../middleware/userMiddleware');
+    var activityMiddleware = require('../middleware/activityMiddleware');
+    var achievementMiddleware = require('../middleware/achievementMiddleware');
     var validate = require('express-validation');
     var validations = require('./validation/userRoutes');
     var validations_activity = require('./validation/activityRoutes');
@@ -67,19 +69,12 @@ module.exports = function(app) {
     ], user.setEmergencyPhones);
 
     // GEO UPDATE
-    app.put('/normal/users/:userId/geo', [
-        validate(validations_activity.update),
-        userMiddleware.selectTargetUser,
-        userMiddleware.allowedUser,
-        userMiddleware.getUserEntity
-        
-    ], user.updateCoords);
-
-    // GEO UPDATE
     app.put('/geo', [
         validate(validations_activity.update),
         sessionMiddleware.verifyAndObtain,
-        userMiddleware.getUserEntity
+        userMiddleware.getUserEntity,
+        activityMiddleware.isActiveUser,
+        achievementMiddleware.checkNumberAchievements
     ], user.updateCoords);
 
     // BLOCK USER

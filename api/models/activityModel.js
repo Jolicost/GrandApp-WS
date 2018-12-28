@@ -24,6 +24,11 @@ var ActivitySchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Users'
         }],
+        // reached activity
+        active: [{
+            type: Schema.Types.ObjectId,
+            ref:'Users'
+        }],
         // activity rating
         rating: {
             type: Number,

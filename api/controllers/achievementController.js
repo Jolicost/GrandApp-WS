@@ -29,9 +29,8 @@ exports.userAchievements = function(req, res) {
         }
     }, function(err, results) {
         let ret = [];
-        ret.push(results.owns.map(achievement => { return exports.populateOwnAchievement(achievement) }));
-        ret.push(results.missing.map(achievement => { return exports.populateMissingAchievement(achievement) }));
-        //console.log(ret);
+        ret = ret.concat(results.owns.map(achievement => { return exports.populateOwnAchievement(achievement) }));
+        ret = ret.concat(results.missing.map(achievement => { return exports.populateMissingAchievement(achievement) }));
         return res.json(ret);
     });
 }
@@ -66,14 +65,20 @@ exports.checkAchievements = function(req, res) {
     });
 }
 
-exports.computeAchievements = function(user, callback) {
+exports.computeAchievements = function(user, callback, options = {all: true}) {
     async.parallel({
         number: function(callback) {
+            // Exit if not interested
+            if (!options.number && !options.all) {
+                callback(null,[]);
+                return;
+            }
+
             Achievement.find({achievementType:'number'}, function(err, achievements) {
                 if (err) callback(err,null);
                 else {
                     Activity.countDocuments({ 
-                        participants: user
+                        active: user
                     }, function(err, n) {
                         if (err) callback(err,null);
                         else callback(null,exports.computeGiveAchievements(achievements, n));
@@ -82,6 +87,11 @@ exports.computeAchievements = function(user, callback) {
             });
         },
         create: function(callback) {
+            if (!options.create && !options.all) {
+                callback(null,[]);
+                return;
+            }
+
             Achievement.find({achievementType:'create'}, function(err, achievements) {
                 if (err) callback(err,null);
                 else {
@@ -95,6 +105,11 @@ exports.computeAchievements = function(user, callback) {
             });
         },
         popular: function(callback) {
+            if (!options.popular && !options.all) {
+                callback(null,[]);
+                return; 
+            }
+
             Achievement.find({achievementType:'popular'}, function(err, achievements) {
                 if (err) callback(err, null);
                 else {
@@ -118,7 +133,8 @@ exports.computeAchievements = function(user, callback) {
 
                     Activity.aggregate(aggregate, function(err, results) {
                         let count = 0;
-                        if (results.lenght > 0)
+
+                        if (results.length > 0)
                             count = results[0].count;
                         callback(null,exports.computeGiveAchievements(achievements, count));
                     });
@@ -132,7 +148,12 @@ exports.computeAchievements = function(user, callback) {
                 achievements.push(ach);
             });
         });
-        User.updateOne({_id: user._id}, { achievements: achievements}, function(err){
+
+        User.updateOne({_id: user._id}, { 
+                $addToSet: {
+                    achievements: achievements
+                }
+            }, function(err){
             if (err) callback(err,null);
             else callback(null,achievements);
         });

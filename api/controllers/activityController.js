@@ -14,12 +14,27 @@ exports.list = function(req, res) {
     });
 };
 
+exports.limitSkipActivities = function(activities,limit,skip) {
+    let j = 0;
+    let exit = false;
+    let ret = [];
+    for (var i = skip || 0; i < activities.length && !exit; i++) {
+        ret.push(activities[i]);
+        if (limit) {
+            j++;
+            if (j >= limit) exit = true;
+        }
+
+    }
+    return ret;
+}
+
 exports.listNormal = function(req, res) {
     let maxDist = req.query.dist || 5 * 1000;
     let lat = req.user.place.lat;
     let long = req.user.place.long;
-
-    Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
+    Activity.find(req.activityFilters || {})
+    .exec(function(err, activities) {
         if (err) return res.send(err);
         let ret = activities.filter(activity => {
             let distance = geolib.getDistance(
@@ -29,7 +44,8 @@ exports.listNormal = function(req, res) {
 
             return distance <= maxDist;
         });
-        return res.json(ret);
+
+        return res.json(exports.limitSkipActivities(ret,req.pagination.limit,req.pagination.skip));
     });
 }
 

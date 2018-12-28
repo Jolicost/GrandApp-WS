@@ -238,8 +238,8 @@ exports.userParticipated = function(req, res, next) {
 }
 
 exports.populatePagination = function(req, res, next) {
-	let limit = parseInt(req.query.limit) || undefined;
-	let skip = parseInt(req.query.skip) || undefined;
+	let limit = req.query.limit !== undefined ? parseInt(req.query.limit ) : undefined;
+	let skip = req.query.skip !== undefined ? parseInt(req.query.skip) : undefined;
 
 	req.pagination = {
 		limit: limit,

@@ -150,6 +150,7 @@ exports.addActivityFilters = function(req, res, next) {
 	let type = req.query.activityType;
 	let minPrice = req.query.minPrice;
 	let maxPrice = req.query.maxPrice;
+	let title = req.query.title;
 
 	let filters = req.activityFilters || {};
 	if (start) filters['timestampStart'] = { $gte: start };
@@ -163,6 +164,12 @@ exports.addActivityFilters = function(req, res, next) {
 	if (minPrice) priceQuery.$gte = parseFloat(minPrice);
 	if (maxPrice) priceQuery.$lte = parseFloat(maxPrice);
 	if (minPrice || maxPrice) filters['price'] = priceQuery;
+
+	if (title) {
+		let titleQuery = {};
+		titleQuery.$regex = new RegExp(".*" + title + ".*","i");
+		filters['title'] = titleQuery;
+	}
 
 	exports.getBlockedUsers(req.user, function(err, blocked) {
 		if (err) return res.send(err);

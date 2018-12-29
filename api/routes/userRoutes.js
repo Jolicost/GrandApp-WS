@@ -10,29 +10,8 @@ module.exports = function(app) {
     var validations = require('./validation/userRoutes');
     var validations_activity = require('./validation/activityRoutes');
 
-    /* DEPRECIATED ROUTES */
     var Users = app.users = restful.model('Users',null)
         .methods(['get', 'post', 'put', 'delete']);
-
-    //Users.register(app,'/users');
-
-    app.put('/users/:userId/geo', [
-        sessionMiddleware.verifyAndObtain
-    ], user.updateCoords);
-
-    
-    app.route('/users/:userId/emergency')
-        .get(user.getEmergencyPhones)
-        .post(user.setEmergencyPhones);
-
-    app.put('/users/:userId', [
-        validate(validations.updateNormal),
-        sessionMiddleware.verifyAndObtain,
-        userMiddleware.userNotExistsOnUpdate,   
-        userMiddleware.ownUserOrAllowedEntity, 
-    ], user.updateNormal);
-    /* End DEPRECIATED ROUTES */
-
 
     /* NORMAL SECTION */
     // READ

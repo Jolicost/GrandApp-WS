@@ -10,13 +10,6 @@ module.exports = function(app) {
     var entityMiddleware = require('../middleware/entityMiddleware');
     var userMiddleware = require('../middleware/userMiddleware');
 
-    /* Deprecatd routes */
-    Entities.register(app,'/entities');
-    
-    app.get('/entities/:entityId/users', entity.getUsers);
-    app.get('/entities/:entityId/activities', entity.getActivities);
-    /* End deprecated routes */
-
     /* Entity routes */
     app.get('/entity/entities/:entityId', [
     	entityMiddleware.allowedUser

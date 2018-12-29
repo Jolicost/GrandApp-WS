@@ -234,7 +234,7 @@ exports.userParticipated = function(req, res, next) {
 	let activity = req.activity;
 	let user = req.user;
 
-	if (activity.participants.indexOf(user._id) == -1)
+	if (activity.active.indexOf(user._id) == -1)
 		return res.status(432).send("user did not participate");
 
 	let exit = Date.now() < activity.timestampEnd;

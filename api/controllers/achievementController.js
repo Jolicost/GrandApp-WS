@@ -7,31 +7,55 @@ var mongoose = require('mongoose'),
 var async = require('async');
 
 
-exports.userAchievements = function(req, res) {
+function _getAchievements(user,cb) {
     async.parallel({
         owns: function(callback) {
             Achievement.find({
                 _id: {
-                    $in: req.user.achievements
+                    $in: user.achievements
                 } 
             }, function(err, achievements){
-                callback(null,achievements);
+                if (err) callback(err,null);
+                else callback(null,achievements);
             });
         },
         missing: function(callback) {
             Achievement.find({
                 _id: {
-                    $nin: req.user.achievements
+                    $nin: user.achievements
                 } 
             }, function(err, achievements){
-                callback(null,achievements);
+                if (err) callback(err,null);
+                else callback(null,achievements);
             });
         }
     }, function(err, results) {
-        let ret = [];
-        ret = ret.concat(results.owns.map(achievement => { return exports.populateOwnAchievement(achievement) }));
-        ret = ret.concat(results.missing.map(achievement => { return exports.populateMissingAchievement(achievement) }));
-        return res.json(ret);
+        if (err) cb(err,null);
+        else {
+            let ret = [];
+            ret = ret.concat(results.owns.map(achievement => { return exports.populateOwnAchievement(achievement) }));
+            ret = ret.concat(results.missing.map(achievement => { return exports.populateMissingAchievement(achievement) }));
+            cb(null,ret);
+        }
+    });
+}
+
+
+exports.userAchievements = function(req, res) {
+    let user = req.user;
+
+    _getAchievements(user,function(err, achievements) {
+        if (err) return res.send(err);
+        else return res.json(achievements);
+    });
+}
+
+exports.getAchievements = function(req, res) {
+    let user = req.targetUser;
+
+    _getAchievements(user,function(err, achievements) {
+        if (err) return res.send(err);
+        else return res.json(achievements);
     });
 }
 

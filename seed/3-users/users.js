@@ -39,8 +39,12 @@ const users = [{
             long: 2.174270
         },
         blocked: [],
-        entity: getObjectId('EntityBarcelona'),
-        achievements: []
+        achievements: [
+            getObjectId('AchCadete'),
+            getObjectId('AchNovato'),
+            getObjectId('AchVeterano')
+        ],
+        entity: getObjectId('EntityBarcelona')
     },
     {
         _id: getObjectId('UserPutin'),

@@ -190,13 +190,19 @@ exports.getUserEntity = function(req, res, next) {
 exports.onDeleteUser = function(req, res, next) {
 	let userId = req.params.userId;
 
-    Activity.update({
+    Activity.updateMany({
         participants: userId
     }, {
         $pullAll: { participants: [userId] } 
     }).exec();
 
-    User.update({
+    Activity.updateMany({
+    	active: userId
+    }, {
+    	$pullAll: { active: [userId] }
+    }).exec();
+
+    User.updateMany({
     	blocked: userId
     }, {
     	$pullAll: { blocked: [userId]}
@@ -204,30 +210,38 @@ exports.onDeleteUser = function(req, res, next) {
 
     
     // Delete all activities created by the user
-    Activity.remove({user: userId}).exec();
+    Activity.deleteMany({user: userId}).exec();
     next();
 }
 
 exports.purgeReferences = function(req, res, next) {
-    User.find({}, function(err, users) {
+    User.find({}).distinct('_id').exec(function(err, users) {
         if (err) return res.send(err);
 
-        /* TODO hacer que funcione y que tambien vaya el de blocked */
-        /*
-        Activity.update({
+        Activity.updateMany({
 
         }, {
-            $pullAll: {
+            $pull: {
                 participants: {
-                    $nin: users
+                	$nin: users
                 }
             }
-        })
-        */
-        Activity.remove({
+        }).exec();
+
+        Activity.deleteMany({
             user: {
                 $nin: users
             }
+        }).exec();
+
+        User.updateMany({
+
+        }, {
+        	$pull: {
+        		blocked: {
+        			$nin: users
+        		}
+        	}
         }).exec();
 
         next();

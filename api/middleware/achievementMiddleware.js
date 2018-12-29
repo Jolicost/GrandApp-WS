@@ -31,6 +31,22 @@ exports.checkPopularAchievements = function(req, res, next) {
 	        else next();
     	}, {popular: true});	
 	});
+}
 
-	
+exports.purgeReferences = function(req, res, next) {
+	Achievement.find({}).distinct('_id').exec(function(err, achievements) {
+		if (err) return res.send(err);
+
+		User.updateMany({
+
+		}, {
+			$pull: {
+				achievements: {
+					$nin: achievements
+				}
+			}
+		}).exec();
+
+		next();
+	});
 }

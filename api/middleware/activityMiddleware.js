@@ -165,9 +165,9 @@ exports.addActivityFilters = function(req, res, next) {
 	if (maxPrice) priceQuery.$lte = parseFloat(maxPrice);
 	if (minPrice || maxPrice) filters['price'] = priceQuery;
 
-	if (title = title.trim()) {
+	if (title && title.trim()) {
 		let titleQuery = {};
-		titleQuery.$regex = new RegExp(".*" + title + ".*","i");
+		titleQuery.$regex = new RegExp(".*" + title.trim() + ".*","i");
 		filters['title'] = titleQuery;
 	}
 

@@ -163,7 +163,6 @@ function getUserAge(user) {
 
 function getAgesMapUsers(users, red) {
 	let map = getAgesMap();
-	console.log(map);
 	users.forEach(user => {
 		map[getUserAge(user)] += red(user);
 	});
@@ -343,7 +342,6 @@ function mapAchievementsType(ids, achievements) {
 			return achievement._id.equals(id);
 		}).length;
 	});
-	console.log(ret);
 	return ret;
 }
 

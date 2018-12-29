@@ -41,8 +41,6 @@ exports.checkEntity = function(req, res, next) {
 }
 
 exports.getEntity = function(req, res, next) {
-	console.log("----- 1 ------");
-
     Entity.findOne({_id: req.params.entityId}, function(err, entity) {
 		if (err) return res.send(err);
 		if (!entity) return res.send(404).send("Entity not found");

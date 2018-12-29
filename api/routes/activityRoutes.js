@@ -19,6 +19,7 @@ module.exports = function(app) {
         activityMiddleware.populatePagination,
     ], activity.listNormal);
     app.get('/normal/own/activities/', [
+        validate(validations.list),
         activityMiddleware.populatePagination,
         activityMiddleware.ownActivities
     ], activity.listNormal);

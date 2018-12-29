@@ -3,7 +3,6 @@ var config = require('../../../config/config.js');
 
 function getTransporter() {
 	let transporter = nodeMailer.createTransport(config.get('mail'));
-	console.log(transporter);
 	return transporter;
 }
 

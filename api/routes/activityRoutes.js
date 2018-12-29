@@ -14,17 +14,18 @@ module.exports = function(app) {
 
     /* Normal routes */
     app.get('/normal/activities', [
+        validate(validations.list),
         userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters,
         activityMiddleware.populatePagination,
     ], activity.listNormal);
     app.get('/normal/own/activities/', [
-        validate(validations.list),
         activityMiddleware.populatePagination,
         activityMiddleware.ownActivities
     ], activity.listNormal);
     // Debug feature
     app.get('/normal/test/activities', [
+        validate(validations.list),
         userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters,
         activityMiddleware.populatePagination,

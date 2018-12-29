@@ -273,27 +273,29 @@ exports.isActiveUser = function(req, res, next) {
 		}
 	}, function(err, activities) {
 		if (err) return res.send(err);
+
 		if (activities.length == 0) next();
+		else {
+			let selected = activities.filter(activity => {
+				return ctrl.isActivityClose(activity,req.body.lat,req.body.long,50);
+			});
 
-		let selected = activities.filter(activity => {
-			return ctrl.isActivityClose(activity,req.body.lat,req.body.long,50);
-		});
+			let ids = selected.map(activity => {
+				return activity._id;
+			});
 
-		let ids = selected.map(activity => {
-			return activity._id;
-		});
-
-		Activity.updateMany({
-			_id: {
-				$in: ids
-			}
-		}, {
-			$addToSet: {
-				active: user._id
-			}
-		}, function(err) {
-			if (err) return res.send(err);
-			else next();
-		});
+			Activity.updateMany({
+				_id: {
+					$in: ids
+				}
+			}, {
+				$addToSet: {
+					active: user._id
+				}
+			}, function(err) {
+				if (err) return res.send(err);
+				else next();
+			});
+		}
 	})
 }

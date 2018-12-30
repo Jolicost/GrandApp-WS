@@ -178,10 +178,9 @@ exports.addActivityFilters = function(req, res, next) {
 
 		filters['user'] = userQuery;
 
-		// TODO arreglar
-		/*filters['participants'] = {
+		filters['participants'] = {
 			$nin: blocked
-		};*/
+		};
 
 		req.activityFilters = filters;
 		next();

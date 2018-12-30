@@ -29,7 +29,7 @@ var end = moment().add(5, 'hours');
 var activities = [{
         title: "Activitat de prova del Joan",
         description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
-        participants: [],
+        participants: [getObjectId("UserIaiaToneta")],
         rating: 0,
         votes: [],
         activityType: "Pachangas",

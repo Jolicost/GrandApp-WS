@@ -35,7 +35,8 @@ module.exports = function(app) {
     app.post('/normal/activities', [
         validate(validations.update),
         activityMiddleware.getActivityEntity,
-        activityMiddleware.getActivityUser
+        activityMiddleware.getActivityUser,
+        activityMiddleware.setActivityData
     ], activity.createNormal);
     app.put('/normal/activities/:activityId', [
         validate(validations.update),
@@ -78,10 +79,14 @@ module.exports = function(app) {
     /* Entity routes */
     app.get('/entity/activities', [activityMiddleware.addEntityFilters], activity.list);
     app.get('/entity/activities/:activityId', [activityMiddleware.selectActivityAttributes], activity.read);
-    app.post('/entity/activities', [activityMiddleware.setActivityData], activity.createNormal);
+    app.post('/entity/activities', [
+        activityMiddleware.setActivityData,
+        activityMiddleware.checkOutOfBoundsActivity
+    ], activity.createNormal);
     app.put('/entity/activities/:activityId', [
         activityMiddleware.populateActivity,
         activityMiddleware.isFromEntity,
+        activityMiddleware.checkOutOfBoundsActivity,
         activityMiddleware.setActivityData
     ], activity.updateNormal);
     app.delete('/entity/activities/:activityId',[

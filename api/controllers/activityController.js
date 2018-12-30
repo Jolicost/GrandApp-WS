@@ -103,8 +103,6 @@ exports.read = function(req, res) {
 
 exports.create = function(req, res) {
     var new_activity = new Activity(req.body);
-    new_activity.user = req.userId;
-    new_activity.createdAt = Date.now();
     
     new_activity.save(function(err, activity) {
         if (err)
@@ -117,14 +115,13 @@ exports.create = function(req, res) {
 exports.createNormal = function(req, res) {
     
     let activity = new Activity(req.body);
-    activity.createdAt = Date.now();
-    
+
     activity.save(function(err, activity) {
         if (err) return res.send(err);
         else {
             achievementCtrl.computeAchievements(req.user,function(err) {
                 return res.status(200).send("Activity created");
-            }, { create: true});   
+            }, { create: true });   
         }
     });
 }

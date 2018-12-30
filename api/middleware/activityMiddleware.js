@@ -232,28 +232,50 @@ exports.addBlockedFilters = function(req, res, next) {
 }
 
 exports.setActivityData = function(req, res, next) {
-	let entity = req.entity || undefined;
-
     let activity = {
         title: req.body.title,
         description: req.body.description,
         user: req.user,
-        participants: [req.user],
         activityType: req.body.activityType,
         price: req.body.price,
+        images: req.body.images,
         capacity: req.body.capacity,
         lat: req.body.lat,
         long: req.body.long,
-        address: req.body.address,
         timestampStart: req.body.timestampStart,
         timestampEnd: req.body.timestampEnd,
-        entity: entity
+        entity: req.entity || undefined,
+        createdAt: Date.now()
     };
+
+    /* Activity already exists */
+    if (req.activity) {
+   		activity.participants = req.activity.participants;
+   		activity.user = req.activity.user;
+   		activity.createdAt = req.activity.createdAt;
+    }
 
     req.activityData = activity;
 
     next();
 
+}
+
+exports.checkOutOfBoundsActivity = function(req, res, next) {
+	let entity = req.entity;
+	let lat = req.body.lat;
+	let long = req.body.long;
+
+	let distance = geolib.getDistance(
+		{latitude: lat, longitude: long},
+		{latitude: entity.place.lat, longitude: entity.place.long}
+	);
+
+	if (distance > entity.place.max) {
+		return res.status(404).send("Activity out of bounds");
+	}
+
+	next();
 }
 exports.selectActivityAttributes = function(req, res, next) {
 	let attributes = req.activityAttributes || {};

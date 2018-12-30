@@ -48,6 +48,7 @@ var activities = [{
             placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
             placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
         },
+        createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
     },
     {
@@ -72,6 +73,7 @@ var activities = [{
             placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
             placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
         },
+        createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
     },
     {
@@ -101,6 +103,7 @@ var activities = [{
             placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
             placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
         },
+        createdAt: Date.now(),
         entity: getObjectId('EntityIgualada')
     },
     {
@@ -143,6 +146,7 @@ var activities = [{
             placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
             placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
         },
+        createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
     },
     {
@@ -167,6 +171,7 @@ var activities = [{
             placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
             placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
         },
+        createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
     }
 ];

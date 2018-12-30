@@ -49,7 +49,7 @@ module.exports = function(app) {
 
     // GEO UPDATE
     app.put('/geo', [
-        validate(validations_activity.update),
+        validate(validations_activity.geo),
         sessionMiddleware.verifyAndObtain,
         userMiddleware.getUserEntity,
         activityMiddleware.isActiveUser,

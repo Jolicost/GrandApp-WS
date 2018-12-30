@@ -29,7 +29,7 @@ var end = moment().add(5, 'hours');
 var activities = [{
         title: "Activitat de prova del Joan",
         description: "Aquesta es una activitat de prova que el Joan ha ficat amb POSTMAN",
-        participants: [getObjectId("UserIaiaToneta")],
+        participants: [getObjectId("UserIaiaToneta"),getObjectId("UserPijo"),getObjectId("UserTurista")],
         rating: 0,
         votes: [],
         activityType: "Pachangas",
@@ -198,7 +198,133 @@ var activities = [{
         },
         createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 4",
+        description: "Ara vull fer mitja",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        votes: [],
+        activityType: "Mitja",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest5"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 5",
+        description: "Ara vull fer mes mitja",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        votes: [],
+        activityType: "Mitja",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest6"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 6",
+        description: "Ara vull fer mitja",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        votes: [],
+        activityType: "Escacs",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest7"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 7",
+        description: "Ara vull fer guitarra",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        votes: [],
+        activityType: "Guitarra",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest8"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Activitat de la iaia toneta 8",
+        description: "Ara vull tocar el piano",
+        participants: [getObjectId("UserPutin"), getObjectId("UserIaiaToneta")],
+        rating: 7,
+        votes: [],
+        activityType: "Piano",
+        price: 1,
+        images: [
+            "https://i.imgur.com/kiCf30f.jpg",
+            "https://i.imgur.com/q0oKo.jpg"
+        ],
+        lat: 41.582890,
+        long: 1.617280,
+        user: getObjectId("UserIaiaToneta"),
+        address: "el meu carrer principal",
+        capacity: 4,
+        _id: getObjectId("ActivityTest9"),
+        place: {
+            placeId: "EjZDYXJyZXIgZGUgU2FudCBNYWfDrSwgMDg3MDAgSWd1YWxhZGEsIEJhcmNlbG9uYSwgU3BhaW4iLiosChQKEgljr_B652mkEhF9PHUCb3UcbhIUChIJhSfSCt1ppBIRV1q4GfLAcoM",
+            placeName: "Carrer de Sant Magí, 08700 Igualada, Barcelona, Spain"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
     }
+
 ];
 
 activities.forEach(function(activity) {

@@ -53,7 +53,7 @@ const users = [{
         password: hashPassword('russia'),
         completeName: 'vladimir putin',
         birthday: new Date('1952-08-07'),
-        phone: '+34999999999',
+        phone: '+346666',
         contactPhones: [
         {
             alias: "casa",
@@ -67,7 +67,7 @@ const users = [{
         createdAt: new Date('2018-05-05'),
         userType: 'normal',
         nRequests: 5,
-        blocked: [getObjectId('UserTrump')],
+        blocked: [],
         place: {
             placeId: 'EitQbGHDp2EgZGUgQ2F0YWx1bnlhLCAwODAwMiBCYXJjZWxvbmEsIFNwYWluIi4qLAoUChIJXQ1dXPGipBIRdJPxPA1EZ5USFAoSCeUwjnEWmKQSEQpmR089',
             placeName: 'Plaça de Catalunya, 08002 Barcelona, España',
@@ -122,6 +122,54 @@ const users = [{
             long: 2.154007
         },
         entity: getObjectId('EntityIgualada')
+
+    },
+    {
+        _id: getObjectId('UserTurista'),
+        username: 'turista',
+        email: 'turista@turista.com',
+        password: hashPassword('turista'),
+        completeName: 'turista extranjero',
+        birthday: new Date('1969-08-03'),
+        profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
+        phone: '+349999',
+        contactPhones: [{
+            alias: "mother",
+            phone: '+3412341233234'
+        }],
+        createdAt: new Date('2018-01-02'),
+        userType: 'normal',
+        place: {
+            placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
+            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España',
+            lat: 41.58098,
+            long: 1.6172
+        },
+        entity: getObjectId('EntityBarcelona')
+
+    },
+    {
+        _id: getObjectId('UserPijo'),
+        username: 'pijo',
+        email: 'pijo@pedralbes.com',
+        password: hashPassword('pijo'),
+        completeName: 'pijo de pedralbes',
+        birthday: new Date('1969-08-03'),
+        profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
+        phone: '+347777',
+        contactPhones: [{
+            alias: "mother",
+            phone: '+341233234'
+        }],
+        createdAt: new Date('2018-01-02'),
+        userType: 'normal',
+        place: {
+            placeId: 'Ej5BdmluZ3VkYSBkZWwgTWVzdHJlIE1vbnRhbmVyLCAwODcwMCBJZ3VhbGFkYSwgQmFyY2Vsb25hLCBTcGFpbiIuKiwKFAoSCRPVuvveaaQSEXsLV8z82vRjEhQKEgmFJ9IK3WmkEhFXWrgZ8sBygw',
+            placeName: 'Avinguda del Mestre Montaner, 08700 Igualada, Barcelona, España',
+            lat: 41.58098,
+            long: 1.6172
+        },
+        entity: getObjectId('EntityBarcelona')
 
     },
     {

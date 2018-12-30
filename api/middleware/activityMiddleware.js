@@ -178,9 +178,49 @@ exports.addActivityFilters = function(req, res, next) {
 
 		filters['user'] = userQuery;
 
+		filters['participants'] = {
+			$nin: blocked
+		};
+
 		req.activityFilters = filters;
 		next();
 	});
+}
+
+exports.addActivitySort = function(req, res, next) {
+	let sort = {
+		0: {
+			createdAt: 1
+		},
+		1: {
+			createdAt: -1
+		},
+		2: {
+			timestampStart: 1
+		},
+		3: {
+			timestampEnd: -1
+		},
+		4: {
+			price: 1
+		},
+		5: {
+			price: -1
+		},
+		6: {
+			title: 1
+		},
+		7: {
+			title: -1
+		},
+	};
+
+	var s;
+	if (s = req.query.sort) {
+		req.sort = sort[s];
+	}
+
+	next();
 }
 
 exports.addBlockedFilters = function(req, res, next) {

@@ -103,6 +103,11 @@ var ActivitySchema = new Schema({
             ref: 'Entities'
         },
 
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+
     })
     .set('toObject', {
         getters: true

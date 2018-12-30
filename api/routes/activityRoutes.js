@@ -17,6 +17,7 @@ module.exports = function(app) {
         validate(validations.list),
         userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters,
+        activityMiddleware.addActivitySort,
         activityMiddleware.populatePagination,
     ], activity.listNormal);
     app.get('/normal/own/activities/', [

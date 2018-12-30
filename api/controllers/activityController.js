@@ -31,10 +31,13 @@ exports.limitSkipActivities = function(activities,limit,skip) {
 }
 
 exports.listNormal = function(req, res) {
-    let maxDist = req.query.dist || 5 * 1000;
+    let maxDist = req.query.maxDist || 5 * 1000;
+    let minDist = req.query.minDist || 0;
     let lat = req.user.place.lat;
     let long = req.user.place.long;
-    Activity.find(req.activityFilters || {})
+    Activity
+    .find(req.activityFilters || {})
+    .sort(req.sort || {})
     .exec(function(err, activities) {
         if (err) return res.send(err);
         let ret = activities.filter(activity => {
@@ -43,7 +46,7 @@ exports.listNormal = function(req, res) {
                 {latitude: activity.lat, longitude: activity.long}
             );
 
-            return distance <= maxDist;
+            return minDist <= distance && distance <= maxDist;
         });
 
         return res.json(exports.limitSkipActivities(ret,req.pagination.limit,req.pagination.skip));

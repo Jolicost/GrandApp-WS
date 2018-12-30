@@ -16,7 +16,8 @@ module.exports = {
   list: {
     query: {
       minPrice: Joi.number().min(0),
-      maxPrice: Joi.number().min(0)
+      maxPrice: Joi.number().min(0),
+      sort: Joi.number().min(0).max(7)
     }
   }
 };

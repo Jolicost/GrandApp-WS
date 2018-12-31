@@ -77,7 +77,11 @@ module.exports = function(app) {
     ], activity.unvote);
 
     /* Entity routes */
-    app.get('/entity/activities', [activityMiddleware.addEntityFilters], activity.list);
+    app.get('/entity/activities', [
+        activityMiddleware.addEntityFilters,
+        activityMiddleware.populatePagination
+    ], activity.list);
+    app.get('/entity/count/activities', [activityMiddleware.addEntityFilters], activity.count);
     app.get('/entity/activities/:activityId', [activityMiddleware.selectActivityAttributes], activity.read);
     app.post('/entity/activities', [
         activityMiddleware.setActivityData,

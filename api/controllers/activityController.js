@@ -6,8 +6,18 @@ var mongoose = require('mongoose'),
 var achievementCtrl = require('./achievementController');
 var geolib = require('geolib');
 
+exports.count = function(req, res) {
+    Activity.countDocuments(req.activityFilters || {}).exec(function(err, n){
+        if (err) return res.send(err);
+        else return res.json({count: n});
+    });
+}
+
 exports.list = function(req, res) {
-    Activity.find(req.activityFilters || {}, function(err, activities) {
+    Activity.find(req.activityFilters || {})
+    .limit(req.pagination.limit)
+    .skip(req.pagination.skip)
+    .exec(function(err, activities) {
         if (err)
             res.send(err);
         else

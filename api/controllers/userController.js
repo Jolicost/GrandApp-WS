@@ -7,10 +7,20 @@ var mongoose = require('mongoose'),
 
 var async = require('async');
 
+exports.count = function(req, res) {
+    User.countDocuments(req.userFilters || {}).exec(function(err, n){
+        if (err) return res.send(err);
+        else return res.json({count: n});
+    });
+}
+
 exports.list = function(req, res) {
     let filters = req.userFilters || {};
     let attributes = req.userAttributes || {};
-    User.find(filters,attributes, function(err, users) {
+    User.find(filters,attributes)
+    .skip(req.pagination.skip)
+    .limit(req.pagination.limit)
+    .exec(function(err, users) {
         if (err)
             res.send(err);
         else

@@ -78,9 +78,15 @@ module.exports = function(app) {
     app.get('/entity/users', [
         userMiddleware.selectEntityUserAttributes,
         userMiddleware.selectNormalUsersFilter,
-        userMiddleware.selectUserFilters
+        userMiddleware.selectUserFilters,
+        activityMiddleware.populatePagination
     ], user.list);
 
+    // COUNT
+    app.get('/entity/count/users', [
+        userMiddleware.selectNormalUsersFilter,
+        userMiddleware.selectUserFilters
+    ], user.count);
     
     // UPDATE
     app.put('/entity/users/:userId', [

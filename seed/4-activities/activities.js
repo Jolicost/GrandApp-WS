@@ -323,6 +323,56 @@ var activities = [{
         },
         createdAt: Date.now(),
         entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Xat amb sergio A",
+        description: "Creada per sergio 1 perque sergio 2 pugui parlar",
+        participants: [getObjectId("UserSergio2")],
+        rating: 0,
+        votes: [],
+        activityType: "Xat",
+        price: 3,
+        images: [
+            "https://i.imgur.com/raZVoMB.jpg",
+            "https://i.imgur.com/raZVoMB.jpg"
+        ],
+        lat: 41.5064862,
+        long: 2.39124558,
+        user: getObjectId("UserSergio1"),
+        address: "Av. de Gaudí, 3, 08025 Barcelona, España",
+        capacity: 324,
+        _id: getObjectId("ActivityTSergio1"),
+        place: {
+            placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
+            placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
+    },
+    {
+        title: "Xat amb sergio B",
+        description: "Creada per sergio 2 perque sergio 1 pugui parlar",
+        participants: [getObjectId("UserSergio1")],
+        rating: 0,
+        votes: [],
+        activityType: "Xat",
+        price: 3,
+        images: [
+            "https://i.imgur.com/raZVoMB.jpg",
+            "https://i.imgur.com/raZVoMB.jpg"
+        ],
+        lat: 41.5064862,
+        long: 2.39124558,
+        user: getObjectId("UserSergio2"),
+        address: "Av. de Gaudí, 3, 08025 Barcelona, España",
+        capacity: 324,
+        _id: getObjectId("ActivityTSergio2"),
+        place: {
+            placeId: "ChIJ-Ya_TcOipBIRroYz68rqfBc",
+            placeName: "Av. de Gaudí, 3, 08025 Barcelona, España"
+        },
+        createdAt: Date.now(),
+        entity: getObjectId('EntityBarcelona')
     }
 
 ];

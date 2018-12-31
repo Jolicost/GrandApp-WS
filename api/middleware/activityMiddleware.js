@@ -235,7 +235,7 @@ exports.setActivityData = function(req, res, next) {
     let activity = {
         title: req.body.title,
         description: req.body.description,
-        user: req.user,
+        user: req.user._id,
         activityType: req.body.activityType,
         price: req.body.price,
         images: req.body.images,
@@ -244,7 +244,7 @@ exports.setActivityData = function(req, res, next) {
         long: req.body.long,
         timestampStart: req.body.timestampStart,
         timestampEnd: req.body.timestampEnd,
-        entity: req.entity || undefined,
+        entity: req.entity._id || undefined,
         createdAt: Date.now()
     };
 

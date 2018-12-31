@@ -84,6 +84,7 @@ module.exports = function(app) {
     app.get('/entity/count/activities', [activityMiddleware.addEntityFilters], activity.count);
     app.get('/entity/activities/:activityId', [activityMiddleware.selectActivityAttributes], activity.read);
     app.post('/entity/activities', [
+        activityMiddleware.getActivityEntity,
         activityMiddleware.setActivityData,
         activityMiddleware.checkOutOfBoundsActivity
     ], activity.createNormal);

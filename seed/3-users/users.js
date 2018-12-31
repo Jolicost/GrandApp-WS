@@ -108,7 +108,7 @@ const users = [{
         username: 'despistao',
         email: 'despistao@despiste.com',
         password: hashPassword('despistao'),
-        completeName: 'iaia toneta toneta',
+        completeName: 'el despistao',
         birthday: new Date('1969-08-03'),
         profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
         phone: '+344321',

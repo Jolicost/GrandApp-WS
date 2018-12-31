@@ -151,6 +151,7 @@ exports.update = function(req, res) {
 };
 
 exports.updateNormal = function(req, res) {
+    console.log(req.activityData);
     Activity.findOneAndUpdate({
         _id: req.params.activityId
     }, req.activityData, function (err, activity) {

@@ -11,10 +11,17 @@ exports.roomMessages = function(req, res) {
     console.log("Entering " + roomId);
 
     let room = sd.subscribe(roomId, {
-      historyCount: 5 // ask for the 5 most recent messages from the room's history
+      historyCount: 5
     });
 
-    room.on('history_message', message => console.log(message));
+    var arrayResp = [];
+    let message;
+    room.on('history_message', message => {
+      console.log(message);
+      arrayResp.push(message);
+    });
 
-    res.json(room.on('history_message', message));
+    console.log("Response:  ------------------------- ");
+
+    res.json(arrayResp);
 };

@@ -17,17 +17,11 @@ exports.roomMessages = function(req, res) {
     var arrayResp = [];
     let message;
 
-    room.on('history_message', message => {
-      console.log(message)
-    });
+    arrayResp.push(room.on('history_message', message => {
+      console.log(message);
+    }));
 
     console.log("Response:  ------------------------- ");
-
-    var messRoom = room.on('history_message', message);
-
-    messRoom.forEach(mes => {
-      arrayResp.push(mess);
-    });
 
     res.json(arrayResp);
 };

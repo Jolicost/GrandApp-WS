@@ -17,6 +17,7 @@ exports.count = function(req, res) {
 exports.list = function(req, res) {
     let filters = req.userFilters || {};
     let attributes = req.userAttributes || {};
+    console.log(filters);
     User.find(filters,attributes)
     .skip(req.pagination.skip)
     .limit(req.pagination.limit)

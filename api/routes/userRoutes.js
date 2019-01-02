@@ -79,6 +79,7 @@ module.exports = function(app) {
         userMiddleware.selectEntityUserAttributes,
         userMiddleware.selectNormalUsersFilter,
         userMiddleware.selectUserFilters,
+        userMiddleware.populateUserFilters,
         activityMiddleware.populatePagination
     ], user.list);
 

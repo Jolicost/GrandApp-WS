@@ -112,7 +112,7 @@ exports.read = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    var new_activity = new Activity(req.body);
+    var new_activity = new Activity(req.activityData);
     
     new_activity.save(function(err, activity) {
         if (err)
@@ -124,7 +124,8 @@ exports.create = function(req, res) {
 
 exports.createNormal = function(req, res) {
     
-    let activity = new Activity(req.body);
+
+    let activity = new Activity(req.activityData);
 
     activity.save(function(err, activity) {
         if (err) return res.send(err);
@@ -150,6 +151,7 @@ exports.update = function(req, res) {
 };
 
 exports.updateNormal = function(req, res) {
+    console.log(req.activityData);
     Activity.findOneAndUpdate({
         _id: req.params.activityId
     }, req.activityData, function (err, activity) {

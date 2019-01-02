@@ -38,8 +38,8 @@ var activities = [{
             "https://i.imgur.com/raZVoMB.jpg",
             "https://i.imgur.com/raZVoMB.jpg"
         ],
-        lat: 41.405060,
-        long: 2.174270,
+        lat: 41.3881445,
+        long: 2.1422826,
         user: getObjectId("UserTrump"),
         address: "Av. de Gaudí, 3, 08025 Barcelona, España",
         capacity: 324,

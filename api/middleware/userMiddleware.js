@@ -292,3 +292,19 @@ exports.userHasLocation = function(req, res, next) {
 		res.status(400).send("User does not have coordinates");
 	}
 }
+
+
+exports.populateUserFilters = function(req, res, next) {
+	let userFilters = req.userFilters || {};
+
+	let name = req.query.completeName;
+	if (name && name.trim()) {
+		name = name.trim();
+		userFilters['completeName'] = {
+			$regex: new RegExp(".*" + name + ".*","i")
+		};
+	}
+
+	req.userFilters = userFilters;
+	next();
+}

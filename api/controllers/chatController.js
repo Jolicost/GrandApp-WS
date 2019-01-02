@@ -23,5 +23,5 @@ exports.roomMessages = function(req, res) {
 
     console.log("Response:  ------------------------- ");
 
-    res.json(arrayResp);
+    res.json(JSON.stringify(arrayResp));
 };

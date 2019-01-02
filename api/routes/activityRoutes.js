@@ -15,7 +15,7 @@ module.exports = function(app) {
     /* Normal routes */
     app.get('/normal/activities', [
         validate(validations.list),
-        userMiddleware.userHasLocation,
+        //userMiddleware.userHasLocation,
         activityMiddleware.addActivityFilters,
         activityMiddleware.addActivitySort,
         activityMiddleware.populatePagination,

@@ -51,6 +51,8 @@ exports.listNormal = function(req, res) {
     .exec(function(err, activities) {
         if (err) return res.send(err);
         let ret = activities.filter(activity => {
+            if (!lat || !long) return true;
+
             let distance = geolib.getDistance(
                 {latitude: lat, longitude: long},
                 {latitude: activity.lat, longitude: activity.long}

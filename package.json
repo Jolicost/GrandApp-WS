@@ -49,7 +49,7 @@
     "node-restful": "^0.2.6",
     "nodemailer": "^4.7.0",
     "password-hash": "^1.2.2",
-    "scaledrone-node-push": "^1.4.0"
+    "scaledrone-node": "^1.4.0"
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",
   "devDependencies": {

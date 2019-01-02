@@ -16,12 +16,18 @@ exports.roomMessages = function(req, res) {
 
     var arrayResp = [];
     let message;
+
     room.on('history_message', message => {
-      console.log(message);
-      arrayResp.push(message);
+      console.log(message)
     });
 
     console.log("Response:  ------------------------- ");
+
+    room.on('history_message', message => {
+      console.log(message);
+    }).forEach(mes => {
+      arrayResp.push(mess);
+    });
 
     res.json(arrayResp);
 };

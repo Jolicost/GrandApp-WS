@@ -23,9 +23,9 @@ exports.roomMessages = function(req, res) {
 
     console.log("Response:  ------------------------- ");
 
-    room.on('history_message', message => {
-      console.log(message);
-    }).forEach(mes => {
+    var messRoom = room.on('history_message', message);
+
+    messRoom.forEach(mes => {
       arrayResp.push(mess);
     });
 

@@ -12,7 +12,6 @@ exports.roomMessages = function(req, res) {
     let roomId = req.params.roomId;
 
     console.log("Entering " + roomId);
-    console.log( sd.);
 
     let room = sd.subscribe(roomId, {
       historyCount: 5 // ask for the 5 most recent messages from the room's history

@@ -1,9 +1,7 @@
 'use strict';
 
 const Scaledrone = require('scaledrone-node');
-const sd = new Scaledrone({
-  channelId: 'p0gOL0KDsTT7G0Pd'
-});
+const sd = new Scaledrone('p0gOL0KDsTT7G0Pd');
 
 exports.roomMessages = function(req, res) {
 

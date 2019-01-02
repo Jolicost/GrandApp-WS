@@ -17,7 +17,7 @@ exports.roomMessages = function(req, res) {
     var arrayResp = [];
     let message;
 
-    room.on('history_message', message => {
+    let returnValue = room.on('history_message', message => {
       console.log(message);
       arrayResp.push(message);
       console.log(arrayResp);
@@ -25,6 +25,6 @@ exports.roomMessages = function(req, res) {
 
     console.log("Response:  ------------------------- ");
 
-    console.log(arrayResp);
-    return res.json(arrayResp);
+    console.log(returnValue);
+    return res.json(returnValue);
 };

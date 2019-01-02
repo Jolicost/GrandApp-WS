@@ -7,11 +7,18 @@ const sd = new Scaledrone({
 });
 
 exports.roomMessages = function(req, res) {
+
+    console.log("Entering room messages");
     let roomId = req.params.roomId;
+
+    console.log("Entering " + roomId);
+    console.log( sd.);
 
     let room = sd.subscribe(roomId, {
       historyCount: 5 // ask for the 5 most recent messages from the room's history
     });
+
+    room.on('history_message', message => console.log(message));
 
     res.json(room.on('history_message', message));
 };

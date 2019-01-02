@@ -27,6 +27,7 @@ exports.roomMessages = function(req, res) {
         arrayResp.push(message);
         console.log(arrayResp);
       });
+      callback();
     }
 
     roomFunction(myCallback);

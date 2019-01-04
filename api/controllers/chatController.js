@@ -16,21 +16,14 @@ exports.roomMessages = function(req, res) {
 
     var arrayResp = [];
     let message;
+    let count = 0;
 
-    var myCallback = function() {
-      console.log(arrayResp);
-      return res.json(arrayResp);
-    }
-
-    var roomFunction = function(callback) {
-      room.on('history_message', message => {
-        arrayResp.push(message);
-        console.log(arrayResp);
-      });
-      callback();
-    }
-
-    roomFunction(myCallback);
-
-    console.log("Response:  ------------------------- ");
+    room.on('history_message', message => {
+      console.log(message);
+      arrayResp.push(message);
+      count++;
+      if(count >= 100) {
+        return res.json(arrayResp).send();
+      }
+    });
 };

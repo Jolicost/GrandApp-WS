@@ -120,7 +120,18 @@ module.exports = function(app) {
 
     
     /* ADMIN ROUTES */
+    var passwordHash = require('password-hash');
     Users.after('delete', userMiddleware.purgeReferences);
+    /* Hash password */
+    var hash = function(req, res, next) {
+        if (req.body.password)
+            req.body.password = passwordHash.generate(req.body.password);
+        next(); 
+    };
+    
+    Users.before('post', hash);
+    Users.before('put', hash);
+    
     Users.register(app,'/admin/users');
 
 

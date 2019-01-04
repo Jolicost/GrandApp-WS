@@ -68,7 +68,8 @@ exports.register = function(req, res) {
         completeName: req.body.completeName,
         birthday: req.body.birthday,
         phone: req.body.phone,
-        profilePic: req.body.profilePic
+        profilePic: req.body.profilePic,
+        createdAt: Date.now()
     });
 
     user.save(function(err, user) {
@@ -178,7 +179,8 @@ function registerExternalUser(body, method, callback)
         email: email,
         phone: phone,
         completeName: completeName,
-        profilePic: profilePic
+        profilePic: profilePic,
+        createdAt: Date.now()
     };
 
     let key = 'auth.' + method + '.token';

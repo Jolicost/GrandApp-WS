@@ -129,6 +129,13 @@ exports.addEntityFilters = function(req, res, next) {
 
 	filters.entity = req.entity._id;
 
+	let title = req.query.title;
+	if (title && title.trim()) {
+		let titleQuery = {};
+		titleQuery.$regex = new RegExp(".*" + title.trim() + ".*","i");
+		filters['title'] = titleQuery;
+	}
+
 	req.activityFilters = filters;
 
 	next();

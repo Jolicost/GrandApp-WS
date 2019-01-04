@@ -41,7 +41,7 @@ exports.limitSkipActivities = function(activities,limit,skip) {
 }
 
 exports.listNormal = function(req, res) {
-    let maxDist = req.query.maxDist || 5 * 1000;
+    let maxDist = req.query.maxDist || 10 * 1000;
     let minDist = req.query.minDist || 0;
     let lat = req.user.place.lat;
     let long = req.user.place.long;
@@ -51,6 +51,8 @@ exports.listNormal = function(req, res) {
     .exec(function(err, activities) {
         if (err) return res.send(err);
         let ret = activities.filter(activity => {
+            if (!lat || !long) return true;
+
             let distance = geolib.getDistance(
                 {latitude: lat, longitude: long},
                 {latitude: activity.lat, longitude: activity.long}

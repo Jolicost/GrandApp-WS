@@ -41,8 +41,11 @@ exports.limitSkipActivities = function(activities,limit,skip) {
 }
 
 exports.listNormal = function(req, res) {
-    let maxDist = req.query.maxDist || 10 * 1000;
+    let maxDist = req.query.maxDist;
+    if (!maxDist || maxDist == 0) maxDist = 10 * 1000;
+
     let minDist = req.query.minDist || 0;
+
     let lat = req.user.place.lat;
     let long = req.user.place.long;
     Activity

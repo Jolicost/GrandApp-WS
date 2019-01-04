@@ -169,7 +169,7 @@ exports.addActivityFilters = function(req, res, next) {
 
 	let priceQuery = {};
 	if (minPrice) priceQuery.$gte = parseFloat(minPrice);
-	if (maxPrice) priceQuery.$lte = parseFloat(maxPrice);
+	if (maxPrice && maxPrice > 0) priceQuery.$lte = parseFloat(maxPrice);
 	if (minPrice || maxPrice) filters['price'] = priceQuery;
 
 	if (title && title.trim()) {

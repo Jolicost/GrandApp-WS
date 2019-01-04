@@ -23,7 +23,9 @@ exports.roomMessages = function(req, res) {
       console.log(message);
       arrayResp.push(message);
       count++;
-      if(count >= messCount) {
+      if (count >= 100) {
+        return res.json(arrayResp).send();
+      } else if(count >= messCount) {
         return res.json(arrayResp).send();
       }
     });

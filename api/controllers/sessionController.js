@@ -94,18 +94,19 @@ exports.changePassword = function(req, res) {
     if (!oldPassword || !newPassword)
         return res.status(400).send("Invalid request: some password not specified");
 
-    bcrypt.compare(oldPassword, user.password, function(err, result) {
-        if (!result) return res.status(432).send("The old password does not match");
-        User.updateOne(
-            {_id: user._id},
-            {password: hashPassword(newPassword)},
-            function(err, user) {
-                if (err) return res.status(500).send();
+    console.log(user.password);
+    if (!verifyPassword(oldPassword,user.password)) 
+        return res.status(432).send("The old password does not match");
 
-                res.status(200).send("Password successfuly changed");
-            }
-        );
-    });
+    User.updateOne(
+        {_id: user._id},
+        {password: hashPassword(newPassword)},
+        function(err, user) {
+            if (err) return res.status(500).send();
+
+            res.status(200).send("Password successfuly changed");
+        }
+    );
 
 }
 

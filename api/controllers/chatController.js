@@ -7,11 +7,12 @@ exports.roomMessages = function(req, res) {
 
     console.log("Entering room messages");
     let roomId = req.params.roomId;
+    let messCount = req.params.messageCount;
 
     console.log("Entering " + roomId);
 
     let room = sd.subscribe(roomId, {
-      historyCount: 5
+      historyCount: 100
     });
 
     var arrayResp = [];
@@ -22,7 +23,7 @@ exports.roomMessages = function(req, res) {
       console.log(message);
       arrayResp.push(message);
       count++;
-      if(count >= 100) {
+      if(count >= messCount) {
         return res.json(arrayResp).send();
       }
     });

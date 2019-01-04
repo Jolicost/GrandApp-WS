@@ -239,9 +239,9 @@ exports.activities = function(req, res) {
 			ages: function(callback) {
 				getActivitiesUserAges(activities,callback);
 			},
-			activities: function(callback) {
+			/*activities: function(callback) {
 				callback(null,activities);
-			},
+			},*/
 		},
 		function(err, results) {
 			if (err) return res.send(err);

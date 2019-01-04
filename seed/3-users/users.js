@@ -39,6 +39,7 @@ const users = [{
             long: 2.174270
         },
         blocked: [],
+        points: 500,
         achievements: [
             getObjectId('AchCadete'),
             getObjectId('AchNovato'),
@@ -68,6 +69,7 @@ const users = [{
         userType: 'normal',
         nRequests: 5,
         blocked: [],
+        points: 300,
         place: {
             placeId: 'EitQbGHDp2EgZGUgQ2F0YWx1bnlhLCAwODAwMiBCYXJjZWxvbmEsIFNwYWluIi4qLAoUChIJXQ1dXPGipBIRdJPxPA1EZ5USFAoSCeUwjnEWmKQSEQpmR089',
             placeName: 'Plaça de Catalunya, 08002 Barcelona, España',

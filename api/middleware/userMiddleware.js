@@ -91,7 +91,7 @@ exports.selectUserAttributes = function(req, res, next) {
     let target = req.targetUser;
     let requester = req.user;
 
-    let base = ['completeName','profilePic','username'];
+    let base = ['completeName','profilePic','username','points'];
     let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications','blocked']);
     let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 
@@ -112,7 +112,7 @@ exports.selectUserAttributes = function(req, res, next) {
 
 exports.selectEntityUserAttributes = function(req, res, next) {
 
-	let base = ['completeName','profilePic','username'];
+	let base = ['completeName','profilePic','username','points'];
     let own = base.concat(['email','birthday','phone','contactPhones','entity','createdAt','notifications','blocked']);
     let own_entity = own.concat(['userType','place','lastRequest','nRequests']);
 

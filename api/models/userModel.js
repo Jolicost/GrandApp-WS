@@ -99,6 +99,10 @@ var UserSchema = new Schema({
             id: String
         }
     },
+    points: {
+        type: Number,
+        default: 0
+    },
     achievements: [{
         type: Schema.Types.ObjectId,
         ref: 'Achievements'

@@ -167,15 +167,20 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
         }
     }, function(err, results) {
         let achievements = [];
+        let sum = 0
         Object.keys(results).forEach(function(key) {
             results[key].forEach(ach => { 
                 achievements.push(ach);
+                sum += ach.value;
             });
         });
 
         User.updateOne({_id: user._id}, { 
                 $addToSet: {
                     achievements: achievements
+                },
+                $inc: {
+                    points: sum
                 }
             }, function(err){
             if (err) callback(err,null);

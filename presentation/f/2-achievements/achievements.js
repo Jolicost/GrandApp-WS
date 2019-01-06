@@ -6,84 +6,84 @@ let hiddenImage = 'https://image.freepik.com/free-icon/question-mark_318-52837.j
 
 var achievements = [
     {
-        _id: getObjectId('AchCadete'),
-        title: 'Cadete',
+        _id: getObjectId('AchPrivate'),
+        title: 'Private',
         achievementType: 'number',
         key: 1,
         value: 10,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Navy_and_Marine_Corps_Achievement_Medal_ribbon.gif/800px-Navy_and_Marine_Corps_Achievement_Medal_ribbon.gif',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/private.svg',     
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchSoldado'),
-        title: 'Soldado',
+        _id: getObjectId('AchSpecialist'),
+        title: 'Specialist',
+        achievementType: 'number',
+        key: 5,
+        value: 100,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/specialist.svg',     
+        hiddenImage: hiddenImage
+    },
+    {
+        _id: getObjectId('AchSergeant'),
+        title: 'Sergeant',
         achievementType: 'number',
         key: 10,
-        value: 100,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        value: 500,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/sergeant.svg',     
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchOficial'),
-        title: 'Oficial',
-        achievementType: 'number',
-        key: 50,
-        value: 5000,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
-        hiddenImage: hiddenImage
-    },
-    {
-        _id: getObjectId('AchNovato'),
+        _id: getObjectId('AchMajor'),
         title: 'Novato',
         achievementType: 'create',
-        key: 1,
+        key: 3,
+        value: 100,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/major.svg',     
+        hiddenImage: hiddenImage
+    },
+    {
+        _id: getObjectId('AchLiutenant'),
+        title: 'Liutenant',
+        achievementType: 'create',
+        key: 2,
         value: 20,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/first_lieutenant.svg',
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchVeterano'),
-        title: 'Veterano',
+        _id: getObjectId('AchCaptain'),
+        title: 'Captain',
         achievementType: 'create',
-        key: 5,
-        value: 500,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        key: 2,
+        value: 50,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/captain.svg',     
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchGuru'),
-        title: 'Guru',
-        achievementType: 'create',
-        key: 10,
-        value: 2000,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
-        hiddenImage: hiddenImage
-    },
-    {
-        _id: getObjectId('AchFamoso'),
-        title: 'Famoso',
+        _id: getObjectId('AchColonel'),
+        title: 'Colonel',
         achievementType: 'popular',
         key: 1,
         value: 100,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/colonel.svg',
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchFiestero'),
-        title: 'Fiestero',
+        _id: getObjectId('AchGeneral'),
+        title: 'General',
         achievementType: 'popular',
-        key: 100,
-        value: 1000,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        key: 2,
+        value: 250,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/brigadier_general.svg',
         hiddenImage: hiddenImage
     },
     {
-        _id: getObjectId('AchAlcalde'),
-        title: 'Alcalde',
+        _id: getObjectId('AchVeteran'),
+        title: 'Veteran',
         achievementType: 'popular',
-        key: 1000,
-        value: 10000,
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg/1920px-Navy_and_Marine_Corps_Achievement_Medal_ribbon%2C_6th_award.svg.png',     
+        key: 3,
+        value: 500,
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/general_of_the_army.svg',
         hiddenImage: hiddenImage
     }
 ];

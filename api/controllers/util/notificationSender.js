@@ -6,7 +6,7 @@ let pushNotifications = new PushNotifications({
 });
 
 exports.sendNotification = function(userId, title, notiBody, callback) {
-    pushNotifications.publish([userId], {
+    pushNotifications.publish([userId.toString()], {
       apns: {
         aps: {
           alert: 'Hello!'
@@ -19,7 +19,7 @@ exports.sendNotification = function(userId, title, notiBody, callback) {
         }
       }
     }).then((publishResponse) => {
-      console.log('room:', userId);
+      console.log('room:', userId.toString());
       console.log('title:', title);
       console.log('notiBody:', notiBody);
       console.log('Just published:', publishResponse.publishId);
@@ -41,7 +41,6 @@ pushNotifications.publish(['hello'], {
     }
   }
 }).then((publishResponse) => {
-  console.log('room:', userId);
   console.log('Just published:', publishResponse.publishId);
 }).catch((error) => {
   console.log('Error:', error);

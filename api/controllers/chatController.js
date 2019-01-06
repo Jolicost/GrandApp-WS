@@ -20,12 +20,14 @@ exports.roomMessages = function(req, res) {
     let count = 0;
 
     room.on('history_message', message => {
-      console.log(message);
       arrayResp.push(message);
       count++;
+      console.log(message);
+      console.log("count = " + count);
       if (count >= 100) {
         return res.json(arrayResp).send();
-      } else if(count >= messCount) {
+      } else if(count == messCount) {
+        console.log("End = " + count);
         return res.json(arrayResp).send();
       }
     });

@@ -27,21 +27,3 @@ exports.sendNotification = function(userId, title, notiBody, callback) {
       console.log('Error:', error);
     });
 }
-
-pushNotifications.publish(['hello'], {
-  apns: {
-    aps: {
-      alert: 'Hello!'
-    }
-  },
-  fcm: {
-    notification: {
-      title: 'Hello',
-      body: 'Hello, world!'
-    }
-  }
-}).then((publishResponse) => {
-  console.log('Just published:', publishResponse.publishId);
-}).catch((error) => {
-  console.log('Error:', error);
-});

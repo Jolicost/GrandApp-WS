@@ -75,7 +75,7 @@ exports.register = function(req, res) {
     user.save(function(err, user) {
         if (err) return res.status(500).send(err);
         // create a token
-        signAndSend(req, res, user);
+        signAndSend(req, res, user, true);
     });
 
 
@@ -156,12 +156,13 @@ function signToken(user) {
     return token;
 }
 
-function signAndSend(req, res, user) {
+function signAndSend(req, res, user, newUser = false) {
     let jwt = signToken(user);
     res.status(200).send({
         auth: true,
         token: jwt,
-        user: user
+        user: user,
+        newUser: newUser
     });
 }
 
@@ -207,12 +208,12 @@ function checkLogin(req, res, method) {
                 else if (user) return res.status(407).send("User exists");
                 else {
                     registerExternalUser(req.body,method, function(err, user) {
-                        signAndSend(req, res, user);
+                        signAndSend(req, res, user, true);
                     });
                 }
             });
         } else {
-            signAndSend(req, res, user)
+            signAndSend(req, res, user, false)
         }
     });
 }

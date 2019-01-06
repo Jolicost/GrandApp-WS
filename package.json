@@ -50,7 +50,8 @@
     "nodemailer": "^4.7.0",
     "underscore": "^1.9.1",
     "password-hash": "^1.2.2",
-    "scaledrone-node": "^1.4.0"
+    "scaledrone-node": "^1.4.0",
+    "pusher-push-notifications-node": "^0.10.3"
   },
   "homepage": "https://github.com/Jolicost/PES_Server#readme",
   "devDependencies": {

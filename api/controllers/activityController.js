@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     Activity = mongoose.model('Activities');
 
 var achievementCtrl = require('./achievementController');
+var notification = require('./util/notificationSender.js')
 var geolib = require('geolib');
 
 exports.count = function(req, res) {
@@ -72,7 +73,7 @@ exports.listNormalNoDistance = function(req, res) {
     Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
         if (err) res.send(err);
         else res.json(activities);
-    });   
+    });
 }
 
 exports.shortList = function(req, res) {
@@ -80,13 +81,13 @@ exports.shortList = function(req, res) {
     /*ActivityList.find({}, function(err,activities) {
         if (err)
             res.send(err);
-        else 
+        else
             res.json(activities);*/
 
     for (var i = 0; i < activities.length - 1; i++) {
         var obj = activities[i].toObject();
 
-        /* 
+        /*
         _id
         titol
         1era foto
@@ -109,16 +110,16 @@ exports.read = function(req, res) {
     Activity.findById(req.params.activityId, function(err, activity) {
         if (err)
             res.send(err);
-        else if (!activity) 
+        else if (!activity)
             res.status(404).send("activity not found");
-        else            
+        else
             res.json(activity);
     });
 };
 
 exports.create = function(req, res) {
     var new_activity = new Activity(req.activityData);
-    
+
     new_activity.save(function(err, activity) {
         if (err)
             res.send(err);
@@ -128,7 +129,7 @@ exports.create = function(req, res) {
 };
 
 exports.createNormal = function(req, res) {
-    
+
 
     let activity = new Activity(req.activityData);
 
@@ -137,7 +138,7 @@ exports.createNormal = function(req, res) {
         else {
             achievementCtrl.computeAchievements(req.user,function(err) {
                 return res.status(200).send("Activity created");
-            }, { create: true });   
+            }, { create: true });
         }
     });
 }
@@ -191,8 +192,13 @@ exports.deleteAll = function(req, res) {
 
 
 exports.join = function(req, res) {
+
+    notification.sendNotification("hello", function(err) {
+        if (err) return res.status(500).send(err);
+    });
+
     Activity.findOneAndUpdate({_id: req.activity._id},
-    {   
+    {
         $push: {participants: req.user._id}
     }, function(err) {
         if (err) return res.status(500).send("internal server error");
@@ -202,8 +208,8 @@ exports.join = function(req, res) {
 
 exports.leave = function(req, res) {
     Activity.findOneAndUpdate({_id: req.activity._id},
-    {   
-        $pullAll: {participants: [req.user._id] } 
+    {
+        $pullAll: {participants: [req.user._id] }
     }, function(err) {
         if (err) return res.status(500).send("internal server error");
         else return res.status(200).send("Activity left");
@@ -278,6 +284,6 @@ exports.isActivityClose = function(activity, lat, long, meters) {
         {latitude: lat, longitude: long},
         {latitude: activity.lat, longitude: activity.long}
     );
-    
+
     return distance <= meters;
 }

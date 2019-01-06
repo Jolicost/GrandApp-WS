@@ -6,7 +6,7 @@ let pushNotifications = new PushNotifications({
 });
 
 exports.sendNotification = function(userId, callback) {
-    pushNotifications.publish([userId], {
+    pushNotifications.publish(['hello'], {
       apns: {
         aps: {
           alert: 'Hello!'
@@ -19,6 +19,7 @@ exports.sendNotification = function(userId, callback) {
         }
       }
     }).then((publishResponse) => {
+      console.log('room:', userId);
       console.log('Just published:', publishResponse.publishId);
     }).catch((error) => {
       console.log('Error:', error);

@@ -6,19 +6,16 @@ let pushNotifications = new PushNotifications({
 });
 
 exports.sendNotification = function(userId, callback) {
-  pushNotifications.publish(
-    ['hello'],
-    {
+  pushNotifications.publish(['hello'], {
       fcm: {
         notification: {
           title: 'Hello World',
           body: 'Hello!'
         }
       }
-    }
-  }).then((publishResponse) => {
-    console.log('Just published:', publishResponse.publishId]);
-  }).catch((error) => {
-    console.log('Error:', error);
-  });
+    }).then((publishResponse) => {
+      console.log('Just published:', publishResponse.publishId]);
+    }).catch((error) => {
+      console.log('Error:', error);
+    });
 }

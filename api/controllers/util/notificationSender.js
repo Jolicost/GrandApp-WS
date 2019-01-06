@@ -1,4 +1,4 @@
-const PushNotifications = require('pusher-push-notifications-node');
+const PushNotifications = require('@pusher/push-notifications-server');
 
 let pushNotifications = new PushNotifications({
   instanceId: '2fd264ad-d328-4d0a-9c7d-344b458fa29d',

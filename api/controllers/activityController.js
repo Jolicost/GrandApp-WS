@@ -192,15 +192,13 @@ exports.deleteAll = function(req, res) {
 
 
 exports.join = function(req, res) {
-
-    notification.sendNotification("hello", function(err) {
-        if (err) return res.status(500).send(err);
-    });
-
     Activity.findOneAndUpdate({_id: req.activity._id},
     {
         $push: {participants: req.user._id}
     }, function(err) {
+        notification.sendNotification(req.activity.user, 'One more!', 'A user joined your activity!', function(err) {
+            if (err) return res.status(500).send(err);
+        });
         if (err) return res.status(500).send("internal server error");
         else return res.status(200).send("Joined to activity");
     });
@@ -211,6 +209,9 @@ exports.leave = function(req, res) {
     {
         $pullAll: {participants: [req.user._id] }
     }, function(err) {
+        notification.sendNotification(req.activity.user, 'Somebody leaved!', 'A user leaved your activity.', function(err) {
+            if (err) return res.status(500).send(err);
+        });
         if (err) return res.status(500).send("internal server error");
         else return res.status(200).send("Activity left");
     });

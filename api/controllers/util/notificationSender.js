@@ -5,8 +5,8 @@ let pushNotifications = new PushNotifications({
   secretKey: '943237C03A6E7CCD023536024E8B8F04565BA208D178A1E3207BAC8A59D7E8D1'
 });
 
-exports.sendNotification = function(userId, callback) {
-    pushNotifications.publish(['hello'], {
+exports.sendNotification = function(userId, title, notiBody, callback) {
+    pushNotifications.publish([userId], {
       apns: {
         aps: {
           alert: 'Hello!'
@@ -14,12 +14,14 @@ exports.sendNotification = function(userId, callback) {
       },
       fcm: {
         notification: {
-          title: 'Hello',
-          body: 'Hello, world!'
+          title: title,
+          body: notiBody
         }
       }
     }).then((publishResponse) => {
       console.log('room:', userId);
+      console.log('title:', title);
+      console.log('notiBody:', notiBody);
       console.log('Just published:', publishResponse.publishId);
     }).catch((error) => {
       console.log('Error:', error);

@@ -14,65 +14,55 @@ function hashPassword(password) {
 
 const users = [
     {
-        _id: getObjectId('E.SuperAdmin.1'),
+        _id: getObjectId('F.SuperAdmin.1'),
         username: 'admin',
         password: hashPassword('admin'),
         userType: 'admin',
     },
     {
-    	_id: getObjectId('E.UserEntity.1'),
-    	username: "fib",
-    	password: hashPassword('fib'),
-    	userType: 'entity',
-    	entity: getObjectId("E.Entity.1")
-    },
-    {
-    	_id: getObjectId('E.UserEntity.2'),
+    	_id: getObjectId('F.UserEntity.1'),
     	username: "nexus",
     	password: hashPassword('nexus'),
     	userType: 'entity',
-    	entity: getObjectId("E.Entity.2")
+    	entity: getObjectId("F.Entity.1")
+    },
+    {
+    	_id: getObjectId('E.User.1'),
+    	username: "trump",
+    	password: hashPassword('america'),
+        email: "trump@whitehouse.com",
+        phone: "+341234",
+        completeName: "real donald trump",
+        birthday: '1946-06-14',
+        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Donald_Trump_official_portrait_%28cropped%29.jpg/1200px-Donald_Trump_official_portrait_%28cropped%29.jpg'
+    	userType: 'normal',
+    	entity: getObjectId("E.Entity.1"),
+        contactPhones: [
+            {
+                alias: 'obama',
+                phone: '+34 999 999 999'
+            }
+        ]
+    },
+    {
+        _id: getObjectId('E.User.2'),
+        username: "putin",
+        password: hashPassword('russia'),
+        email: "putin@kremlin.com",
+        phone: "+344321",
+        completeName: "vladimir putin",
+        birthday: '1952-08-07',
+        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Vladimir_Putin_%282017-07-08%29.jpg/225px-Vladimir_Putin_%282017-07-08%29.jpg'
+        userType: 'normal',
+        entity: getObjectId("E.Entity.1"),
+        contactPhones: [
+            {
+                alias: 'lenin',
+                phone: '+34 671 77 24 14'
+            }
+        ],
+        blocked: [getObjectId('E.User.1')]
     }
 ];
-var achievements = require('../2-achievements/achievements');
 
-function getRandomName() {
-	let r = Math.random().toString(36).substring(7);
-	return r;
-}
-
-function getAchievementsSample(index) {
-	let n = achievements.length;
-	return _.sample(achievements,_.random(0,n)).map(ach => {return ach._id});
-}
-
-function getRandomDate(from, to) {
-    from = from.getTime();
-    to = to.getTime();
-    return new Date(from + Math.random() * (to - from));
-}
-
-function createRandomUsers() {
-	let ret = [];
-	for (var i = 0; i < maxUsers; i++) {
-		let u = {
-			_id: getObjectId('E.RandomUser.' + i),
-			username: getRandomName(),
-			password: hashPassword('random'),
-			achievements: getAchievementsSample(i),
-			birthday: getRandomDate(new Date('1930-01-01'),new Date('2005-01-01')),
-			createdAt: getRandomDate(new Date('2018-01-01'), new Date('2018-12-31')),
-			lastRequest: getRandomDate(new Date('2018-12-01'),new Date('2018-12-31')),
-			nRequests: _.random(0,5000),
-			userType: 'normal',
-			entity: getObjectId("E.Entity.1")
-		};
-
-		ret.push(u);
-	}
-	return ret;
-}
-
-
-/* Return random users */
-module.exports = users.concat(createRandomUsers());
+module.exports = users;

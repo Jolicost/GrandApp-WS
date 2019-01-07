@@ -7,28 +7,35 @@ exports.roomMessages = function(req, res) {
 
     console.log("Entering room messages");
     let roomId = req.params.roomId;
-    let messCount = req.params.messageCount;
+    let messCount = req.activity.nMessages;
 
     console.log("Entering " + roomId);
-
-    let room = sd.subscribe(roomId, {
-      historyCount: 100
-    });
 
     var arrayResp = [];
     let message;
     let count = 0;
 
-    room.on('history_message', message => {
-      arrayResp.push(message);
-      count++;
-      console.log(message);
-      console.log("count = " + count);
-      if (count >= 100) {
-        return res.json(arrayResp).send();
-      } else if(count == messCount) {
-        console.log("End = " + count);
-        return res.json(arrayResp).send();
-      }
-    });
+    if(messCount != 0) {
+
+        if(messCount > 100) {
+            messCount = 100;
+        }
+      
+        let room = sd.subscribe(roomId, {
+            historyCount: 100
+        });
+
+        room.on('history_message', message => {
+            arrayResp.push(message);
+            count++;
+            console.log(message);
+            console.log("count = " + count);
+            if(count == messCount) {
+                console.log("End = " + count);
+                return res.json(arrayResp).send();
+            }
+        });
+    } else {
+        return res.json(arrayResp).send("No message historial");
+    }
 };

@@ -242,7 +242,7 @@ exports.vote = function(req, res) {
         rating: avg
     }, function(err) {
         if (err) return res.status(500).send("internal server error");
-        return res.json({rating: avg});
+        return res.status(200).send("vote registered");
     });
 }
 
@@ -265,7 +265,7 @@ exports.unvote = function(req, res) {
         rating: rating
     }, function(err) {
         if (err) return res.status(500).send("internal server error");
-        else return res.json({rating: rating});
+        else return res.status(200).send("vote unregistered");
     });
 }
 

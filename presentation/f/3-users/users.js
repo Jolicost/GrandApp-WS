@@ -27,7 +27,7 @@ const users = [
     	entity: getObjectId("F.Entity.1")
     },
     {
-    	_id: getObjectId('E.User.1'),
+    	_id: getObjectId('F.User.1'),
     	username: "trump",
     	password: hashPassword('america'),
         email: "trump@whitehouse.com",
@@ -36,7 +36,7 @@ const users = [
         birthday: '1946-06-14',
         profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Donald_Trump_official_portrait_%28cropped%29.jpg/1200px-Donald_Trump_official_portrait_%28cropped%29.jpg',
     	userType: 'normal',
-    	entity: getObjectId("E.Entity.1"),
+    	entity: getObjectId("F.Entity.1"),
         contactPhones: [
             {
                 alias: 'obama',
@@ -45,7 +45,7 @@ const users = [
         ]
     },
     {
-        _id: getObjectId('E.User.2'),
+        _id: getObjectId('F.User.2'),
         username: "putin",
         password: hashPassword('russia'),
         email: "putin@kremlin.com",
@@ -54,14 +54,14 @@ const users = [
         birthday: '1952-08-07',
         profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Vladimir_Putin_%282017-07-08%29.jpg/225px-Vladimir_Putin_%282017-07-08%29.jpg',
         userType: 'normal',
-        entity: getObjectId("E.Entity.1"),
+        entity: getObjectId("F.Entity.1"),
         contactPhones: [
             {
                 alias: 'lenin',
                 phone: '+34 671 77 24 14'
             }
         ],
-        blocked: [getObjectId('E.User.1')]
+        blocked: [getObjectId('F.User.1')]
     }
 ];
 

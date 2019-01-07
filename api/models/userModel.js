@@ -39,7 +39,7 @@ var UserSchema = new Schema({
     // user profile pic (URL)
     profilePic: {
         type: String,
-        default: "https://i.imgur.com/jNNT4LE.png"
+        default: "http://profilepicturesdp.com/wp-content/uploads/2018/07/profile-default-picture-4.png"
     },
     // user phone
     phone: {

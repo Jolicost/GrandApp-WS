@@ -114,7 +114,10 @@ const users = [{
         birthday: new Date('1969-08-03'),
         profilePic: 'https://pbs.twimg.com/profile_images/1065195071899934721/MUsaUkS4_400x400.jpg',
         phone: '+344321',
-        contactPhones: [],
+        contactPhones: [{
+            alias: "madre",
+            phone: '+34 123 123 123'
+        }],
         createdAt: new Date('2018-01-02'),
         userType: 'normal',
         place: {

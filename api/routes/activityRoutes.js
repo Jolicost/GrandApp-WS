@@ -62,6 +62,8 @@ module.exports = function(app) {
         activityMiddleware.userInActivity
     ], activity.leave);
 
+    app.put('/normal/activities/:activityId/message', activity.updateMessage);
+
 
     app.post('/normal/activities/:activityId/vote', [
         validate(validations.vote),

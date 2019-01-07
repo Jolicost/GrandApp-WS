@@ -217,6 +217,18 @@ exports.leave = function(req, res) {
     });
 }
 
+exports.updateMessage = function(req, res) {
+
+    Activity.updateOne({_id: req.params.activityId}, {
+        $inc: {
+            nMessages: 1
+        }
+    }, function(err) {
+        if (err) return res.status(500).send("Failed to update numbero of messages");
+        else return res.status(200).send("Number of messages incremented by 1");
+    });
+}
+
 exports.vote = function(req, res) {
 
     let avg = exports.computeAddAvg(req.activity,req.body.rating);

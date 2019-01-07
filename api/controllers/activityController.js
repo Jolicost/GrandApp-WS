@@ -113,7 +113,10 @@ exports.read = function(req, res) {
         else if (!activity)
             res.status(404).send("activity not found");
         else
-            res.json(activity);
+            var l = activity.votes.map(a => {return a.user});
+            let j = activity.toObject();
+            j.votes = l;
+            return res.json(j);
     });
 };
 

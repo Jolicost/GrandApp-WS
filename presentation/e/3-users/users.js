@@ -5,7 +5,7 @@ const {
 const bcrypt = require('bcryptjs');
 var passwordHash = require('password-hash');
 var _ = require("underscore");
-var maxUsers = 1000;
+var maxUsers = 100;
 
 function hashPassword(password) {
     return passwordHash.generate(password);
@@ -58,6 +58,9 @@ function createRandomUsers() {
 		let u = {
 			_id: getObjectId('E.RandomUser.' + i),
 			username: getRandomName(),
+            completeName: getRandomName(),
+            email: getRandomName() + '@' + getRandomName(),
+            phone: '+34' + getRandomName(),
 			password: hashPassword('random'),
 			achievements: getAchievementsSample(i),
 			birthday: getRandomDate(new Date('1930-01-01'),new Date('2005-01-01')),

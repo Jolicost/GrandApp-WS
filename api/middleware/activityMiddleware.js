@@ -112,7 +112,8 @@ exports.getActivityEntity = function(req, res, next) {
 			}
 		});
 
-		req.entity = choosen.entity || undefined;
+		if (!req.entity) 
+			req.entity = choosen.entity;
 		next();
 	});
 
@@ -269,7 +270,7 @@ exports.setActivityData = function(req, res, next) {
 }
 
 exports.checkOutOfBoundsActivity = function(req, res, next) {
-	let entity = req.user.entity;
+	let entity = req.entity;
 	let lat = req.body.lat;
 	let long = req.body.long;
 

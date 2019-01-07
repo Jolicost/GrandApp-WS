@@ -85,8 +85,7 @@ var achievements = [
         value: 500,
         image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/general_of_the_army.svg',
         hiddenImage: hiddenImage
-    }
+    },
 ];
-
 
 module.exports = achievements;

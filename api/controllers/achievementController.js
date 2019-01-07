@@ -16,6 +16,7 @@ function _getAchievements(user,cb) {
                 } 
             }, function(err, achievements){
                 if (err) callback(err,null);
+                else if (!achievements) callback(null,[]);
                 else callback(null,achievements);
             });
         },
@@ -26,6 +27,7 @@ function _getAchievements(user,cb) {
                 } 
             }, function(err, achievements){
                 if (err) callback(err,null);
+                else if (!achievements) callback(null,[]);
                 else callback(null,achievements);
             });
         }

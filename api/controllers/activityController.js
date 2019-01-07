@@ -227,6 +227,7 @@ exports.updateMessage = function(req, res) {
             nMessages: 1
         }
     }, function(err) {
+        console.log("+1 nombre de missates");
         if (err) return res.status(500).send("Failed to update numbero of messages");
         else return res.status(200).send("Number of messages incremented by 1");
     });

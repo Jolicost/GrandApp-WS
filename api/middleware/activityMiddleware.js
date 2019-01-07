@@ -269,7 +269,7 @@ exports.setActivityData = function(req, res, next) {
 }
 
 exports.checkOutOfBoundsActivity = function(req, res, next) {
-	let entity = req.entity;
+	let entity = req.user.entity;
 	let lat = req.body.lat;
 	let long = req.body.long;
 

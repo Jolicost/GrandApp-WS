@@ -9,6 +9,8 @@ exports.roomMessages = function(req, res) {
     let roomId = req.params.roomId;
     let messCount = req.activity.nMessages;
 
+    console.log("Nombre de missates" + messCount);
+
     console.log("Entering " + roomId);
 
     var arrayResp = [];
@@ -36,6 +38,7 @@ exports.roomMessages = function(req, res) {
             }
         });
     } else {
+        console.log("No hi ha historial encara");
         return res.json([]);
     }
 };

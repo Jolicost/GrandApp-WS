@@ -7,7 +7,9 @@ var async = require("async");
 
 exports.obtainActivity = function(req, res, next) {
     // Obtain activity id via previous middleware
-    var activityId = req.roomId;
+    let activityId = req.params.roomId.split("-")[1];
+
+    console.log(activityId);
 
     Activity.findById(activityId, function(err, activity) {
         if (err) return res.status(403).send("There was a problem finding the activity.");

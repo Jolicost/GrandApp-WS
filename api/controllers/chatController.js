@@ -36,6 +36,6 @@ exports.roomMessages = function(req, res) {
             }
         });
     } else {
-        return res.json(arrayResp).send("No message historial");
+        return res.json([]);
     }
 };

@@ -68,7 +68,7 @@ exports.register = function(req, res) {
         completeName: req.body.completeName,
         birthday: req.body.birthday,
         phone: req.body.phone,
-        profilePic: req.body.profilePic,
+        profilePic: 'http://profilepicturesdp.com/wp-content/uploads/2018/07/profile-default-picture-4.png',
         createdAt: Date.now()
     });
 

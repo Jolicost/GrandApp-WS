@@ -106,6 +106,11 @@ var ActivitySchema = new Schema({
         createdAt: {
             type: Date,
             default: Date.now
+        },
+
+        nMessages: {
+            type: Number,
+            default: 0
         }
 
     })

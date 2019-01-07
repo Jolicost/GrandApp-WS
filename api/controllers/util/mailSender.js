@@ -8,6 +8,7 @@ function getTransporter() {
 
 function sendMail(email,options, callback) {
 	getTransporter().sendMail(options, (error, info) => {
+        console.log(error);
         if (error) {
             callback(error);
         } else {

@@ -34,7 +34,7 @@ const users = [
         phone: "+341234",
         completeName: "real donald trump",
         birthday: '1946-06-14',
-        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Donald_Trump_official_portrait_%28cropped%29.jpg/1200px-Donald_Trump_official_portrait_%28cropped%29.jpg'
+        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Donald_Trump_official_portrait_%28cropped%29.jpg/1200px-Donald_Trump_official_portrait_%28cropped%29.jpg',
     	userType: 'normal',
     	entity: getObjectId("E.Entity.1"),
         contactPhones: [
@@ -52,7 +52,7 @@ const users = [
         phone: "+344321",
         completeName: "vladimir putin",
         birthday: '1952-08-07',
-        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Vladimir_Putin_%282017-07-08%29.jpg/225px-Vladimir_Putin_%282017-07-08%29.jpg'
+        profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Vladimir_Putin_%282017-07-08%29.jpg/225px-Vladimir_Putin_%282017-07-08%29.jpg',
         userType: 'normal',
         entity: getObjectId("E.Entity.1"),
         contactPhones: [

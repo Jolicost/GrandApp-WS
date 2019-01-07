@@ -68,7 +68,11 @@ function createRandomUsers() {
 			lastRequest: getRandomDate(new Date('2018-12-01'),new Date('2018-12-31')),
 			nRequests: _.random(0,5000),
 			userType: 'normal',
-			entity: getObjectId("E.Entity.1")
+			entity: getObjectId("E.Entity.1"),
+            place: {
+                lat: 41.388902 + _.random(1,10000) / 10000000,
+                long: 2.113186 + _.random(1,10000) / 10000000
+            }
 		};
 
 		ret.push(u);

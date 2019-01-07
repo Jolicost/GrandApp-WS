@@ -225,6 +225,7 @@ exports.updateMessage = function(req, res) {
         }
     }, function(err) {
         if (err) return res.status(500).send("Failed to update numbero of messages");
+        else return res.status(200).send("Number of messages incremented by 1");
     });
 }
 

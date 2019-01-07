@@ -24,8 +24,8 @@ var express = require('express'),
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
-mongoose.connect(DB,{ 
-    useNewUrlParser: true 
+mongoose.connect(DB,{
+    useNewUrlParser: true
 });
 
 let limit = '5mb';
@@ -54,6 +54,7 @@ var entityRoutes = require('./api/routes/entityRoutes');
 var statisticsRoutes = require('./api/routes/statisticsRoutes');
 var commonRoutes = require('./api/routes/commonRoutes');
 var achievementRoutes = require('./api/routes/achievementRoutes');
+var chatRoutes = require('./api/routes/chatRoutes');
 
 commonRoutes(app);
 activityRoutes(app);
@@ -63,6 +64,7 @@ imageRoutes(app);
 entityRoutes(app);
 statisticsRoutes(app);
 achievementRoutes(app);
+chatRoutes(app);
 
 module.exports = app.listen(PORT);
 

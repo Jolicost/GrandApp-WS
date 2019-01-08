@@ -34,7 +34,7 @@ exports.roomMessages = function(req, res) {
             console.log("count = " + count);
             if(count == messCount) {
                 console.log("End = " + count);
-                return res.json(arrayResp).send();
+                return res.json(arrayResp);
             }
         });
     } else {

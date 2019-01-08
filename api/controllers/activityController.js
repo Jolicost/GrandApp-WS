@@ -201,11 +201,14 @@ exports.join = function(req, res) {
     }, function(err) {
 
         notification.sendNotification(req.activity.user, 'One more!', 'A user joined your activity!', function(err) {
-            
+
         });
 
         User.findOne({_id: req.activity.user}, function(err, user) {
             if (err) return;
+            if(user.notification.joinedActivity) notification.sendNotification(req.activity.user, 'One more!', 'A user joined your activity!', function(err) {
+                
+            });
             achievementCtrl.computeAchievements(user, function(err) {
 
             }, {popular: true});

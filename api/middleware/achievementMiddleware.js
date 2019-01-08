@@ -25,7 +25,6 @@ exports.checkPopularAchievements = function(req, res, next) {
 
 	User.findOne({_id: creator}, function(err, user) {
 		if (err) return res.send(err);
-
 		ctrl.computeAchievements(user, function(err, achievements) {
 	        if (err) return res.send(err);
 	        else next();

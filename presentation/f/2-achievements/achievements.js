@@ -45,7 +45,7 @@ var achievements = [
         _id: getObjectId('AchLiutenant'),
         title: 'Liutenant',
         achievementType: 'create',
-        key: 2,
+        key: 1,
         value: 20,
         image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/first_lieutenant.svg',
         hiddenImage: hiddenImage

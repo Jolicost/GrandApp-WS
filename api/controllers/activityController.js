@@ -199,9 +199,18 @@ exports.join = function(req, res) {
     {
         $push: {participants: req.user._id}
     }, function(err) {
+        // TODO joan oliva cannot set headers after 
         notification.sendNotification(req.activity.user, 'One more!', 'A user joined your activity!', function(err) {
             if (err) return res.status(500).send(err);
         });
+
+        User.findOne({_id: req.activity.user}, function(err, user) {
+            if (err) return;
+            achievementCtrl.computeAchievements(user, function(err) {
+
+            }, {popular: true});
+        });
+
         if (err) return res.status(500).send("internal server error");
         else return res.status(200).send("Joined to activity");
     });

@@ -54,7 +54,7 @@ module.exports = function(app) {
         activityMiddleware.populateActivity,
         activityMiddleware.userNotInActivity,
         // POPULAR
-        achievementMiddleware.checkPopularAchievements
+        //achievementMiddleware.checkPopularAchievements
     ], activity.join);
 
     app.post('/normal/activities/:activityId/leave', [

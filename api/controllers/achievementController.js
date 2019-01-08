@@ -159,7 +159,8 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
 
                     Activity.aggregate(aggregate, function(err, results) {
                         let count = 0;
-
+                        console.log("hola");
+                        console.log(achievements,results);
                         if (results.length > 0)
                             count = results[0].count;
                         callback(null,exports.computeGiveAchievements(achievements, count));

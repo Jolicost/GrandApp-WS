@@ -11,7 +11,7 @@ var achievements = [
         achievementType: 'number',
         key: 1,
         value: 10,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/private.svg',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/private.png',     
         hiddenImage: hiddenImage
     },
     {
@@ -20,7 +20,7 @@ var achievements = [
         achievementType: 'number',
         key: 5,
         value: 100,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/specialist.svg',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/specialist.png',     
         hiddenImage: hiddenImage
     },
     {
@@ -29,7 +29,7 @@ var achievements = [
         achievementType: 'number',
         key: 10,
         value: 500,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/sergeant.svg',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/enlisted/sm/sergeant.png',     
         hiddenImage: hiddenImage
     },
     {
@@ -38,7 +38,7 @@ var achievements = [
         achievementType: 'create',
         key: 3,
         value: 100,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/major.svg',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/major.png',     
         hiddenImage: hiddenImage
     },
     {
@@ -47,7 +47,7 @@ var achievements = [
         achievementType: 'create',
         key: 1,
         value: 20,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/first_lieutenant.svg',
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/first_lieutenant.png',
         hiddenImage: hiddenImage
     },
     {
@@ -56,7 +56,7 @@ var achievements = [
         achievementType: 'create',
         key: 2,
         value: 50,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/captain.svg',     
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/captain.png',     
         hiddenImage: hiddenImage
     },
     {
@@ -65,7 +65,7 @@ var achievements = [
         achievementType: 'popular',
         key: 1,
         value: 100,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/colonel.svg',
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/colonel.png',
         hiddenImage: hiddenImage
     },
     {
@@ -74,7 +74,7 @@ var achievements = [
         achievementType: 'popular',
         key: 2,
         value: 250,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/brigadier_general.svg',
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/brigadier_general.png',
         hiddenImage: hiddenImage
     },
     {
@@ -83,7 +83,7 @@ var achievements = [
         achievementType: 'popular',
         key: 3,
         value: 500,
-        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/general_of_the_army.svg',
+        image: 'https://www.army.mil/e2/images/rv7/ranks/badges/officer/sm/general_of_the_army.png',
         hiddenImage: hiddenImage
     },
 ];

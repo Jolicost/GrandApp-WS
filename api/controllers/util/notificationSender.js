@@ -27,3 +27,21 @@ exports.sendNotification = function(userId, title, notiBody, callback) {
       console.log('Error:', error);
     });
 }
+
+pushNotifications.publish(['hello'], {
+  apns: {
+    aps: {
+      alert: 'Hello!'
+    }
+  },
+  fcm: {
+    notification: {
+      title: 'Yayas calientes en tu zona',
+      body: 'Click per a anar a la App'
+    }
+  }
+}).then((publishResponse) => {
+  console.log('Just published:', publishResponse.publishId);
+}).catch((error) => {
+  console.log('Error:', error);
+});

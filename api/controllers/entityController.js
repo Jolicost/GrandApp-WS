@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
 var geolib = require('geolib');
 var async = require('async');
 
+// list all entities
 exports.list = function(req, res) {
     Entity.find({}, function(err, entities) {
         if (err)
@@ -18,6 +19,7 @@ exports.list = function(req, res) {
     });
 };
 
+// read entity
 exports.read = function(req, res) {
     Entity.findById(req.params.entityId, function(err, entity) {
         if (err)
@@ -27,6 +29,7 @@ exports.read = function(req, res) {
     });
 };
 
+// create entity
 exports.create = function(req, res) {
     var new_Entity = new Entity(req.body);
     new_Entity.save(function(err, entity) {
@@ -37,6 +40,7 @@ exports.create = function(req, res) {
     });
 };
 
+// update entity
 exports.update = function(req, res) {
     Entity.findOneAndUpdate({
         _id: req.params.entityId
@@ -50,6 +54,7 @@ exports.update = function(req, res) {
     });
 };
 
+// delete entity
 exports.delete = function(req, res) {
     Entity.remove({
         _id: req.params.entityId
@@ -63,6 +68,7 @@ exports.delete = function(req, res) {
     });
 };
 
+// delete all entities
 exports.deleteAll = function(req, res) {
     Entity.deleteMany({}, function(err, entity) {
         if (err)
@@ -74,7 +80,7 @@ exports.deleteAll = function(req, res) {
     });
 };
 
-
+// gets the user from an entity
 exports.getUsers = function(req, res) {
     User.find({entity: req.params.entityId, userType: 'normal'}, function(err, users) {
         if (err) return res.send(err);
@@ -83,7 +89,7 @@ exports.getUsers = function(req, res) {
         }));
     });
 }
-
+// gets the activities from an entity
 exports.getActivities = function(req, res) {
     Activity.find({entity: req.params.entityId}, function(err, activities) {
         if (err) return res.send(err);
@@ -92,7 +98,7 @@ exports.getActivities = function(req, res) {
         }));
     });
 }
-
+// DEPRECATED selects the users that are out of range
 exports.getUsersNotInRange = function(req, res, next) {
 
     let entity = req.entity;
@@ -121,7 +127,7 @@ exports.getUsersNotInRange = function(req, res, next) {
     return res.json(ret);
 }
 
-
+// selects emergency users
 exports.getEmergencyUsers = function(req, res, next) {
     let entity = req.entity;
     let users = req.entityUsers;
@@ -135,16 +141,17 @@ exports.getEmergencyUsers = function(req, res, next) {
             {latitude: entity.place.lat, longitude: entity.place.long},
             {latitude: user.place.lat, longitude: user.place.long}
         );
-
+        // user distance from entity must be farer than its action radius
         if (distance > entity.place.max) {
             posible.push(user);
         } 
     })
 
     let emergency = [];
+    // iterate all activities that did not end. Find if the out of range users are supposed to be there
     async.forEach(posible, function(user, callback) {
         Activity.find({
-        // current activities
+            // current activities
             timestampEnd: {
                 $gt: Date.now()
             },

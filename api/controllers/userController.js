@@ -1,12 +1,13 @@
 'use strict';
-/* Author: Joan Oliva
- * Basic API rest for users model */
+/* Basic API rest for users model */
 var mongoose = require('mongoose'),
     // dependencies seprated by commas. Be aware
     User = mongoose.model('Users');
 
+// async lib
 var async = require('async');
 
+// count the number of documents
 exports.count = function(req, res) {
     User.countDocuments(req.userFilters || {}).exec(function(err, n){
         if (err) return res.send(err);
@@ -14,10 +15,11 @@ exports.count = function(req, res) {
     });
 }
 
+// list users
 exports.list = function(req, res) {
+    // filters, selected attributes, skip and limit come from middleware
     let filters = req.userFilters || {};
     let attributes = req.userAttributes || {};
-    console.log(filters);
     User.find(filters,attributes)
     .skip(req.pagination.skip)
     .limit(req.pagination.limit)
@@ -29,6 +31,7 @@ exports.list = function(req, res) {
     });
 };
 
+// reads an user
 exports.read = function(req, res) {
     let attributes = req.userAttributes || {};
     User.findById(req.params.userId, attributes, function(err, user) {
@@ -39,6 +42,7 @@ exports.read = function(req, res) {
     });
 };
 
+// creates an user
 exports.create = function(req, res) {
     var new_User = new User(req.body);
     new_User.save(function(err, user) {
@@ -49,6 +53,7 @@ exports.create = function(req, res) {
     });
 };
 
+// DEPRECATED
 function computeAddress(address) {
     return {
         placeId: 'fake place id',
@@ -56,6 +61,7 @@ function computeAddress(address) {
     };
 }
 
+// normal update, we only allow certain attributes
 exports.updateNormal = function(req, res) {
     User.findByIdAndUpdate(req.params.userId,
     {
@@ -72,6 +78,7 @@ exports.updateNormal = function(req, res) {
     });
 };
 
+// entity update, we allow certain other attributes
 exports.updateEntity = function(req, res) {
     let password = req.body.password;
 
@@ -91,12 +98,14 @@ exports.updateEntity = function(req, res) {
     });
 };
 
+// updates the user coordinates 
 exports.updateCoords = function(req, res) {
     
     let update = {};
     update['place.lat'] = req.body.lat;
     update['place.long'] = req.body.long;
 
+    // if an entity was selected during the location register, we will update the user entity
     if (req.entity) update['entity'] = req.entity.id;
 
     User.findByIdAndUpdate(req.userId, update, function(err, user) {
@@ -105,7 +114,7 @@ exports.updateCoords = function(req, res) {
     });
 }
 
-
+// debug feature
 exports.updateCoords2 = function(req, res) {
     
     let update = {};
@@ -120,6 +129,8 @@ exports.updateCoords2 = function(req, res) {
     });
 }
 
+
+// removes an user
 exports.delete = function(req, res) {
     User.remove({
         _id: req.params.userId
@@ -133,6 +144,7 @@ exports.delete = function(req, res) {
     });
 };
 
+// removes all users
 exports.deleteAll = function(req, res) {
     User.deleteMany({}, function(err, user) {
         if (err)
@@ -144,6 +156,7 @@ exports.deleteAll = function(req, res) {
     });
 };
 
+// gets emergency phones
 exports.getEmergencyPhones = function(req, res) {
     User.findOne({_id: req.params.userId}, function(err, user) {
         if (err) return res.send(err);
@@ -152,6 +165,7 @@ exports.getEmergencyPhones = function(req, res) {
     });
 }
 
+// sets emergency phones
 exports.setEmergencyPhones = function(req, res) {
     User.findOneAndUpdate({_id: req.params.userId}, {contactPhones: req.body}, function(err, user) {
         if (err) return res.send(err);
@@ -160,11 +174,17 @@ exports.setEmergencyPhones = function(req, res) {
     });
 }
 
+// checks if an user exists on the database
+// since unique restrictions are kinda unwanted to implement on mongo
+// we perform a manual check with our own login
 exports.userNotExists = function(object, finalCallback) {
     let email = object.email;
     let username = object.username;
     let phone = object.phone;
 
+    // performs all operations in parallel. Results are processed in an single thread
+    // once they are all done
+    // Finds users given the email, username and phone. They should all be unique
     async.parallel({
         userE: function(callback) {
             if (!email) callback(null,null);
@@ -195,13 +215,16 @@ exports.userNotExists = function(object, finalCallback) {
         }
     }, function(err, results) {
         if (err) finalCallback(err);
+        // if any user was found we perform the callback with the given user
         else if (results.userE) finalCallback(null,results.userE);
         else if (results.userU) finalCallback(null,results.userU);
         else if (results.userP) finalCallback(null,results.userP);
+        // if no user was found, we callback with every parameter set at null
         else finalCallback(null);
     });
 }
 
+// blocks an user
 exports.block = function(req, res) {
     User.findOneAndUpdate({_id: req.user._id},
     {   
@@ -212,6 +235,7 @@ exports.block = function(req, res) {
     });
 }
 
+// unblocks an user
 exports.unblock = function(req, res) {
     User.findOneAndUpdate({_id: req.user._id},
     {   

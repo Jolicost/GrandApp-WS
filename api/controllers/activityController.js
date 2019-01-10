@@ -7,6 +7,7 @@ var achievementCtrl = require('./achievementController');
 var notification = require('./util/notificationSender.js')
 var geolib = require('geolib');
 
+// count the number of activities given a filter
 exports.count = function(req, res) {
     Activity.countDocuments(req.activityFilters || {}).exec(function(err, n){
         if (err) return res.send(err);
@@ -14,6 +15,7 @@ exports.count = function(req, res) {
     });
 }
 
+// lists activities given the filter and the skip/limit logic
 exports.list = function(req, res) {
     Activity.find(req.activityFilters || {})
     .limit(req.pagination.limit)
@@ -26,6 +28,7 @@ exports.list = function(req, res) {
     });
 };
 
+// manual skip/limit function for compatibility purposes
 exports.limitSkipActivities = function(activities,limit,skip) {
     let j = 0;
     let exit = false;
@@ -41,6 +44,7 @@ exports.limitSkipActivities = function(activities,limit,skip) {
     return ret;
 }
 
+// main activity list from app users
 exports.listNormal = function(req, res) {
     let maxDist = req.query.maxDist;
     if (!maxDist || maxDist == 0) maxDist = 10 * 1000;
@@ -56,7 +60,7 @@ exports.listNormal = function(req, res) {
         if (err) return res.send(err);
         let ret = activities.filter(activity => {
             if (!lat || !long) return true;
-
+            // we limit the distance based on the request query
             let distance = geolib.getDistance(
                 {latitude: lat, longitude: long},
                 {latitude: activity.lat, longitude: activity.long}
@@ -64,11 +68,12 @@ exports.listNormal = function(req, res) {
 
             return minDist <= distance && distance <= maxDist;
         });
-
+        // we must implement our own skip and limit functions because we need to postprocess mongo query results
         return res.json(exports.limitSkipActivities(ret,req.pagination.limit,req.pagination.skip));
     });
 }
 
+// debug feature
 exports.listNormalNoDistance = function(req, res) {
     Activity.find(req.activityFilters || {},{},req.pagination || {}, function(err, activities) {
         if (err) res.send(err);
@@ -76,6 +81,7 @@ exports.listNormalNoDistance = function(req, res) {
     });
 }
 
+// DEPRECATED
 exports.shortList = function(req, res) {
     //var activities = exports.list(req,res);
     /*ActivityList.find({}, function(err,activities) {
@@ -106,6 +112,7 @@ exports.shortList = function(req, res) {
     }
 };
 
+// gets an activity
 exports.read = function(req, res) {
     Activity.findById(req.params.activityId, function(err, activity) {
         if (err)
@@ -120,6 +127,7 @@ exports.read = function(req, res) {
     });
 };
 
+// creates an activity
 exports.create = function(req, res) {
     var new_activity = new Activity(req.activityData);
 
@@ -131,6 +139,7 @@ exports.create = function(req, res) {
     });
 };
 
+// creates an ativity and computes the achievements
 exports.createNormal = function(req, res) {
 
 
@@ -146,6 +155,7 @@ exports.createNormal = function(req, res) {
     });
 }
 
+// updates an activity
 exports.update = function(req, res) {
     Activity.findOneAndUpdate({
         _id: req.params.activityId
@@ -159,6 +169,7 @@ exports.update = function(req, res) {
     });
 };
 
+// updates an activity based on middleware chain
 exports.updateNormal = function(req, res) {
     console.log(req.activityData);
     Activity.findOneAndUpdate({
@@ -169,6 +180,7 @@ exports.updateNormal = function(req, res) {
     });
 }
 
+// deletes an activity
 exports.delete = function(req, res) {
     Activity.remove({
         _id: req.params.activityId
@@ -182,6 +194,7 @@ exports.delete = function(req, res) {
     });
 };
 
+// removes all activities
 exports.deleteAll = function(req, res) {
     Activity.deleteMany({}, function(err, activity) {
         if (err)
@@ -193,17 +206,18 @@ exports.deleteAll = function(req, res) {
     });
 };
 
-
+// join activity
 exports.join = function(req, res) {
     Activity.findOneAndUpdate({_id: req.activity._id},
     {
         $push: {participants: req.user._id}
     }, function(err) {
 
+        // send notification to the creator
         notification.sendNotification(req.activity.user, 'One more!', 'A user joined your activity!', function(err) {
             
         });
-
+        // compute achievements
         User.findOne({_id: req.activity.user}, function(err, user) {
             if (err) return;
             achievementCtrl.computeAchievements(user, function(err) {
@@ -216,11 +230,13 @@ exports.join = function(req, res) {
     });
 }
 
+// leave activity. We do not consider to undo popular achievements on this case
 exports.leave = function(req, res) {
     Activity.findOneAndUpdate({_id: req.activity._id},
     {
         $pullAll: {participants: [req.user._id] }
     }, function(err) {
+        // send notification to the creator
         notification.sendNotification(req.activity.user, 'Somebody leaved!', 'A user leaved your activity.', function(err) {
             if (err) return res.status(500).send(err);
         });
@@ -229,6 +245,7 @@ exports.leave = function(req, res) {
     });
 }
 
+// updates the chat room messages
 exports.updateMessage = function(req, res) {
 
     Activity.updateOne({_id: req.params.activityId}, {
@@ -237,11 +254,12 @@ exports.updateMessage = function(req, res) {
         }
     }, function(err) {
         console.log("+1 nombre de missates");
-        if (err) return res.status(500).send("Failed to update numbero of messages");
+        if (err) return res.status(500).send("Failed to update number of messages");
         else return res.status(200).send("Number of messages incremented by 1");
     });
 }
 
+// vote activity
 exports.vote = function(req, res) {
 
     let avg = exports.computeAddAvg(req.activity,req.body.rating);
@@ -259,6 +277,7 @@ exports.vote = function(req, res) {
     });
 }
 
+// unvote activity
 exports.unvote = function(req, res) {
     /* Fetch old rating */
     let oldRating = req.activity.votes.find(function(vote) {
@@ -282,6 +301,7 @@ exports.unvote = function(req, res) {
     });
 }
 
+// most optimal average function because why not
 exports.computeAddAvg = function(activity, newRating) {
     let rating = activity.rating;
     let n = activity.votes.length;
@@ -292,6 +312,7 @@ exports.computeAddAvg = function(activity, newRating) {
     return (d/(n+1));
 }
 
+// most optimal sub average function because why not
 exports.computeSubAvg = function(activity, oldRating) {
     let rating = activity.rating;
     let n = activity.votes.length;
@@ -305,6 +326,7 @@ exports.computeSubAvg = function(activity, oldRating) {
     return (d/(n-1));
 }
 
+// returns true if the activity is close enough
 exports.isActivityClose = function(activity, lat, long, meters) {
     let distance = geolib.getDistance(
         {latitude: lat, longitude: long},

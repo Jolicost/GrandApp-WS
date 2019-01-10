@@ -1,8 +1,6 @@
 var Joi = require('joi');
 
 module.exports = {
-  // POST /api/tasks
-  // Title id desc lat long images timestart start i end capacity price
   update: {
     body: {
       lat: Joi.number().required(),

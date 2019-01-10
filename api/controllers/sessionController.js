@@ -13,16 +13,20 @@ var mail = require('./util/mailSender.js');
 var async = require('async');
 var userController = require('./userController');
 
+// hash a password
 function hashPassword(password)
 {
     return passwordHash.generate(password);
     //return bcrypt.hashSync(password,bcrypt.genSaltSync(10));
 }
 
+// verify that the hashed password corresponds to the given password
 function verifyPassword(password,hashedPassword)
 {
     return passwordHash.verify(password, hashedPassword)
 }
+
+// login
 exports.login = function(req, res) {
     let password = req.body.password;
     let phone = req.body.phone;
@@ -41,6 +45,7 @@ exports.login = function(req, res) {
         query['username'] = username;
     }
 
+    // we can login using either username or phone
     User.findOne(query)
     .exec(function(err, user) {
         if (!user) return res.status(432).send("Invalid user");
@@ -58,6 +63,7 @@ exports.logout = function(req, res) {
     res.status(400).send("You are not supposed to enter this hole");
 };
 
+// grandapp app register
 exports.register = function(req, res) {
     var hashedPassword = hashPassword(req.body.password);
 
@@ -68,7 +74,7 @@ exports.register = function(req, res) {
         completeName: req.body.completeName,
         birthday: req.body.birthday,
         phone: req.body.phone,
-        profilePic: 'http://profilepicturesdp.com/wp-content/uploads/2018/07/profile-default-picture-4.png',
+        profilePic: req.body.profilePic || 'http://profilepicturesdp.com/wp-content/uploads/2018/07/profile-default-picture-4.png',
         createdAt: Date.now()
     });
 
@@ -80,11 +86,12 @@ exports.register = function(req, res) {
 
 
 };
-
+// sends the request user
 exports.testAuthorization = function(req, res) {
     return res.status(200).send(req.user);
 };
 
+// change password
 exports.changePassword = function(req, res) {
     // from middleware
     let user = req.user;
@@ -94,7 +101,6 @@ exports.changePassword = function(req, res) {
     if (!oldPassword || !newPassword)
         return res.status(400).send("Invalid request: some password not specified");
 
-    console.log(user.password);
     if (!verifyPassword(oldPassword,user.password)) 
         return res.status(432).send("The old password does not match");
 
@@ -110,6 +116,7 @@ exports.changePassword = function(req, res) {
 
 }
 
+// forgot password
 exports.forgotPassword = function(req, res) {
     let username = req.body.username;
     let phone = req.body.phone;
@@ -132,6 +139,7 @@ exports.forgotPassword = function(req, res) {
         if (err) return res.status(500).send("Internal server error");
         if (!user) return res.status(404).send("User not found");
 
+        // random recovery password
         let r = Math.random().toString(36).substring(8);
 
         let email = user.email;
@@ -147,6 +155,7 @@ exports.forgotPassword = function(req, res) {
     });
 }
 
+// signs the token using config secret key
 function signToken(user) {
     var token = jwt.sign({
         id: user._id
@@ -156,6 +165,7 @@ function signToken(user) {
     return token;
 }
 
+// signs and sends the login/verify/register data
 function signAndSend(req, res, user, newUser = false) {
     let jwt = signToken(user);
     res.status(200).send({
@@ -167,6 +177,7 @@ function signAndSend(req, res, user, newUser = false) {
 }
 
 
+// google / facebook register
 function registerExternalUser(body, method, callback)
 {
     let username = body.username || undefined;
@@ -176,6 +187,7 @@ function registerExternalUser(body, method, callback)
     let completeName = body.completeName || undefined;
     let profilePic = body.profilePic || undefined;
 
+    // we can get some data from the request
     let params = {
         username: username,
         email: email,
@@ -196,6 +208,7 @@ function registerExternalUser(body, method, callback)
     });
 }
 
+// checks if login/register logic must be performed when external logging happens
 function checkLogin(req, res, method) {
     let query = {};
     let key = 'auth.' + method + '.token';
@@ -218,11 +231,11 @@ function checkLogin(req, res, method) {
     });
 }
 
-
+// google login
 exports.googleLogin = function(req, res) {
     checkLogin(req,res,'google');
 }
-
+// facebook login
 exports.facebookLogin = function(req, res) {
     checkLogin(req,res,'facebook');
 }

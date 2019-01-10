@@ -7,6 +7,17 @@ var async = require('async');
 var geolib = require("geolib");
 
 
+// maps an array to an object for mongoose selector query
+function mapDictionary(array) {
+	let ret = {}
+	array.forEach(item => {
+		ret[item] = '1';
+	});
+	return ret;
+}
+
+
+// Asserts that the user does not exist. 
 exports.userNotExists = function(req, res, next) {
 	user.userNotExists(req.body, function(err, user) {
 		if (err) return res.status(500).send();
@@ -15,6 +26,7 @@ exports.userNotExists = function(req, res, next) {
 	});
 }
 
+// Asserts that the intend to update the user actually belongs to the requester user
 exports.userNotExistsOnUpdate = function(req, res, next) {
 	let userId = req.params.userId;
 	user.userNotExists(req.body, function(err, user) {
@@ -27,6 +39,7 @@ exports.userNotExistsOnUpdate = function(req, res, next) {
 	});
 }
 
+// Fills the request with the target used given its :userId specifid in the url parameters
 exports.selectTargetUser = function(req, res, next) {
 	User.findById(req.params.userId, function(err, user) {
 		if (err) return res.send(err);
@@ -40,10 +53,14 @@ exports.selectTargetUser = function(req, res, next) {
 	});
 }
 
+// Asserts that the target user of the request is the same as the requester or belongs
+// to the requester entity in case the user type is 'entity'
 exports.ownUserOrAllowedEntity = function(req, res, next) {
 	let targetUser = req.params.userId;
 	let requester = req.user;
+	// if we are admin then all good
 	if (requester.userType == 'admin') next();
+	// if we are entity then just check we both have the same entity
 	if (requester.userType == 'entity') {
 		User.findById(targetUser, function(err, user) {
 			if (err) return res.send(err);
@@ -57,12 +74,14 @@ exports.ownUserOrAllowedEntity = function(req, res, next) {
 			}
 		});
 	}
+	// if we are normal then just check we have equal ids
 	else if (requester.userType == 'normal') {
 		if (targetUser == requester._id) next();
 		else return res.status(403).send("Not allowed to operate this user");
 	}
 }
 
+// checks that the target user is under the same entity as the requester
 exports.allowedEntity = function(req, res, next) {
 	if (req.user.entity.equals(req.targetUser.entity)) {
 		next();
@@ -70,6 +89,7 @@ exports.allowedEntity = function(req, res, next) {
 	else return res.status(403).send("Not allowed to operate this user");
 }
 
+// checks that the target user is the same as the requester user
 exports.allowedUser = function(req, res, next) {
 	if (req.user.equals(req.targetUser)) {
 		next();
@@ -77,16 +97,8 @@ exports.allowedUser = function(req, res, next) {
 	else return res.status(403).send("Not allowed to operate this user");
 }
 
-function mapDictionary(array) {
-	let ret = {}
-	array.forEach(item => {
-		ret[item] = '1';
-	});
-	return ret;
-}
 
-
-
+// filters the attributes that will be queried by mongoose based on the user type
 exports.selectUserAttributes = function(req, res, next) {
     let target = req.targetUser;
     let requester = req.user;
@@ -110,6 +122,7 @@ exports.selectUserAttributes = function(req, res, next) {
     next();
 }
 
+// Selects entity attributes for an user query
 exports.selectEntityUserAttributes = function(req, res, next) {
 
 	let base = ['completeName','profilePic','username','points'];
@@ -120,6 +133,7 @@ exports.selectEntityUserAttributes = function(req, res, next) {
 	next();
 }
 
+// Adds user filters for requesters from entities
 exports.selectUserFilters = function(req, res, next) {
 	let requester = req.user;
 
@@ -134,6 +148,7 @@ exports.selectUserFilters = function(req, res, next) {
 	next();
 }
 
+// Asserts that the returned users will be from normal type
 exports.selectNormalUsersFilter = function(req, res, next) {
 
 	let filters = req.userFilters || {};
@@ -145,6 +160,7 @@ exports.selectNormalUsersFilter = function(req, res, next) {
 	next();
 }
 
+// Asserts that the returned users will belong to the entity specified in the url parameter
 exports.selectRequestEntityUsersFilter = function(req, res, next) {
 	let entityId = req.params.entityId;
 
@@ -157,6 +173,8 @@ exports.selectRequestEntityUsersFilter = function(req, res, next) {
 	next();
 }
 
+
+// Selects the closest user entity
 exports.getUserEntity = function(req, res, next) {
 	let lat = req.body.lat;
 	let long = req.body.long;
@@ -186,34 +204,37 @@ exports.getUserEntity = function(req, res, next) {
 
 }
 
-
+// Purges references when an user is deleted
 exports.onDeleteUser = function(req, res, next) {
 	let userId = req.params.userId;
 
+	// purge participants from activities
     Activity.updateMany({
         participants: userId
     }, {
         $pullAll: { participants: [userId] } 
     }).exec();
 
+    // purges active from activities
     Activity.updateMany({
     	active: userId
     }, {
     	$pullAll: { active: [userId] }
     }).exec();
 
+    // purges blocked users from users
     User.updateMany({
     	blocked: userId
     }, {
     	$pullAll: { blocked: [userId]}
     }).exec();
 
-    
     // Delete all activities created by the user
     Activity.deleteMany({user: userId}).exec();
     next();
 }
 
+// Same as onDeleteUser but applied when we don't have the certainty on which users were deleted
 exports.purgeReferences = function(req, res, next) {
     User.find({}).distinct('_id').exec(function(err, users) {
         if (err) return res.send(err);
@@ -249,6 +270,7 @@ exports.purgeReferences = function(req, res, next) {
 }
 
 
+// asserts that the target user is blocked by the requester
 exports.userIsBlocked = function(req, res, next) {
 	let user = req.user;
 	let target = req.params.userId;
@@ -267,6 +289,7 @@ exports.userIsBlocked = function(req, res, next) {
 	})
 }
 
+// asserts that the target usre is not blocked by the requester
 exports.userIsNotBlocked = function(req, res, next) {
 	let user = req.user;
 	let target = req.params.userId;
@@ -285,6 +308,7 @@ exports.userIsNotBlocked = function(req, res, next) {
 	})
 }
 
+// asserts that the user has a location
 exports.userHasLocation = function(req, res, next) {
 	if (req.user.place.lat && req.user.place.long) {
 		next();
@@ -293,7 +317,7 @@ exports.userHasLocation = function(req, res, next) {
 	}
 }
 
-
+// adds query based filters on the mongo query
 exports.populateUserFilters = function(req, res, next) {
 	let userFilters = req.userFilters || {};
 

@@ -15,16 +15,18 @@ var EntitySchema = new Schema({
     },
     // Operation places of the entity
     place: {
-        // Place id of the entity
+        // DEPRECATEDPlace id of the entity
         placeId: {
             type: String
         },
-        // string that represents the address of the place
+        // DEPRECATED string that represents the address of the place
         placeName: {
             type: String
         },
+        /* Center location of the entity */
         lat: Number,
         long: Number,
+        // action radius in meters
         max: Number
     },    
     // contact phone
@@ -43,8 +45,6 @@ var EntitySchema = new Schema({
         default: ""
     }
 });
-
-//EntitySchema.index({'location':'2d'});
 
 // Make the model visible to other modules across mongoose
 module.exports = mongoose.model('Entities', EntitySchema);

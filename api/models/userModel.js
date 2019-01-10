@@ -13,7 +13,7 @@ var UserSchema = new Schema({
         type: String,
         default: "",
     },
-    // Password. Not crypted (for now)
+    // Password 
     password: {
         type: String,
         default: ""
@@ -72,17 +72,22 @@ var UserSchema = new Schema({
         ref: 'Entities'
     },
 
+    // user location
     place: {
+        // DEPRECATED
         placeId: {
             type: String
         },
+        // DEPRECATED
         placeName: {
             type: String
         },
+        // latitude
         lat: {
             type: Number,
             default: 0.0
         },
+        // longitude
         long: {
             type: Number,
             default: 0.0
@@ -99,22 +104,27 @@ var UserSchema = new Schema({
             id: String
         }
     },
+    // earned points via achievements
     points: {
         type: Number,
         default: 0
     },
+    // achievements obtained
     achievements: [{
         type: Schema.Types.ObjectId,
         ref: 'Achievements'
     }],
+    // last request date
     lastRequest: {
         type: Date,
         default: Date.now()
     },
+    // number of requests
     nRequests: {
         type: Number,
         default: 0
     },
+    // notifications settings
     notifications: {
         nearActivity: {
             type: Boolean,

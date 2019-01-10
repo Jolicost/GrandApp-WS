@@ -1,8 +1,9 @@
 const convict = require('convict');
 
-// Define schema
+// base config file
 var defaultPort = process.env.PORT || 3000;
 
+// Override configuration by creating the "environment.json" file
 var config = convict({
     env: {
         doc: "Grandapp Application Environment",

@@ -5,6 +5,7 @@ let pushNotifications = new PushNotifications({
   secretKey: '943237C03A6E7CCD023536024E8B8F04565BA208D178A1E3207BAC8A59D7E8D1'
 });
 
+// sends a notification to the user id
 exports.sendNotification = function(userId, title, notiBody, callback) {
     pushNotifications.publish([userId.toString()], {
       apns: {

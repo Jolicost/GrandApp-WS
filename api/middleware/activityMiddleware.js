@@ -4,6 +4,7 @@ var ctrl = require('../controllers/activityController');
 
 var geolib = require("geolib");
 
+// sets the request activity to the one specified in the url parameter
 exports.populateActivity = function(req, res, next) {
 	let activityId = req.params.activityId;
 
@@ -17,6 +18,7 @@ exports.populateActivity = function(req, res, next) {
 	});
 }
 
+// asserts that the user is a participant of the activity
 exports.userInActivity = function(req, res, next) {
 	let user = req.user;
 	let activity = req.activity;
@@ -35,6 +37,7 @@ exports.userInActivity = function(req, res, next) {
 	})
 }
 
+// asserts that the user is not a participant of the activity
 exports.userNotInActivity = function(req, res, next) {
 	let user = req.user;
 	let activity = req.activity;
@@ -53,6 +56,7 @@ exports.userNotInActivity = function(req, res, next) {
 	})
 }
 
+// asserts that the user voted on the activity
 exports.userVoted = function(req, res, next) {
 	let user = req.user;
 	let activity = req.activity;
@@ -71,6 +75,7 @@ exports.userVoted = function(req, res, next) {
 	})
 }
 
+// asserts that the user did not vote on the activity
 exports.userNotVoted = function(req, res, next) {
 	let user = req.user;
 	let activity = req.activity;
@@ -88,6 +93,7 @@ exports.userNotVoted = function(req, res, next) {
 	})
 }
 
+// sets the request entity to the closest one of the activity or undefined if it was not found
 exports.getActivityEntity = function(req, res, next) {
 	let user = req.user;
 	let lat = req.body.lat;
@@ -119,12 +125,14 @@ exports.getActivityEntity = function(req, res, next) {
 
 }
 
+// Sets body user to the requester user (for updating purposes)
 exports.getActivityUser = function(req, res, next) {
 	let user = req.user;
 	req.body.user = user._id;
 	next();
 }
 
+// adds entity filters for entity queries 
 exports.addEntityFilters = function(req, res, next) {
 	let filters = req.activityFilters || {};
 
@@ -142,6 +150,7 @@ exports.addEntityFilters = function(req, res, next) {
 	next();
 }
 
+// returns all blocked users from an user. Placed here for accessability
 exports.getBlockedUsers = function(user,callback) {
 	let blocked = user.blocked;
 
@@ -151,6 +160,7 @@ exports.getBlockedUsers = function(user,callback) {
 	});
 }
 
+// Adds app filters. 
 exports.addActivityFilters = function(req, res, next) {
 	let user = req.query.user;
 	let start = req.query.start;
@@ -179,6 +189,7 @@ exports.addActivityFilters = function(req, res, next) {
 		filters['title'] = titleQuery;
 	}
 
+	// we need to query blocked users because blockin is a 2 directional logic
 	exports.getBlockedUsers(req.user, function(err, blocked) {
 		if (err) return res.send(err);
 
@@ -195,6 +206,7 @@ exports.addActivityFilters = function(req, res, next) {
 	});
 }
 
+// populates the sort object to the mongo query
 exports.addActivitySort = function(req, res, next) {
 	let sort = {
 		0: {
@@ -224,6 +236,7 @@ exports.addActivitySort = function(req, res, next) {
 	};
 
 	var s;
+	// sort is a number from 0 to 7
 	if (s = req.query.sort) {
 		req.sort = sort[s];
 	}
@@ -231,14 +244,7 @@ exports.addActivitySort = function(req, res, next) {
 	next();
 }
 
-exports.addBlockedFilters = function(req, res, next) {
-	let filters = req.activityFilters || {};
-
-	let blocked = req.user.blocked;
-
-
-}
-
+// manipulates activity data on post and put requests from both normal and entity users
 exports.setActivityData = function(req, res, next) {
     let activity = {
         title: req.body.title,
@@ -269,6 +275,7 @@ exports.setActivityData = function(req, res, next) {
 
 }
 
+// asserts that the created/updated activity is not out of bounds from the entity
 exports.checkOutOfBoundsActivity = function(req, res, next) {
 	let entity = req.entity;
 	let lat = req.body.lat;
@@ -285,6 +292,8 @@ exports.checkOutOfBoundsActivity = function(req, res, next) {
 
 	next();
 }
+// selects the specific activity routes. It was finally decided that all attributes were allowed 
+// to be seen independently from the requester user type
 exports.selectActivityAttributes = function(req, res, next) {
 	let attributes = req.activityAttributes || {};
 
@@ -293,6 +302,7 @@ exports.selectActivityAttributes = function(req, res, next) {
 	next();
 }
 
+// asserts that the target activity belongs to the same entity as the user
 exports.isFromEntity = function(req, res, next) {
 	if (req.user.entity.equals(req.activity.entity)) {
 		next();
@@ -300,6 +310,7 @@ exports.isFromEntity = function(req, res, next) {
 	else return res.status(403).send("not allowed");
 }
 
+// asserts that the activity was created by the requester
 exports.isFromUser = function(req, res, next) {
 	if (req.user.equals(req.activity.user)) {
 		next();
@@ -307,6 +318,8 @@ exports.isFromUser = function(req, res, next) {
 	else return res.status(403).send("not allowed");
 }
 
+// checks that the user participated in the activity
+// they participated if the user is inside the active array AND the activity finished
 exports.userParticipated = function(req, res, next) {
 	let activity = req.activity;
 	let user = req.user;
@@ -322,6 +335,7 @@ exports.userParticipated = function(req, res, next) {
 	next();
 }
 
+// adds pagination to the mongo query
 exports.populatePagination = function(req, res, next) {
 	let limit = req.query.limit !== undefined ? parseInt(req.query.limit ) : undefined;
 	let skip = req.query.skip !== undefined ? parseInt(req.query.skip) : undefined;
@@ -334,12 +348,14 @@ exports.populatePagination = function(req, res, next) {
 	next();
 }
 
+// adds a filter which will only return activities created by the requester user
 exports.ownActivities = function(req, res, next) {
 	req.activityFilters = req.activityFilters || {};
 	req.activityFilters.user = req.user._id;
 	next();
 }
 
+// checks if the user is close to an activity
 exports.isActiveUser = function(req, res, next) {
 	let user = req.user;
 
@@ -353,14 +369,17 @@ exports.isActiveUser = function(req, res, next) {
 
 		if (activities.length == 0) next();
 		else {
+			// get activities that are close enough
 			let selected = activities.filter(activity => {
 				return ctrl.isActivityClose(activity,req.body.lat,req.body.long,50);
 			});
 
+			// map only selected ids so the update is less heavy
 			let ids = selected.map(activity => {
 				return activity._id;
 			});
 
+			// add the user to the active array of the activities that were close enough
 			Activity.updateMany({
 				_id: {
 					$in: ids

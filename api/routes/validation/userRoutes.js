@@ -1,7 +1,6 @@
 var Joi = require('joi');
 
 module.exports = {
-  // POST /api/tasks
   updateNormal: {
     body: {
       completeName: Joi.string().required(),

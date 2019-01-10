@@ -2,12 +2,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+/* Represenents an acheivement
+ * Granting acheivements works the same way:
+ * if (computeLogic(user) >= key) -> Grant achievement; user.points+=value
+ */
 var AchievementSchema = new Schema({
     //_id is implicit
+    // achievement title to display when the achievement is granted
     title: {
         type: String,
         default: "Grandapp achievement"
     },
+    // achievement type
     achievementType: {
         type: String,
         enum: [

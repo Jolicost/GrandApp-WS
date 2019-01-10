@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(app) {
+    /* User routes. CRUD operations and more based on requester type */
     var user = require('../controllers/userController');
     var restful = require('node-restful');
     var sessionMiddleware = require('../middleware/sessionMiddleware');
@@ -10,6 +11,7 @@ module.exports = function(app) {
     var validations = require('./validation/userRoutes');
     var validations_activity = require('./validation/activityRoutes');
 
+    // Restful library. Registers all operations but allows every operation
     var Users = app.users = restful.model('Users',null)
         .methods(['get', 'post', 'put', 'delete']);
 
@@ -122,7 +124,7 @@ module.exports = function(app) {
     /* ADMIN ROUTES */
     var passwordHash = require('password-hash');
     Users.after('delete', userMiddleware.purgeReferences);
-    /* Hash password */
+    /* Hash password when performing updates */
     var hash = function(req, res, next) {
         if (req.body.password)
             req.body.password = passwordHash.generate(req.body.password);

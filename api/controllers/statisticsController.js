@@ -11,6 +11,8 @@ var moment = require('moment');
 var isodate = require("isodate");
 var async = require('async');
 
+// sets mongo filters to the specified dates (start,end) 
+// if dates are not specified, -infinite for start and infinite for end are used
 function prepareRangedQuery(attribute,start,end) {
 	let hasParameters = false;
 	let dateRange = {};
@@ -30,6 +32,7 @@ function prepareRangedQuery(attribute,start,end) {
 	};
 }
 
+// finds a model based on an date attribute plus a ranged query (start,end)
 function findModelByRangeQueried(model, attribute, start, end, query, callback) {
 	var o;
 	if ((o = prepareRangedQuery(attribute,start,end)).valid) {
@@ -42,10 +45,12 @@ function findModelByRangeQueried(model, attribute, start, end, query, callback) 
 	});
 }
 
+// bridge function
 function findModelByRange(model, attribute, start, end, entityId, callback) {
 	findModelByRangeQueried(model, attribute, start, end, {entity: entityId}, callback);
 }
 
+// computes mean based on an expression
 function getMean(array, expression) {
 	let n = 0;
 	let sum = 0;
@@ -58,6 +63,7 @@ function getMean(array, expression) {
 	else return sum / n;
 }
 
+// returns the mean participants of an activity 
 function getMeanUsers(activities) {
 	let n = 0;
 	let users = 0;
@@ -70,6 +76,7 @@ function getMeanUsers(activities) {
 	else return users / n;
 }
 
+// inicializes an hour map for aggregation purposes
 function getHourMap() {
 	let ret = {};
 	for (var i = 0; i < 24; i++) {
@@ -79,6 +86,7 @@ function getHourMap() {
 }
 
 
+// returns the map from hours to the number of activities of that hour
 function getActivitiesByHour(activities) {
 	let hours = getHourMap();
 	activities.forEach(activity => {
@@ -89,6 +97,7 @@ function getActivitiesByHour(activities) {
 	return hours;
 }
 
+// gets the activity duration
 function getActivityDuration(activity) {
 	let start = activity.timestampStart;
 	let end = activity.timestampEnd;
@@ -100,12 +109,14 @@ function getActivityDuration(activity) {
 	return duration.asSeconds();
 }
 
+// returns the mean duration of the whole set of activities
 function getActivitiesMeanDuration(activities) {
 	return getMean(activities, function(activity) {
 		return getActivityDuration(activity);
 	});
 }
 
+// returns map from activity type to the number of activities of that type given an array
 function getActivitiesByType(activities) {
 	let ret = {}
 	activities.forEach(activity => {
@@ -115,6 +126,7 @@ function getActivitiesByType(activities) {
 	return ret;
 }
 
+// gets the participants from an activity
 function getActivitiesParticipants(activities) {
 	let participants = new Set();
 	activities.forEach(activity => {
@@ -126,6 +138,7 @@ function getActivitiesParticipants(activities) {
 	return ret;
 }
 
+// returns all user ages in an array
 function getUserAges(users, callback) {
 	var query = User.find({_id: {$in: users}});
 
@@ -140,6 +153,7 @@ function getUserAges(users, callback) {
 	});
 }
 
+// inicializes a map from ages (0 to 150) to 0
 function getAgesMap() {
 	let ret = {};
 	for (var i = 0; i < 150; i++) {
@@ -148,6 +162,7 @@ function getAgesMap() {
 	return ret;
 }
 
+// maps an ages array from the age number to the number of occurences
 function mapAges(ages) {
 	let ret = getAgesMap();
 	ages.forEach(age => {
@@ -156,11 +171,13 @@ function mapAges(ages) {
 	return ret;
 }
 
+// returns the user age
 function getUserAge(user) {
 	let ret = Math.trunc(moment.duration(moment().diff(moment(user.birthday || 0))).asYears());
 	return ret;
 }
 
+// returns a map from user ages to a custom function that reduces users to smth
 function getAgesMapUsers(users, red) {
 	let map = getAgesMap();
 	users.forEach(user => {
@@ -169,6 +186,7 @@ function getAgesMapUsers(users, red) {
 	return map;
 }
 
+// gets the user ages from the whole activities participants union set
 function getActivitiesUserAges(activities,callback) {
 	let participants = getActivitiesParticipants(activities);
 	getUserAges(participants, function(err, ages) {
@@ -177,6 +195,7 @@ function getActivitiesUserAges(activities,callback) {
 	});
 }
 
+// gets the active users from a range (start,end) 
 function getActiveUsersByRange(start, end, entityId, callback) {
 	let query = {
 		entity: entityId,
@@ -188,6 +207,7 @@ function getActiveUsersByRange(start, end, entityId, callback) {
 	});
 }
 
+// gets the total of users of an entity (only normal)
 function getTotalEntityUsers(entityId, callback) {
 	User.countDocuments({entity: entityId, userType: 'normal'}, function(err, n) {
 		if (err) callback(err,null);
@@ -195,6 +215,7 @@ function getTotalEntityUsers(entityId, callback) {
 	})
 }
 
+// gets the number of registered users given a range
 function getRegisteredUsersByRange(start, end, entityId, callback) {
 	let query = {
 		entity: entityId,
@@ -206,6 +227,7 @@ function getRegisteredUsersByRange(start, end, entityId, callback) {
 	});
 }
 
+// gets an array of usre ages from an user list
 function getUserAgesDirect(users) {
 	let ages = []
 	users.forEach(user => {
@@ -215,7 +237,7 @@ function getUserAgesDirect(users) {
 }
 
 
-
+// activity statistics
 exports.activities = function(req, res) {
 	findModelByRange(Activity,'timestampStart',req.query.start,req.query.end,req.entity._id, function(err, activities) {
 		if (err) return res.send(err);
@@ -251,7 +273,7 @@ exports.activities = function(req, res) {
 }
 
 
-
+// user statistics
 exports.users = function(req, res) {
 	let start = req.query.start;
 	let end = req.query.end;
@@ -290,6 +312,7 @@ exports.users = function(req, res) {
 	});
 }
 
+// sums the number of total connections from the given users
 function reduceConnections(users) {
 	let n = 0;
 	users.forEach(user => {
@@ -298,6 +321,7 @@ function reduceConnections(users) {
 	return n;
 }
 
+// connection statistics
 exports.connections = function(req, res) {
 	let start = req.query.start;
 	let end = req.query.end;
@@ -318,7 +342,7 @@ exports.connections = function(req, res) {
 	});
 }
 
-
+// counts the total number of achievements from a given list of users
 function countAchievements(users) {
 	let i = 0;
 	users.forEach(user => {
@@ -327,12 +351,14 @@ function countAchievements(users) {
 	return i;
 }
 
+// maps users age into the total number of acheivements obtained
 function mapAchievementsAge(users) {
 	return getAgesMapUsers(users, function(user) {
 		return user.achievements.length;
 	});
 }
 
+// maps acheivement types into an array of id's
 function mapAchievementsType(ids, achievements) {
 	let ret = {}
 	achievements.forEach(achievement => {
@@ -345,7 +371,7 @@ function mapAchievementsType(ids, achievements) {
 	return ret;
 }
 
-
+// maps achievement names into an array of id's
 function mapAchievementsName(ids, achievements) {
 	let ret = {}
 	achievements.forEach(achievement => {
@@ -356,7 +382,7 @@ function mapAchievementsName(ids, achievements) {
 	});
 	return ret;
 }
-
+// gets a whole achievement list from the users
 function getWholeAchievements(users) {
 	let ret = [];
 	users.forEach(user => {
@@ -364,6 +390,7 @@ function getWholeAchievements(users) {
 	});
 	return ret;
 }
+// achievement statistics
 exports.achievements = function(req, res) {
 	let start = req.query.start;
 	let end = req.query.end;

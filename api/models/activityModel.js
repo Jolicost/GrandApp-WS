@@ -2,8 +2,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// _id is implicid
+/* Represents an activity */
 var ActivitySchema = new Schema({
+        // id is implicit
+
         // activity title
         title: {
             type: String,
@@ -14,17 +16,17 @@ var ActivitySchema = new Schema({
             type: String,
             default: ""
         },
-        // creation user. Will be replaced wit
+        // creation user. References Users
         user: {
             type: Schema.Types.ObjectId,
             ref: 'Users'
         },
-        // Participants
+        // Participants. Array of user references
         participants: [{
             type: Schema.Types.ObjectId,
             ref: 'Users'
         }],
-        // reached activity
+        // Active participants. Determines if an user reached the activity (< 50m)
         active: [{
             type: Schema.Types.ObjectId,
             ref:'Users'
@@ -34,11 +36,14 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
+        // tracking of votes. It is mandatory for the rating computation
         votes: [{
+            // user who voted
             user: {
                 type: Schema.Types.ObjectId,
                 ref: 'Users'
             },
+            // vote 
             rating: {
                 type: Number,
                 default: 0.0
@@ -53,12 +58,12 @@ var ActivitySchema = new Schema({
         capacity: {
             type: Number
         },
-        // activity price per person (0 means not applicable)
+        // activity price per person 
         price: {
             type: Number,
             default: 0.0
         },
-        // Image URLs to diplay
+        // Image URLs from the activity
         images: {
             type: [String]
         },
@@ -71,7 +76,7 @@ var ActivitySchema = new Schema({
             type: Number,
             default: 0.0
         },
-        // Depreciated
+        // DEPRECATED. Google place id and name
         place: {
             placeId: {
                 type: String
@@ -80,7 +85,7 @@ var ActivitySchema = new Schema({
                 type: String
             }
         },
-        // Physical address. We didn't include it inside place because compatibility reasons
+        // DEPRECATED Physical address. We didn't include it inside place because compatibility reasons
         address: {
             type: String,
             default: ""
@@ -97,17 +102,17 @@ var ActivitySchema = new Schema({
             default: Date.now,
             get: toTimestamp
         },
-        // Activity entity. It can be null. An activity has an entity if it belongs to the same place
+        // Activity entity. It can be null. An activity has an entity if it is located inside the entity range
         entity: {
             type: Schema.Types.ObjectId,
             ref: 'Entities'
         },
-
+        // creation date
         createdAt: {
             type: Date,
             default: Date.now
         },
-
+        // number of chat messages
         nMessages: {
             type: Number,
             default: 0
@@ -130,4 +135,5 @@ function toTimestamp(date) {
     }
 }
 
+// module visible
 module.exports = mongoose.model('Activities', ActivitySchema);

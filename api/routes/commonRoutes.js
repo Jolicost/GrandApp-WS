@@ -4,17 +4,19 @@ module.exports = function(app) {
     var userMiddleware = require('../middleware/userMiddleware');
     var entityMiddleware = require('../middleware/entityMiddleware');
 
-    /* Register middleware */
+    /* Normal users */
     app.all('/normal/*', [
         sessionMiddleware.verifyAndObtain
     ]);
 
+    /* entity routes */
     app.all('/entity/*', [
         sessionMiddleware.verifyAndObtain,
         sessionMiddleware.isEntity,
         entityMiddleware.setEntity
     ]);
 
+    /* admin routes */
     app.all('/admin/*', [
         sessionMiddleware.verifyAndObtain,
         sessionMiddleware.isAdmin

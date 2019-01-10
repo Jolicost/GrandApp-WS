@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(app) {
     var image = require('../controllers/imageController');
-    // Image api routes
+    // Image api routes. They only difer about request and response formats
     app.route('/images')
         .post(image.create)
         .get(image.test);

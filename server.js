@@ -16,11 +16,11 @@ var express = require('express'),
     Activity = require('./api/models/activityModel'),
     Entity = require('./api/models/entityModel'),
     User = require('./api/models/userModel'),
-
     //ActivityList = require('./api/models/activityListModel'),
     bodyParser = require('body-parser');
 
 
+/* set mongoose variables and disable warnings */
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
@@ -28,24 +28,18 @@ mongoose.connect(DB,{
     useNewUrlParser: true
 });
 
+// Upload limit
 let limit = '5mb';
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: limit}));
 app.use(bodyParser.text({limit: limit}));
 
 // Alow cross origin
-/*
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-*/
-
 // CORS
 var cors = require('cors');
 app.use(cors());
 
+// Load routes
 var activityRoutes = require('./api/routes/activityRoutes');
 var userRoutes = require('./api/routes/userRoutes');
 var sessionRoutes = require('./api/routes/sessionRoutes');
@@ -56,6 +50,7 @@ var commonRoutes = require('./api/routes/commonRoutes');
 var achievementRoutes = require('./api/routes/achievementRoutes');
 var chatRoutes = require('./api/routes/chatRoutes');
 
+// Register routes
 commonRoutes(app);
 activityRoutes(app);
 userRoutes(app);
@@ -66,6 +61,7 @@ statisticsRoutes(app);
 achievementRoutes(app);
 chatRoutes(app);
 
+// Listen and go
 module.exports = app.listen(PORT);
 
 console.log('Grandapp RESTful API server started on: ' + port);

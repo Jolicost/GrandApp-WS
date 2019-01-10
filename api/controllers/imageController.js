@@ -3,6 +3,7 @@
 var imgur = require('imgur');
 var isBase64 = require('is-base64');
 
+// upload the base64 image to the imgur servers and returns the generated url
 exports.create = function(req, res) {
     let base64 = req.body;
 

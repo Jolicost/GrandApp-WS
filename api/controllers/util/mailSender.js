@@ -17,7 +17,7 @@ function sendMail(email,options, callback) {
     });
 }
 
-
+// sends the forgot password mail to the specified emaijl
 exports.sendForgotPassword = function(email, password, callback) {
 	let mailOptions = {
         from: 'donotreply@grandapp.com', // sender address

@@ -41,6 +41,7 @@ exports.verifyToken = function(req, res, next) {
     });
 }
 
+// obtains the requester user based on previous information (verifyToken)
 exports.obtainUser = function(req, res, next) {
     // Obtain user id via previous middleware
     var userId = req.userId;
@@ -54,6 +55,7 @@ exports.obtainUser = function(req, res, next) {
     });
 }
 
+// chains verify and obtain middleware
 exports.verifyAndObtain = function(req, res, next) {
     exports.verifyToken(req, res, function() {
         exports.obtainUser(req, res, function() {
@@ -62,6 +64,7 @@ exports.verifyAndObtain = function(req, res, next) {
     });
 }
 
+// asserts that the user type is entity
 exports.isEntity = function(req, res, next) {
     if (req.user.userType != 'entity')
         return res.status(403).send("Not allowed to access this route");
@@ -70,6 +73,7 @@ exports.isEntity = function(req, res, next) {
 
 }
 
+// asserts that the user type is admin
 exports.isAdmin = function(req, res, next) {
     if (req.user.userType != 'admin')
         return res.status(403).send("Not allowed to access this route");

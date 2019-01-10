@@ -6,9 +6,10 @@ var mongoose = require('mongoose'),
 
 var async = require('async');
 
-
+// generates the user achievement list
 function _getAchievements(user,cb) {
     async.parallel({
+        // achievements that are owned
         owns: function(callback) {
             Achievement.find({
                 _id: {
@@ -20,6 +21,7 @@ function _getAchievements(user,cb) {
                 else callback(null,achievements);
             });
         },
+        // achievements that are not owned
         missing: function(callback) {
             Achievement.find({
                 _id: {
@@ -35,6 +37,7 @@ function _getAchievements(user,cb) {
         if (err) cb(err,null);
         else {
             let ret = [];
+            // we populate the results based on if the achievement is owned or not
             ret = ret.concat(results.owns.map(achievement => { return exports.populateOwnAchievement(achievement) }));
             ret = ret.concat(results.missing.map(achievement => { return exports.populateMissingAchievement(achievement) }));
             cb(null,ret);
@@ -42,7 +45,7 @@ function _getAchievements(user,cb) {
     });
 }
 
-
+// gets the requester user achievements
 exports.userAchievements = function(req, res) {
     let user = req.user;
 
@@ -52,6 +55,7 @@ exports.userAchievements = function(req, res) {
     });
 }
 
+// gets the target user achievements
 exports.getAchievements = function(req, res) {
     let user = req.targetUser;
 
@@ -61,7 +65,7 @@ exports.getAchievements = function(req, res) {
     });
 }
 
-
+// populates an owned achievement
 exports.populateOwnAchievement = function(achievement) {
     return {
         achievementType: achievement.achievementType,
@@ -73,6 +77,7 @@ exports.populateOwnAchievement = function(achievement) {
     };
 }
 
+// populates a missing achievement. It hides the title and the image
 exports.populateMissingAchievement = function(achievement) {
     return {
         achievementType: achievement.achievementType,
@@ -84,6 +89,7 @@ exports.populateMissingAchievement = function(achievement) {
     };
 }
 
+// compute sthe whole achievement on the requester user
 exports.checkAchievements = function(req, res) {
     exports.computeAchievements(req.user, function(err, achievements) {
         if (err) return res.send(err);
@@ -91,6 +97,7 @@ exports.checkAchievements = function(req, res) {
     });
 }
 
+// computes achievements based on types
 exports.computeAchievements = function(user, callback, options = {all: true}) {
     async.parallel({
         number: function(callback) {
@@ -135,7 +142,7 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
                 callback(null,[]);
                 return; 
             }
-
+            // finds the number of participants of the created activities by the user
             Achievement.find({achievementType:'popular'}, function(err, achievements) {
                 if (err) callback(err, null);
                 else {
@@ -158,9 +165,8 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
                     ];
 
                     Activity.aggregate(aggregate, function(err, results) {
+                        // if no activities were created by the user, it won't return anything
                         let count = 0;
-                        console.log("hola");
-                        console.log(achievements,results);
                         if (results.length > 0)
                             count = results[0].count;
                         callback(null,exports.computeGiveAchievements(achievements, count));
@@ -171,6 +177,7 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
     }, function(err, results) {
         let achievements = [];
         let sum = 0
+        // map the results and sum points
         Object.keys(results).forEach(function(key) {
             results[key].forEach(ach => { 
                 achievements.push(ach);
@@ -178,6 +185,7 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
             });
         });
 
+        // finally update the user to give the computed achievements and sum up their points
         User.updateOne({_id: user._id}, { 
                 $addToSet: {
                     achievements: achievements
@@ -192,6 +200,7 @@ exports.computeAchievements = function(user, callback, options = {all: true}) {
     });
 }
 
+// check if the user owns or not the achievement based on the key value
 exports.computeGiveAchievements = function(achievements, n) {
     let give = [];
     achievements.forEach(achievement => {

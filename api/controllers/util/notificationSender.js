@@ -37,8 +37,8 @@ pushNotifications.publish(['hello'], {
   },
   fcm: {
     notification: {
-      title: 'Yayas calientes en tu zona',
-      body: 'Click per a anar a la App'
+      title: 'Welcome to grandapp',
+      body: 'Follow me to start moving around!'
     }
   }
 }).then((publishResponse) => {

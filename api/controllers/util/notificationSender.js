@@ -29,6 +29,7 @@ exports.sendNotification = function(userId, title, notiBody, callback) {
     });
 }
 
+/* No need for test anymore
 pushNotifications.publish(['hello'], {
   apns: {
     aps: {
@@ -46,3 +47,4 @@ pushNotifications.publish(['hello'], {
 }).catch((error) => {
   console.log('Error:', error);
 });
+*/

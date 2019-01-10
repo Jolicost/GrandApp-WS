@@ -50,17 +50,23 @@ function createRandomActivities() {
 
 		let active = _.sample(participants,participants.length);
 
+		let u = _.sample(users,1)[0]._id;
 		let a = {
 			_id: getObjectId('E.RandomActivity.' + i),
 			title: getRandomName(),
+			description: getRandomName(),
 			activityType: getRandomType(),
 			timestampStart: start,
 			timestampEnd: end,
-			user: _.sample(users,1),
+			user: u,
 			participants: participants,
+			images: ['https://amp.businessinsider.com/images/535d02ef69bedde1700393e5-960-720.jpg'],
 			active: active,
 			rating: _.random(0,10),
 			capacity: _.random(10,100),
+			lat: 41.388902 + _.random(1,10000) / 100000,
+            long: 2.113186 + _.random(1,10000) / 100000,
+			price: _.random(0,100),
 			entity: getObjectId("E.Entity.1")
 		};
 
